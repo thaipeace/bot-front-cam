@@ -1,6 +1,8 @@
 // CLI bot-front-cam. GĐ 0: `bot kha-thi` – đưa nhân vật tạm vào app, ghi chữ thấy trên màn, chụp ảnh định kỳ.
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const GOC_DU_AN = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 import { moPhien, docChu, moTrinhDuyet, moSanKhau } from './trinh-duyet/mo-chrome.js';
 import { docKichBan, LoiKichBan } from './chay/doc-kich-ban.js';
 import { chayCase, type KetQuaCase } from './chay/thuc-thi.js';
@@ -55,7 +57,7 @@ async function khaThi(o: Record<string, string>){
   let truoc = new Set<string>();
   let dung = false;
   const tuDong = o['tu-dong'] === 'true';
-  const MAU = JSON.parse(fs.readFileSync(path.resolve('src/dong-tac/mau/ht003.json'), 'utf8'));
+  const MAU = JSON.parse(fs.readFileSync(path.join(GOC_DU_AN, 'src/dong-tac/mau/ht003.json'), 'utf8'));
   const TEN_DT = new Map<string, string>(Object.entries<any>(MAU.dongTac).map(([id, d]) => [d.ten, id]));
   let dtHien = '';
   // ép kiểu sai / biên độ cho động tác trong chế độ tự động: --sai xoayTay=vong_nho,xoayCo=nghieng_ca_vai · --bien-do nhonGot=0.5
@@ -170,6 +172,13 @@ async function chay(duong: string | undefined, o: Record<string, string>){
   fs.mkdirSync(ra, { recursive: true });
   console.log(`${cases.length} case → ${path.relative(process.cwd(), ra)}`);
   const ds: KetQuaCase[] = [];
+  const lanChay = new Date().toISOString();
+  // tong-hop.json – MỘT tệp cho cả lần chạy; mỗi case: trạng thái chạy, chữ đã ghi nhận, động tác đã làm, 1 bằng chứng (video)
+  const ghiTongHop = () => fs.writeFileSync(path.join(ra, 'tong-hop.json'), JSON.stringify({
+    lanChay, may: `${process.platform} ${process.arch}`, kichBan: path.resolve(duong),
+    tongKet: { soCase: cases.length, daChay: ds.length, xong: ds.filter(k => k.chay === 'xong').length, hetGio: ds.filter(k => k.chay === 'het-gio').length, loi: ds.filter(k => k.chay === 'loi').length },
+    cases: ds,
+  }, null, 1));
   for (const c of cases){
     if (o.hat) c.hat = +o.hat;
     console.log(`▶ ${c.ten}${c.moTa ? ' – ' + c.moTa : ''}`);
@@ -177,22 +186,37 @@ async function chay(duong: string | undefined, o: Record<string, string>){
     ds.push(kq);
     console.log(`  ${kq.chay === 'xong' ? '✓' : '✗'} ${kq.chay} · ${kq.giay}s` + (kq.loi ? ` · bước ${kq.loi.buoc} (dòng ${kq.loi.dong}) ${kq.loi.lenh}: ${kq.loi.thongBao}` : '') +
       (kq.ghiNhan.length ? ' · ghi nhận: ' + kq.ghiNhan.map(g => `${g.ten}=${g.thay ? 'thấy' : 'không'}`).join(', ') : ''));
-    fs.writeFileSync(path.join(ra, 'tong-hop.json'), JSON.stringify(ds, null, 1));
+    ghiTongHop();
   }
   const loi = ds.filter(k => k.chay !== 'xong').length;
   console.log(`xong: ${ds.length - loi}/${ds.length} case chạy hết · ${path.relative(process.cwd(), path.join(ra, 'tong-hop.json'))}`);
   return loi ? 1 : 0;
 }
 
+// bot dong-tac – danh sách động tác + kiểu sai có trong thư viện (cho người / Claude viết kịch bản)
+async function inDongTac(){
+  const MAU = JSON.parse(fs.readFileSync(path.join(GOC_DU_AN, 'src/dong-tac/mau/ht003.json'), 'utf8'));
+  // @ts-ignore – module JS dùng chung với sân khấu
+  const { KIEU_SAI, HIEU_CHINH } = await import('./dong-tac/kieu-sai.js');
+  for (const [id, d] of Object.entries<any>(MAU.dongTac)){
+    const sai = Object.entries<any>(KIEU_SAI[id] ?? {}).map(([k, v]) => `${k} (${v.mo})`).join(', ');
+    console.log(`${id.padEnd(12)} "${d.ten}" · ${d.kieu === 'giu' ? `giữ ${d.giay ?? 10}s` : `~${(d.nhip * (d.moiLan || 1)).toFixed(1)}s/lần`}` +
+      `${sai ? ' · kiểu sai: ' + sai : ''}${HIEU_CHINH[id] ? ' · có hiệu chỉnh theo cơ thể' : ''}`);
+  }
+  console.log(`(mẫu trích từ ${String(MAU.nguon || 'siroby-app').trim()} ngày ${MAU.trich})`);
+}
+
 const { lenh, o, viTri } = docThamSo(process.argv.slice(2));
 try {
   if (lenh === 'run') process.exitCode = await chay(viTri[0], o);
   else if (lenh === 'kiem'){ const cs = docKichBan(viTri[0] ?? ''); for (const c of cs) console.log(`✓ ${c.ten}: ${c.buoc.length} bước (${path.relative(process.cwd(), c.tep)})`); }
+  else if (lenh === 'dong-tac') await inDongTac();
   else if (lenh === 'kha-thi') await khaThi(o);
   else if (lenh === 'thu-nhan-vat') await thuNhanVat(o);
   else console.log(`bot-front-cam
   bot run <kich-ban.yaml | thư-mục> [--case a,b] [--nen chup|truc-tiep|phong] [--hat 7] [--khong-video] [--chi-tiet] [--ra thư-mục]
   bot kiem <kich-ban.yaml | thư-mục>     (chỉ kiểm cú pháp)
+  bot dong-tac                           (danh sách động tác + kiểu sai)
   bot kha-thi [--url ${URL_MAC_DINH}] [--nv be-trai-11|tam/Soldier] [--nen chup|truc-tiep|phong] [--dem 5]
               [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--tu-dong [--sai dt=kiểu,…] [--bien-do dt=0.5,…]] [--den-khi chữ] [--hat 7] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
               [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)

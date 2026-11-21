@@ -321,6 +321,31 @@ Thành phần (`src/chay/`):
 - Độ trễ phản ứng: lúc thấy chữ và lúc bé trai đổi động tác trùng nhau trong nhật ký (cùng nhịp đọc 100 ms).
 - Video khoảng 44 MB cho 5 phút (webm của Playwright). GĐ 4 sẽ xem có cần nén không.
 
-## 13. Việc tiếp theo
+## 13. Kết quả GĐ 4 (21/11/2026): ĐẠT trên macOS · Windows chưa chạy thử
 
-Làm **GĐ 4**: báo cáo gọn (mỗi case 1 bằng chứng), `docs/KICH-BAN.md` cho Claude bên siroby-app, chạy thử trên Windows. Vẫn còn: một người thật thử xoay cổ.
+Báo cáo gọn, **1 bằng chứng mỗi case**:
+```
+ket-qua/<lần chạy>/
+  tong-hop.json        lần chạy · máy · tổng kết · mỗi case: chay (xong / het-gio / loi), loi (bước, dòng), ghiNhan, daLam, videoTu, bangChung
+  <case>.webm          video tab app, nén VP8 15 khung/giây (ffmpeg của Playwright): ~2,7 MB/phút, chữ vẫn đọc rõ
+  nhat-ky/<case>.txt   nhật ký dò lỗi
+```
+- Video cả buổi HT003: **16 MB** (trước 44 MB). Hạ độ phân giải quay xuống 1024×560 gần như không giảm dung lượng (Playwright mã hoá bitrate cố định); nén lại mới giảm.
+- `videoTu`: thời điểm trong video = `luc` − `videoTu`.
+- Lần chạy cuối, 4 case mẫu: **4/4 chạy hết**. Kết quả như GĐ 3.
+
+Bàn giao:
+- `docs/KICH-BAN.md` cho Claude bên siroby-app: cách gọi, cú pháp đủ 8 lệnh, động tác và kiểu sai, cách app HT003 hiện chữ (bộ đếm, "XONG!" và "ĐỔI ĐỘNG TÁC NHÉ!", mức độ), các điều đã biết, định dạng kết quả.
+- **Kiểm chứng tài liệu**: một agent mới **chỉ đọc `docs/KICH-BAN.md`** đã viết 2 case từ 2 test case lạ (nhón gót 75 %, xoay vòng tay sai). `kiem` đạt ngay lần đầu. Agent nêu 10 chỗ phải đoán; đã bổ sung vào tài liệu (chọn mức, bộ đếm "5/5" dễ nhầm, nghĩa "XONG!" và "ĐỔI ĐỘNG TÁC NHÉ!", `toi_da` với `nhin_lai`, hết giờ của `tu_dong`, chip tên ở màn giới thiệu, nơi tra câu nhắc trong mã app, ví dụ đầy đủ).
+- `README.md`: cài đặt macOS và Windows. Lệnh mới `bot dong-tac`.
+
+Windows:
+- Đã rà mã: không còn đường dẫn hay lệnh riêng macOS. Bộ tìm ffmpeg biết cả `ffmpeg-win64.exe` ở `%LOCALAPPDATA%\ms-playwright`. Kiểm cổng app thử cả IPv4 và IPv6 (Windows hay phân giải `localhost` → `::1`). Bản dựng app chỉ bằng `SIROBY_APP_DIST`.
+- **Chưa chạy thử trên máy Windows thật** (không có máy). Cần một lần: `npm ci` → `npx playwright install ffmpeg` → `npm run bot -- run kich-ban/mau/ht003-dung-yen.yaml --nen phong`.
+
+## 14. Còn mở sau MVP
+
+1. **Xoay cổ**: một người thật thử ở mức Vừa, để biết lỗi ở bot hay ở app.
+2. **Xoay cả hông** không làm app nhắc "HÔNG ĐỨNG YÊN": cần xác nhận.
+3. **Chạy thử trên Windows.**
+4. Bài khác ngoài HT003: trích thêm mẫu, có thể cần hiệu chỉnh theo cơ thể.

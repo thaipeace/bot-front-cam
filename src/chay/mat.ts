@@ -46,9 +46,9 @@ export class Mat {
   }
 
   /** chữ khớp đã xuất hiện trong `giay` giây vừa qua (kể cả đang hiện) */
-  daThay(c: ChoChu, giay: number): string | null {
+  daThay(c: ChoChu, giay: number): { s: string; t: number } | null {
     const can = chuanHoa(c.chu, c.khong_dau), tu = Date.now() / 1000 - giay;
-    return this.thay(c) ?? this.lichSu.find(x => x.t >= tu && chuanHoa(x.s, c.khong_dau).includes(can))?.s ?? null;
+    return this.lichSu.find(x => x.t >= tu && chuanHoa(x.s, c.khong_dau).includes(can)) ?? null;   // lần XUẤT HIỆN đầu tiên trong khoảng
   }
 
   /** chờ tới khi thấy chữ (tối đa c.toi_da giây) */

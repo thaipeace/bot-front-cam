@@ -26,6 +26,7 @@ export type TuyChonMo = {
   dem?: number;                // giây đếm ngược trước khi chụp nền
   hat?: number;                // hạt ngẫu nhiên của chuyển động
   quayVideo?: string;          // thư mục lưu video tab app
+  coVideo?: { width: number; height: number };   // cỡ video bằng chứng (mặc định 1024×560 – đọc rõ chữ, nhẹ hơn ~½ so với 1408×770)
   hien?: boolean;
   phucVu?: string;             // thư mục dist/app để tự phục vụ khi URL localhost chưa chạy
 };
@@ -49,7 +50,7 @@ export async function moSanKhau(page: Page, goc: string, o: TuyChonSanKhau){
 }
 
 /** Chrome thật + context: phục vụ /__bot/* cùng origin `goc`, gắn init script thay camera + mắt */
-export async function moTrinhDuyet(goc: string, o: { quayVideo?: string; hien?: boolean } = {}){
+export async function moTrinhDuyet(goc: string, o: { quayVideo?: string; hien?: boolean; coVideo?: { width: number; height: number } } = {}){
   const browser = await chromium.launch({
     channel: 'chrome',
     headless: o.hien === false,
@@ -65,7 +66,7 @@ export async function moTrinhDuyet(goc: string, o: { quayVideo?: string; hien?: 
     viewport: { width: 1408, height: 770 },        // màn chính của anh Hoàng (luật H8)
     permissions: ['camera', 'microphone'],
     serviceWorkers: 'block',                        // để route /__bot/* không bị service worker của app nuốt
-    ...(o.quayVideo ? { recordVideo: { dir: o.quayVideo, size: { width: 1408, height: 770 } } } : {}),
+    ...(o.quayVideo ? { recordVideo: { dir: o.quayVideo, size: o.coVideo ?? { width: 1024, height: 560 } } } : {}),
   });
   await ctx.route(`${goc}/__bot/**`, async r => {
     const p = decodeURIComponent(new URL(r.request().url()).pathname).replace(/^\/__bot\//, '');

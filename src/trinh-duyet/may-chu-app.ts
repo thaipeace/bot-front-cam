@@ -28,8 +28,10 @@ const congMo = (host: string, cong: number) => new Promise<boolean>(r => {
 export async function damBaoMayChuApp(url: string, chiDinh?: string): Promise<(() => void) | null> {
   const u = new URL(url);
   const cong = +u.port || 80;
-  if (await congMo(u.hostname, cong)) return null;
-  if (!['localhost', '127.0.0.1'].includes(u.hostname)) throw new Error(`không kết nối được ${u.origin}`);
+  // localhost: thử cả IPv4 lẫn IPv6 (Windows / Node mới hay phân giải localhost → ::1 trước) – tránh mở máy chủ trùng cổng
+  const may = ['localhost', '127.0.0.1', '[::1]'].includes(u.hostname) ? ['127.0.0.1', '::1'] : [u.hostname];
+  for (const h of may) if (await congMo(h, cong)) return null;
+  if (!['localhost', '127.0.0.1', '[::1]'].includes(u.hostname)) throw new Error(`không kết nối được ${u.origin}`);
   const goc = timThuMucApp(chiDinh);
   if (!goc) throw new Error(`${u.origin} chưa chạy và không tìm thấy bản dựng siroby-app. Dựng app rồi chỉ đường dẫn bằng --phuc-vu <dist/app> hoặc biến SIROBY_APP_DIST.`);
   const sv = http.createServer((q, s) => {

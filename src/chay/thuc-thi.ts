@@ -8,19 +8,22 @@ import { moPhien, type PhienBot } from '../trinh-duyet/mo-chrome.js';
 import { Mat, HetGio } from './mat.js';
 import type { Case } from './doc-kich-ban.js';
 import type { ChoChu } from './schema.js';
+import { nenVideo } from '../bao-cao/nen-video.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const MAU = JSON.parse(fs.readFileSync(path.join(GOC, 'src/dong-tac/mau/ht003.json'), 'utf8'));
 const TEN_DT = new Map<string, string>(Object.entries<any>(MAU.dongTac).map(([id, d]) => [d.ten, id]));
 
-export type GhiNhan = { ten: string; chu: string; thay: boolean; luc: number | null; chuThay?: string };
+export type GhiNhan = { ten: string; thay: boolean; luc: number | null; chuThay?: string };
 export type KetQuaCase = {
   case: string; tep: string; chay: 'xong' | 'loi' | 'het-gio';
   batDau: string; giay: number; hat: number;
   loi?: { buoc: number; dong: number; lenh: string; thongBao: string };
   ghiNhan: GhiNhan[];
   daLam: { luc: number; dongTac: string; kieuSai?: string }[];
-  video?: string; nhatKy: string;
+  videoTu?: number;          // giây (theo đồng hồ case) lúc video bắt đầu – thời điểm trong video = luc − videoTu
+  bangChung?: string;        // video tab app (đã nén) – đường dẫn tương đối so với tong-hop.json
+  nhatKy: string;            // nhật ký dò lỗi – tương đối so với tong-hop.json
 };
 export type TuyChonChay = { ra: string; nen?: 'chup' | 'truc-tiep' | 'phong'; dem?: number; quayVideo?: boolean; phucVu?: string; hien?: boolean; inRa?: boolean };
 
@@ -37,13 +40,14 @@ async function bam(app: Page, b: string | { chu?: string; css?: string }, toiDa:
 }
 
 export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
-  const thuMuc = path.join(o.ra, c.ten);
-  fs.mkdirSync(thuMuc, { recursive: true });
-  const nhatKy = path.join(thuMuc, 'nhat-ky.txt');
+  // đầu ra: <ra>/<case>.webm (bằng chứng) · <ra>/nhat-ky/<case>.txt · video thô quay tạm ở <ra>/.tam-<case>/
+  const thuMuc = path.join(o.ra, `.tam-${c.ten}`);
+  fs.mkdirSync(path.join(o.ra, 'nhat-ky'), { recursive: true });
+  const nhatKy = path.join(o.ra, 'nhat-ky', `${c.ten}.txt`);
   fs.writeFileSync(nhatKy, '');
   const t0 = Date.now(), giay = () => (Date.now() - t0) / 1000;
   const log = (s: string) => { const d = `${giay().toFixed(1).padStart(6)}s  ${s}`; fs.appendFileSync(nhatKy, d + '\n'); if (o.inRa) console.log(`[${c.ten}] ${d}`); };
-  const kq: KetQuaCase = { case: c.ten, tep: path.relative(process.cwd(), c.tep), chay: 'xong', batDau: new Date(t0).toISOString(), giay: 0, hat: c.hat, ghiNhan: [], daLam: [], nhatKy: path.relative(process.cwd(), nhatKy) };
+  const kq: KetQuaCase = { case: c.ten, tep: path.resolve(c.tep), chay: 'xong', batDau: new Date(t0).toISOString(), giay: 0, hat: c.hat, ghiNhan: [], daLam: [], nhatKy: path.relative(o.ra, nhatKy).split(path.sep).join('/') };
 
   let p: PhienBot | null = null, mat: Mat | null = null;
   let goc = 0;                                              // mốc timeline (giây từ lúc bắt đầu case)
@@ -66,7 +70,8 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
   let buocDang = -1;
   try {
     p = await moPhien({ url: c.url, nen: o.nen ?? c.nen ?? 'chup', dem: o.dem, hat: c.hat, phucVu: o.phucVu, hien: o.hien,
-      quayVideo: o.quayVideo ? thuMuc : undefined });
+      quayVideo: o.quayVideo ? (fs.mkdirSync(thuMuc, { recursive: true }), thuMuc) : undefined });
+    kq.videoTu = +giay().toFixed(1);     // tab app (và video của nó) vừa mở xong
     p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));
     mat = new Mat(p.app, moi => log('CHỮ MỚI: ' + moi.join(' | '))).batDau();
     log(`MỞ ${c.url} · hạt ${c.hat}`);
@@ -93,11 +98,12 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
           if (b.goc_thoi_gian !== 'bay_gio') await cho(b.goc_thoi_gian);
           goc = giay(); log(`MỐC THỜI GIAN = ${goc.toFixed(1)}s`); break;
         case 'ghi_nhan': {
-          const g: GhiNhan = { ten: b.ten ?? b.ghi_nhan.chu, chu: b.ghi_nhan.chu, thay: false, luc: null };
+          const g: GhiNhan = { ten: b.ten ?? b.ghi_nhan.chu, thay: false, luc: null };
           try {
             const cu = b.nhin_lai ? mat.daThay(b.ghi_nhan, b.nhin_lai) : null;
-            if (cu) log(`ĐÃ THẤY "${cu}" trong ${b.nhin_lai}s vừa qua`);
-            g.chuThay = cu ?? await cho(b.ghi_nhan); g.thay = true; g.luc = +giay().toFixed(1);
+            if (cu){ log(`ĐÃ THẤY "${cu.s}" lúc ${(cu.t - t0 / 1000).toFixed(1)}s (nhìn lại ${b.nhin_lai}s)`); g.chuThay = cu.s; g.luc = +(cu.t - t0 / 1000).toFixed(1); }
+            else { g.chuThay = await cho(b.ghi_nhan); g.luc = +giay().toFixed(1); }
+            g.thay = true;
           }
           catch (e) { if (!(e instanceof HetGio)) throw e; log(`GHI NHẬN: không thấy "${b.ghi_nhan.chu}" sau ${b.ghi_nhan.toi_da}s`); }
           kq.ghiNhan.push(g); break;
@@ -132,7 +138,12 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
       const vSK = o.quayVideo ? await p.sanKhau.video()?.path().catch(() => undefined) : undefined;
       await p.dong().catch(() => {});
       if (vSK) fs.rmSync(vSK, { force: true });              // chỉ giữ video tab app làm bằng chứng
-      if (vApp && fs.existsSync(vApp)){ const dich = path.join(thuMuc, `${c.ten}.webm`); fs.renameSync(vApp, dich); kq.video = path.relative(process.cwd(), dich); }
+      if (vApp && fs.existsSync(vApp)){
+        const dich = path.join(o.ra, `${c.ten}.webm`), daNen = nenVideo(vApp, dich);
+        kq.bangChung = path.basename(dich);
+        log(`BẰNG CHỨNG ${kq.bangChung} · ${(fs.statSync(dich).size / 1e6).toFixed(1)} MB${daNen ? ' (đã nén)' : ' (không có ffmpeg – giữ nguyên)'}`);
+      }
+      fs.rmSync(thuMuc, { recursive: true, force: true });
     }
     kq.giay = +giay().toFixed(1);
     log(`KẾT THÚC: ${kq.chay} sau ${kq.giay}s`);
