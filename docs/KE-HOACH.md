@@ -223,7 +223,8 @@ Kết quả:
 - **Camera giả:** app nhận luồng 640×480, khoảng 30 khung/giây, qua `getUserMedia` đã bị thay. App không báo lỗi gì.
 - **Nhận dáng:** nhân vật tạm (Soldier của three.js, co về 1,40 m, đứng cách camera 2,29 m) được app nhận như người thật. Khung xương bám đúng. App đi hết chuỗi "ĐỨNG VÀO KHUNG HÌNH" → "Đứng yên một chút…" → 3‑2‑1 → vào bài.
 - **Đứng yên:** app nhắc "DANG TAY RỘNG RA" và "SIROBY CHỈ LẠI", đúng phản ứng mong đợi.
-- **Đếm:** động tác xoay vai thô (dang tay, cổ tay vẽ vòng nhỏ khoảng 1,05 giây/vòng) được app **đếm**: "+10", COMBO x3, "XOAY VAI 2/5 · 2/2 chuẩn". App xong phần làm quen rồi tự chuyển sang Vòng 1 · XOAY CỔ.
+- **Đếm:** động tác xoay vai thô (dang tay, cổ tay vẽ vòng nhỏ khoảng 1,05 giây/vòng) được app **đếm**: "+10", COMBO x3, "XOAY VAI 2/5 · 2/2 chuẩn". App xong phần làm quen rồi tự chuyển sang Vòng 1 · XOAY CỔ. **Chưa ổn định:** chạy lại 4 lần thì chỉ 2 lần được đếm (lan3, lan6), 2 lần còn lại 0 lần (lan4, lan5). Nguyên nhân là động tác hiện chỉ dựng tay cho GĐ 0, chưa theo mẫu `MAU3D`. Đây là việc chính của GĐ 2.
+- **Máy chủ app:** nếu `localhost:8790` chưa chạy, bot tự phục vụ `~/products/siroby-app/dist/app` (đổi bằng `--phuc-vu` hoặc biến `SIROBY_APP_DIST`).
 - **Mắt:** đọc được cả chữ trong DOM lẫn chữ vẽ trên canvas, độ trễ khoảng 250 ms (theo nhịp kiểm tra hiện tại).
 
 Ghi chú cho các GĐ sau:
