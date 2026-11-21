@@ -259,6 +259,41 @@ Còn hạn chế (để GĐ sau):
 - Ánh sáng chỉ ước lượng thô từ ảnh 2D. Nếu webcam không thấy sàn thì bé trai trông như đứng trước đồ đạc, nhưng việc này không ảnh hưởng nhận dáng.
 - `kha-thi` chưa truyền `--hat` xuống sân khấu (GĐ 3 làm cùng phần chạy kịch bản).
 
-## 11. Việc tiếp theo
+## 11. Kết quả GĐ 2 (21/11/2026): 7/8 động tác đạt, xoay cổ cần kiểm chứng bằng người thật
 
-Làm **GĐ 2**: 8 động tác HT003 theo mẫu `MAU3D`, kèm kiểu sai và độ tự nhiên.
+Cách làm (`src/dong-tac/`):
+- `cong-cu/lay-mau3d.ts` trích từ bản dựng app: khung hình chính `MAU3D` (đã ghép dáng đứng) và nhịp `HT_DT` của 8 động tác → `mau/ht003.json`. Chạy lại khi app đổi mẫu.
+- `mau.js` tái dựng phần toán của app (`mNoi`, `mauDang`, `mauKhop`). `ap-dang.js` đưa dáng lên bé trai: hông, thân, đầu xoay theo góc mẫu; tay chân theo hướng khớp; chân chạm sàn; ngón chân phẳng khi kiễng; tay duỗi thẳng khi mẫu muốn thẳng.
+- `thu-vien.js`: số lần hoặc làm đến khi dừng, tốc độ (±8% theo hạt), biên độ, lật bên (`ben: nguoc`), giữ (`giu_giay`), **đứng chuẩn bị 1,5 giây trước mỗi động tác** như người thật.
+- `kieu-sai.js`: kiểu sai `xoayCo/nghieng_ca_vai`, `xoayLung/xoay_ca_hong`, `xoayTay/vong_nho`, và **hiệu chỉnh theo cơ thể bé trai** (mỗi mục ghi lý do và số đo).
+- `kha-thi --tu-dong`: mắt đọc tên động tác app đang yêu cầu rồi đổi động tác (bản đầu của GĐ 3). `--sai dt=kiểu` ép làm sai.
+
+Kết quả trên HT003 thật (chạy trọn buổi, theo bảng "động tác đủ" cuối mỗi vòng của app):
+
+| Động tác | Kết quả | Ghi chú |
+|---|---|---|
+| xoayVai | đạt (5/5, 7/7, 4/4) | "chuẩn" |
+| nhonGot | đạt (5/5, 7/7, 6/6) | cần đứng chuẩn bị: app chỉnh mốc đứng khi đứng yên ≥ 0,3 giây |
+| xoayLung | đạt (7–8/8) | |
+| nghiengLuon | đạt (6/6 hai bên) | thỉnh thoảng "NGỰC NHÌN THẲNG" |
+| xoayHong | đạt | "chuẩn" |
+| xoayTay | được đếm, vòng 4 đủ | thường bị nhắc "DUỖI THẲNG TAY" (xem dưới) |
+| ngoiXomSau | đạt (giữ 10 giây, 1/1) | |
+| **xoayCo** | **0 lần** | xem dưới |
+
+Hai lần chạy cuối (ht5, ht6): vòng 2, 3, 4 đều "đủ động tác". Vòng 1 (xoay cổ) đạt 0.
+
+Phía ngược lại:
+- **Đứng yên 40 giây**: 0 lần, app nhắc "NHÌN SIROBY LÀM NHÉ" và mở "SIROBY CHỈ LẠI". Đúng.
+- **xoayTay vòng nhỏ** (`vong_nho`): 0/3, app nhắc "ĐỔI ĐỘNG TÁC NHÉ". Đúng như ca kiểm của app.
+- **xoayLung xoay cả hông** (`xoay_ca_hong`): 3/8 (làm đúng thì 7–8/8), nhưng app **không** nhắc "HÔNG ĐỨNG YÊN" và vẫn tính "chuẩn". Cần xác nhận: ngưỡng của app, hoặc kiểu sai của bot chưa đủ mạnh.
+
+**Điểm cần kiểm chứng bằng người thật:**
+1. **Xoay cổ**: bé trai nghiêng đầu tới 65° trong 3D (đo trên sân khấu), nhưng app chỉ thấy hai tai lệch khoảng 0,10–0,12 bề ngang vai, trong khi ngưỡng mức Vừa là 0,15. Đã thử tăng sáng ×2,2, ẩn tóc, đứng gần 1,7 m: không đổi. Theo hình học, tai rộng khoảng 0,35 lần vai thì nghiêng 28° đã đủ 0,16. Vậy bộ nhận dáng bắt góc đầu của nhân vật 3D thấp hơn thực tế. Chưa biết với người thật có vậy không. **Cần một người thật thử xoay cổ trên HT003 mức Vừa.**
+2. **"DUỖI THẲNG TAY" khi xoay vòng tay**: trong 3D tay thẳng. Ở nửa trước vòng, tay chĩa vào camera nên trên ảnh trông ngắn lại (độ thẳng 2D 0,77–0,83 < 0,86). Thử chếch tay ra ngoài thì mất vòng (0/3), nên đã bỏ. Người thật có thể cũng gặp.
+
+Công cụ dò lỗi (không dùng khi chạy thật): `cong-cu/soi/khop-app.ts` (điểm khớp app nhận được), `goc-dau.ts`, `ti-le.ts`, `cong-cu/tom-tat-buoi.py` (tóm tắt nhật ký), `kha-thi --soi-app "<biểu thức>"`.
+
+## 12. Việc tiếp theo
+
+Làm **GĐ 3**: chạy kịch bản YAML (`cho_chu`, `den_khi`, `luc`, `bam`), lọc chữ góc khớp, mỗi case một context. Song song: **một người thật thử xoay cổ** để biết lỗi nằm ở bot hay ở app.

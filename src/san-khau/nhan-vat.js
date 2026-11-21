@@ -9,16 +9,22 @@ const BO_XUONG = {
     hong: 'root', than: 'spine03', nguc: 'spine01', co: 'neck01', dau: 'head',
     canhTay: s => [`upperarm01${s}`, `lowerarm01${s}`], cangTay: s => [`lowerarm01${s}`, `wrist${s}`],
     dui: s => [`upperleg01${s}`, `lowerleg01${s}`], cangChan: s => [`lowerleg01${s}`, `foot${s}`], ben: { T: 'L', P: 'R' },
+    chuoiThan: ['spine05', 'spine04', 'spine03', 'spine02', 'spine01'], chuoiCo: ['neck01', 'neck02', 'neck03'],
+    ban: s => [`foot${s}`, `toe3-1${s}`], banTay: s => [`wrist${s}`, `finger3-1${s}`],
   },
   ge: {
     hong: 'pelvis', than: 'spine_01', nguc: 'spine_03', co: 'neck_01', dau: 'head',
     canhTay: s => [`upperarm_${s}`, `lowerarm_${s}`], cangTay: s => [`lowerarm_${s}`, `hand_${s}`],
     dui: s => [`thigh_${s}`, `calf_${s}`], cangChan: s => [`calf_${s}`, `foot_${s}`], ben: { T: 'l', P: 'r' },
+    chuoiThan: ['spine_01', 'spine_02', 'spine_03'], chuoiCo: ['neck_01'],
+    ban: s => [`foot_${s}`, `ball_${s}`], banTay: s => [`hand_${s}`, `middle_01_${s}`],
   },
   mixamo: {
     hong: 'Hips', than: 'Spine', nguc: 'Spine2', co: 'Neck', dau: 'Head',
     canhTay: s => [`${s}Arm`, `${s}ForeArm`], cangTay: s => [`${s}ForeArm`, `${s}Hand`],
     dui: s => [`${s}UpLeg`, `${s}Leg`], cangChan: s => [`${s}Leg`, `${s}Foot`], ben: { T: 'Left', P: 'Right' },
+    chuoiThan: ['Spine', 'Spine1', 'Spine2'], chuoiCo: ['Neck'],
+    ban: s => [`${s}Foot`, `${s}ToeBase`], banTay: s => [`${s}Hand`, `${s}HandMiddle1`],
   },
 };
 
@@ -57,6 +63,11 @@ export async function napNhanVat(url, { cao }){
     hong: x(B.hong), than: x(B.than), nguc: x(B.nguc), co: x(B.co), dau: x(B.dau),
     canhTayT: doan(B.canhTay, B.ben.T), cangTayT: doan(B.cangTay, B.ben.T), canhTayP: doan(B.canhTay, B.ben.P), cangTayP: doan(B.cangTay, B.ben.P),
     duiT: doan(B.dui, B.ben.T), cangChanT: doan(B.cangChan, B.ben.T), duiP: doan(B.dui, B.ben.P), cangChanP: doan(B.cangChan, B.ben.P),
+    chuoiThan: B.chuoiThan.map(x), chuoiCo: B.chuoiCo.map(x),
+    // gốc từng ngón chân [xương, con] – giữ ngón nằm trên sàn khi kiễng gót (bộ MPFB có 5 ngón; bộ khác: không có)
+    ngonT: loai === 'mpfb' ? [1, 2, 3, 4, 5].map(n => [x(`toe${n}-1L`), x(`toe${n}-2L`)]) : [],
+    ngonP: loai === 'mpfb' ? [1, 2, 3, 4, 5].map(n => [x(`toe${n}-1R`), x(`toe${n}-2R`)]) : [],
+    banT: doan(B.ban, B.ben.T), banP: doan(B.ban, B.ben.P), banTayT: doan(B.banTay, B.ben.T), banTayP: doan(B.banTay, B.ben.P),
   };
 
   // quay mặt về camera (+z): khi đó vai TRÁI của nhân vật nằm ở x+ (bên phải màn hình)
@@ -75,10 +86,16 @@ export async function napNhanVat(url, { cao }){
 
   const nghi = new Map(); for (const b of Object.values(theoTen)) nghi.set(b, b.quaternion.clone());
   const hongNghi = X.hong.position.clone();
+  // tư thế nghỉ theo TOẠ ĐỘ NHÂN VẬT (goc): hướng từng xương, vị trí hông, độ cao cổ chân / mũi chân – cho retarget (src/dong-tac/ap-dang.js)
+  const qGocNguoc = goc.getWorldQuaternion(new THREE.Quaternion()).invert();
+  const nghiC = new Map(); for (const b of Object.values(theoTen)) nghiC.set(b, qGocNguoc.clone().multiply(b.getWorldQuaternion(new THREE.Quaternion())));
+  const vt = b => b.getWorldPosition(new THREE.Vector3());
+  const nghiThe = { hong: vt(X.hong), coT: vt(X.banT[0]).y, coP: vt(X.banP[0]).y, muiT: vt(X.banT[1]).y, muiP: vt(X.banP[1]).y,
+    caoHong: (vt(X.duiT[0]).y + vt(X.duiP[0]).y) / 2 - Math.min(vt(X.banT[0]).y, vt(X.banP[0]).y) };
   // mặt vui tươi nếu GLB có shape key cười
   for (const m of morph) for (const [ten, i] of Object.entries(m.morphTargetDictionary)) if (/smile|cuoi|happy/i.test(ten)) m.morphTargetInfluences[i] = 0.6;
 
-  return { goc, X, loai, theoTen, nghi, hongNghi, soXuong: Object.keys(theoTen).length };
+  return { goc, X, loai, theoTen, nghi, hongNghi, nghiC, nghiThe, soXuong: Object.keys(theoTen).length };
 }
 
 // ---------- đặt hướng đoạn xương ----------
@@ -109,25 +126,6 @@ export function xoayThem(nv, xuong, truc, goc){
 
 export const V = (x, y, z = 0) => new THREE.Vector3(x, y, z);
 const TRUC_X = V(1, 0, 0), TRUC_Y = V(0, 1, 0), TRUC_Z = V(0, 0, 1);
-
-/** về tư thế nghỉ của GLB rồi đặt dáng đứng + dáng chờ (thở, đung đưa, đầu nhìn quanh) */
-export function datDangCho(nv, t, hat = 1){
-  for (const [b, q] of nv.nghi) b.quaternion.copy(q);
-  nv.X.hong.position.copy(nv.hongNghi);
-  nv.goc.updateMatrixWorld(true);
-  const s = (f, p = 0) => Math.sin(t * 2 * Math.PI * f + p + hat);
-  // chân thẳng, rộng bằng hông
-  chiDoan(nv, nv.X.duiT, V(0.06, -1, 0.0)); chiDoan(nv, nv.X.cangChanT, V(0.03, -1, -0.02));
-  chiDoan(nv, nv.X.duiP, V(-0.06, -1, 0.0)); chiDoan(nv, nv.X.cangChanP, V(-0.03, -1, -0.02));
-  // tay buông tự nhiên, khuỷu hơi co
-  chiDoan(nv, nv.X.canhTayT, V(0.16, -1, 0.02)); chiDoan(nv, nv.X.cangTayT, V(0.1, -1, 0.12));
-  chiDoan(nv, nv.X.canhTayP, V(-0.16, -1, 0.02)); chiDoan(nv, nv.X.cangTayP, V(-0.1, -1, 0.12));
-  // thở (~16 nhịp/phút), đung đưa nhẹ, đầu nghiêng / nhìn quanh nhẹ – vui tươi
-  xoayThem(nv, nv.X.nguc, TRUC_X, 0.025 * s(0.27));
-  xoayThem(nv, nv.X.than, TRUC_Z, 0.02 * s(0.18, 1));
-  xoayThem(nv, nv.X.dau, TRUC_Y, 0.06 * s(0.11, 2));
-  xoayThem(nv, nv.X.dau, TRUC_Z, 0.04 * s(0.23, 3));
-}
 
 // ---------- hành động thử (GĐ 0 – 1). Động tác bài tập thật ở GĐ 2. ----------
 export const HANH = {

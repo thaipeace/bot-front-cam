@@ -4,7 +4,10 @@ import * as THREE from 'three';
 import { dungNen } from './nen.js';
 import { dungAnhSang } from './anh-sang.js';
 import { dungHauKy } from './camera-that.js';
-import { napNhanVat, datDangCho, HANH } from './nhan-vat.js';
+import { napNhanVat, HANH } from './nhan-vat.js';
+import { napMau } from '../dong-tac/mau.js';
+import { apDang } from '../dong-tac/ap-dang.js';
+import { taoThuVien } from '../dong-tac/thu-vien.js';
 import { dungMat, apMat } from './mat.js';
 import { datKhungHinh } from './khung-hinh.js';
 import { batDauPhat } from './phat.js';
@@ -44,8 +47,8 @@ function ve(){
   const t = dongHo.getElapsedTime();
   const nv = tr.nv;
   if (nv){
-    datDangCho(nv, t, HAT);
-    (HANH[tr.hanh] || HANH.dung)(nv, t - tr.t0);
+    apDang(nv, tr.tv.dang(t), tr.MAU);                       // động tác (hoặc đứng chờ) theo mẫu chuẩn của app
+    if (tr.hanh !== 'dung') HANH[tr.hanh](nv, t - tr.t0);      // hành động thử cũ (vẫy tay…) đè lên tay
     if (tr.mat) apMat(tr.mat, t);
   }
   const b1 = performance.now();
@@ -59,13 +62,26 @@ function ve(){
 
 window.__botSanKhau = {
   san: false,
-  lam(hanh){ if (!HANH[hanh]) throw new Error('không có hành động ' + hanh); tr.hanh = hanh; tr.t0 = dongHo.getElapsedTime(); return hanh; },
+  /** động tác bài tập: { dongTac, soLan?, tocDo?, bienDo?, ben?, kieuSai?, giuGiay? } – không có soLan = làm đến khi dừng */
+  lamDongTac(o){ tr.hanh = 'dung'; return tr.tv.batDau(o, dongHo.getElapsedTime()); },
+  dungDongTac(){ tr.tv.dung(dongHo.getElapsedTime()); tr.hanh = 'dung'; },
+  dongTac(){ return tr.tv.trangThai(dongHo.getElapsedTime()); },
+  danhSachDongTac(){ return tr.tv.danhSach(); },
+  /** hành động thử (vay, gioTay, dangTay, vongNho) hoặc tên động tác bài tập (làm đến khi dừng) */
+  lam(hanh){
+    if (tr.MAU.dongTac[hanh]) return this.lamDongTac({ dongTac: hanh });
+    if (!HANH[hanh]) throw new Error('không có hành động ' + hanh); tr.tv.dung(dongHo.getElapsedTime()); tr.hanh = hanh; tr.t0 = dongHo.getElapsedTime(); return hanh;
+  },
   trangThai(){
-    return { hanh: tr.hanh, soKhung: tr.soKhung, khungGiay: do_.khungGiay, msVe: +do_.ms.toFixed(1), msTuThe: +do_.tuThe.toFixed(1), ketNoi: tr.phat ? tr.phat.soKetNoi() : 0, nen: tr.nen && tr.nen.loai, nenCoNguoi: !!(tr.nen && tr.nen.coNguoi),
+    return { hanh: tr.hanh, dongTac: tr.tv ? tr.tv.trangThai(dongHo.getElapsedTime()) : null, soKhung: tr.soKhung, khungGiay: do_.khungGiay, msVe: +do_.ms.toFixed(1), msTuThe: +do_.tuThe.toFixed(1), ketNoi: tr.phat ? tr.phat.soKetNoi() : 0, nen: tr.nen && tr.nen.loai, nenCoNguoi: !!(tr.nen && tr.nen.coNguoi),
       nv: NV, loaiXuong: tr.nv && tr.nv.loai, soXuong: tr.nv && tr.nv.soXuong, khung: tr.khung, anhSang: anhSang.so };
   },
   /** vị trí các xương (toạ độ thế giới) – soi lỗi */
   viTriXuong(ten){ const b = tr.nv.theoTen[ten]; if (!b) return null; const v = b.getWorldPosition(new THREE.Vector3()); return [v.x, v.y, v.z].map(n => +n.toFixed(4)); },
+  /** nhân cường độ đèn (thử ảnh hưởng của ánh sáng lên nhận dáng) */
+  /** đổi khoảng cách camera (m) – thử */
+  datCach(m){ tr.khung = datKhungHinh(camera, tr.nv, CAO, m); return tr.khung; },
+  datSang(k){ anhSang.troi.intensity = 1.5 * k; anhSang.den.intensity = 1.8 * k; return k; },
   thongKePhat(){ return tr.phat ? tr.phat.thongKe() : []; },
   /** liệt kê lưới + vật liệu – soi lỗi */
   luoi(){ const ds = []; tr.nv.goc.traverse(o => { if (o.isMesh){ const m = o.material; ds.push({ ten: o.name, dinh: o.geometry.attributes.position.count, hien: o.visible,
@@ -80,9 +96,11 @@ window.__botSanKhau = {
   if (tr.nen.loai !== 'phong') scene.add(hungBong);
   const url = NV.includes('/') ? `/__bot/assets/${NV}.glb` : `/__bot/assets/avatar/${NV}.glb`;
   tr.nv = await napNhanVat(url, { cao: CAO });
+  tr.MAU = await napMau();
+  tr.tv = taoThuVien(tr.MAU, { hat: HAT });
   scene.add(tr.nv.goc);
   tr.mat = dungMat(tr.nv, { cuoi: +(q.get('cuoi') ?? 1), hat: HAT });
-  tr.khung = datKhungHinh(camera, tr.nv, CAO);
+  tr.khung = datKhungHinh(camera, tr.nv, CAO, +(q.get('cach') || 0));
   if (tr.nen.video) { anhSang.capNhat(tr.nen.video); setInterval(() => { anhSang.capNhat(tr.nen.video); tr.nen.capNhat(); }, 500); }
   setInterval(ve, 1000 / 30);                              // setInterval – cửa sổ sân khấu bị che thì rAF dừng
   tr.phat = batDauPhat(cv, 30);

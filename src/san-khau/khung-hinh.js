@@ -4,12 +4,12 @@ import * as THREE from 'three';
 
 export const CAM_CAO = 0.95;           // laptop trên bàn
 
-export function datKhungHinh(camera, nv, cao){
+export function datKhungHinh(camera, nv, cao, cachEp = 0){
   const fov = THREE.MathUtils.degToRad(camera.fov = 50);
   camera.updateProjectionMatrix();
   const caoTayGio = cao * 1.27;                          // cổ tay giơ thẳng trên đầu ≈ 1,27 × chiều cao
   const vung = caoTayGio / 0.86;                         // chừa ~7% mép trên + dưới
-  const cach = vung / (2 * Math.tan(fov / 2));
+  const cach = cachEp || vung / (2 * Math.tan(fov / 2));
   const tamY = caoTayGio / 2 - 0.04;
   camera.position.set(0, CAM_CAO, cach);
   camera.lookAt(0, tamY, 0);

@@ -39,7 +39,7 @@ async function khaThi(o: Record<string, string>){
   const t0 = Date.now();
   const nhatKy = path.join(ra, 'nhat-ky.txt');
   const log = (s: string) => { const d = `${((Date.now() - t0) / 1000).toFixed(1).padStart(6)}s  ${s}`; console.log(d); fs.appendFileSync(nhatKy, d + '\n'); };
-  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'chup', dem: o.dem ? +o.dem : undefined, quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'] });
+  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'chup', dem: o.dem ? +o.dem : undefined, quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'], hat: o.hat ? +o.hat : undefined });
   p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));
   p.sanKhau.on('pageerror', e => log('LỖI SÂN KHẤU: ' + e.message));
   p.sanKhau.on('console', m => { if (m.type() === 'error') log('SÂN KHẤU console: ' + m.text()); });
@@ -49,23 +49,44 @@ async function khaThi(o: Record<string, string>){
   // theo dõi chữ mới xuất hiện
   let truoc = new Set<string>();
   let dung = false;
+  const tuDong = o['tu-dong'] === 'true';
+  const MAU = JSON.parse(fs.readFileSync(path.resolve('src/dong-tac/mau/ht003.json'), 'utf8'));
+  const TEN_DT = new Map<string, string>(Object.entries<any>(MAU.dongTac).map(([id, d]) => [d.ten, id]));
+  let dtHien = '';
+  // ép kiểu sai / biên độ cho động tác trong chế độ tự động: --sai xoayTay=vong_nho,xoayCo=nghieng_ca_vai · --bien-do nhonGot=0.5
+  const capGT = (v?: string) => new Map((v ?? '').split(',').filter(Boolean).map(x => x.split('=') as [string, string]));
+  const SAI = capGT(o.sai), BIEN_DO = new Map([...capGT(o['bien-do'])].map(([k, v]) => [k, +v]));
+  const denKhi = o['den-khi']; let thayDich = false;
   const theoDoi = (async () => {
     while (!dung){
       try {
         const c = await docChu(p.app);
         const bay = new Set([...c.canvas.map(s => '[cv] ' + s), ...c.dom.map(s => '[dom] ' + s)]);
         const moi = [...bay].filter(s => !truoc.has(s));
+        // TỰ ĐỘNG: thấy tên động tác app đang yêu cầu → bé trai đổi sang đúng động tác đó (làm đến khi app đổi)
+        if (tuDong){
+          const thay = c.canvas.map(s => TEN_DT.get(s)).filter(Boolean) as string[];
+          const chon = thay.find(id => id !== dtHien) && thay.length === 1 ? thay[0] : null;
+          if (chon && chon !== dtHien){
+            dtHien = chon;
+            const kq = await p.sanKhau.evaluate(a => (window as any).__botSanKhau.lamDongTac(a), { dongTac: chon, kieuSai: SAI.get(chon), bienDo: BIEN_DO.get(chon) });
+            log(`TỰ ĐỘNG → ${chon} ${JSON.stringify(kq)}`);
+          }
+        }
+        if (denKhi && [...c.canvas, ...c.dom].some(s => s.includes(denKhi))) thayDich = true;
         if (moi.length) log('CHỮ MỚI: ' + moi.slice(0, 12).join(' | ') + (moi.length > 12 ? ` (+${moi.length - 12})` : ''));
         truoc = bay;
       } catch {}
       await new Promise(r => setTimeout(r, 250));
     }
   })();
+  // dò lỗi: in một biểu thức JS của app mỗi giây (vd. --soi-app "JSON.stringify(TT._.nhon)")
+  const soi = o['soi-app'] ? setInterval(async () => { try { log('SOI ' + await p.app.evaluate(o['soi-app'])); } catch (e: any) { log('SOI lỗi ' + e.message); } }, 1000) : null;
   const chup = setInterval(() => { p.app.screenshot({ path: path.join(ra, `app-${String(Math.round((Date.now() - t0) / 1000)).padStart(4, '0')}s.png`) }).catch(() => {}); }, +(o.chup ?? 5) * 1000);
 
   try {
     for (const b of (o.buoc ?? '').split('|').filter(Boolean)) await chayBuoc(b, p, log);
-    await new Promise(r => setTimeout(r, +(o.giay ?? 30) * 1000));
+    { const het = Date.now() + +(o.giay ?? 30) * 1000; while (Date.now() < het && !thayDich) await new Promise(r => setTimeout(r, 250)); if (thayDich) log(`THẤY "${denKhi}" – dừng`); }
     const tt = await p.sanKhau.evaluate(() => (window as any).__botSanKhau.trangThai());
     // số khung tab app nhận + giải mã (thống kê WebRTC inbound-rtp) và nhịp vẽ của chính app
     // (chuỗi, không phải hàm: tsx chèn helper __name vào hàm có tên → lỗi trong trang)
@@ -81,7 +102,7 @@ async function khaThi(o: Record<string, string>){
     log('CAMERA APP ' + JSON.stringify(cam));
   } catch (e: any){ log('LỖI: ' + e.message); }
   finally {
-    dung = true; clearInterval(chup); await theoDoi;
+    dung = true; clearInterval(chup); if (soi) clearInterval(soi); await theoDoi;
     await p.app.screenshot({ path: path.join(ra, 'app-cuoi.png') }).catch(() => {});
     await p.dong();
     log('xong → ' + ra);
@@ -109,6 +130,18 @@ async function thuNhanVat(o: Record<string, string>){
       await cv.screenshot({ path: path.join(ra, `${h}.png`) });
       console.log('chụp', h);
     }
+    // chụp liên tiếp từng động tác bài tập: --dong-tac xoayCo,xoayVai … (--kieu-sai, --so-anh, --cach giây)
+    if (o['dong-tac']){
+      const ds = o['dong-tac'] === 'het' ? await p.evaluate(() => (window as any).__botSanKhau.danhSachDongTac()) : o['dong-tac'].split(',');
+      for (const id of ds){
+        const tt = await p.evaluate(a => (window as any).__botSanKhau.lamDongTac(a), { dongTac: id, kieuSai: o['kieu-sai'], bienDo: o['bien-do'] ? +o['bien-do'] : undefined });
+        console.log('động tác', JSON.stringify(tt));
+        await p.waitForTimeout(400);
+        for (let i = 0; i < +(o['so-anh'] ?? 8); i++){ await cv.screenshot({ path: path.join(ra, `${id}-${i}.png`) }); await p.waitForTimeout(+(o.cach ?? 0.4) * 1000); }
+        await p.evaluate(() => (window as any).__botSanKhau.dungDongTac());
+        await p.waitForTimeout(500);
+      }
+    }
     if (o.mat !== '0'){
       await p.evaluate(() => (window as any).__botSanKhau.lam('dung'));
       const dau = await p.evaluate(() => (window as any).__botSanKhau.viTriXuong('head'));
@@ -128,6 +161,6 @@ if (lenh === 'kha-thi') await khaThi(o);
 else if (lenh === 'thu-nhan-vat') await thuNhanVat(o);
 else console.log(`bot-front-cam
   bot kha-thi [--url ${URL_MAC_DINH}] [--nv be-trai-11|tam/Soldier] [--nen chup|truc-tiep|phong] [--dem 5]
-              [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
+              [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--tu-dong [--sai dt=kiểu,…] [--bien-do dt=0.5,…]] [--den-khi chữ] [--hat 7] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
               [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)
   bot thu-nhan-vat [--nv be-trai-11] [--nen phong|chup|truc-tiep] [--hanh dung,vay,gioTay,dangTay] [--mat 0] [--hauky 0] [--ra thư-mục]`);

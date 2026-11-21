@@ -13,6 +13,7 @@ const KIEU: Record<string, string> = {
 // /__bot/<tiền tố>/... → thư mục trên đĩa
 const BAN_DO: Record<string, string> = {
   'san-khau': path.join(GOC, 'src/san-khau'),
+  'dong-tac': path.join(GOC, 'src/dong-tac'),
   'three': path.join(GOC, 'node_modules/three'),
   'assets': path.join(GOC, 'assets'),
   'mediapipe': path.join(GOC, 'node_modules/@mediapipe/tasks-vision'),
@@ -23,6 +24,7 @@ export type TuyChonMo = {
   nv?: string;                 // be-trai-11 (mặc định) | tam/Soldier | tam/Michelle
   nen?: 'chup' | 'truc-tiep' | 'phong';
   dem?: number;                // giây đếm ngược trước khi chụp nền
+  hat?: number;                // hạt ngẫu nhiên của chuyển động
   quayVideo?: string;          // thư mục lưu video tab app
   hien?: boolean;
   phucVu?: string;             // thư mục dist/app để tự phục vụ khi URL localhost chưa chạy
