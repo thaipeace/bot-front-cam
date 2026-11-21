@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Sân khấu bot</title>
+<style>
+  html, body { margin: 0; background: #111; color: #ccc; font: 13px system-ui, sans-serif; }
+  #cv { display: block; width: 640px; height: 480px; }
+  #tt { padding: 6px 8px; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "/__bot/three/build/three.module.js", "three/addons/": "/__bot/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<canvas id="cv" width="640" height="480"></canvas>
+<div id="tt">đang nạp…</div>
+<script type="module" src="./canh.js"></script>
+</body>
+</html>
