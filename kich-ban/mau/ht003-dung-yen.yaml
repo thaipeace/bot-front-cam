@@ -1,0 +1,15 @@
+# Đứng yên trước camera – app KHÔNG được đếm, phải nhắc / mở "Siroby chỉ lại".
+case: ht003-dung-yen
+mo_ta: Đứng yên 40 giây ở phần làm quen XOAY VAI
+hat: 7
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - cho_chu: "XOAY VAI"
+  - dung_yen: 40
+  - ghi_nhan: { chu: "SIROBY CHỈ LẠI", toi_da: 1 }
+    nhin_lai: 40
+    ten: co-chi-lai
+  - ghi_nhan: { chu: "1/5", toi_da: 1 }
+    nhin_lai: 40
+    ten: bi-dem-nham

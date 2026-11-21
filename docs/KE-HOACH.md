@@ -294,6 +294,33 @@ Phía ngược lại:
 
 Công cụ dò lỗi (không dùng khi chạy thật): `cong-cu/soi/khop-app.ts` (điểm khớp app nhận được), `goc-dau.ts`, `ti-le.ts`, `cong-cu/tom-tat-buoi.py` (tóm tắt nhật ký), `kha-thi --soi-app "<biểu thức>"`.
 
-## 12. Việc tiếp theo
+## 12. Kết quả GĐ 3 (21/11/2026): ĐẠT
 
-Làm **GĐ 3**: chạy kịch bản YAML (`cho_chu`, `den_khi`, `luc`, `bam`), lọc chữ góc khớp, mỗi case một context. Song song: **một người thật thử xoay cổ** để biết lỗi nằm ở bot hay ở app.
+Lệnh:
+```
+npm run bot -- kiem kich-ban/mau                       # chỉ kiểm cú pháp, lỗi kèm tệp:dòng
+npm run bot -- run kich-ban/mau [--case a,b] [--nen chup|truc-tiep|phong] [--hat 7] [--khong-video] [--chi-tiet]
+```
+
+Thành phần (`src/chay/`):
+- `schema.ts`: 8 lệnh `bam` · `cho_chu` · `lam` · `dung_yen` · `nghi` · `goc_thoi_gian` · `ghi_nhan` · `tu_dong`. Bước nào cũng có thể kèm `luc` (timeline). Kiểm chặt: sai khoá, sai kiểu, sai tên động tác hoặc kiểu sai đều báo kèm dòng.
+- `mat.ts`: đọc chữ 10 lần mỗi giây, **lọc số góc khớp và số điểm**, so khớp không phân biệt hoa thường (tuỳ chọn bỏ dấu), giữ lịch sử để `ghi_nhan … nhin_lai: N` bắt được cả chữ chỉ thoáng hiện.
+- `thuc-thi.ts`: **mỗi case một context Chrome mới**. Nhật ký riêng, video tab app riêng (video trang sân khấu bị xoá). Trạng thái `xong` / `het-gio` / `loi` kèm bước và dòng hỏng. Bot không phán pass/fail nghiệp vụ.
+- Kết quả: `ket-qua/<lần chạy>/tong-hop.json` (mỗi case một mục) và `<case>/{nhat-ky.txt, <case>.webm}`.
+
+Đã chạy 4 kịch bản mẫu (`kich-ban/mau/`) trên HT003 thật:
+
+| Case | Chạy | Thời gian | Ghi nhận |
+|---|---|---|---|
+| ht003-dung-form | xong | 321 s | vòng 1 "0/1 động tác đủ" (xoay cổ), vòng 2 "4/4", vòng 3 "5/5", tới màn kết quả |
+| ht003-dung-yen | xong | 49 s | có "SIROBY CHỈ LẠI"; không bị đếm "1/5" |
+| ht003-timeline | xong | 97 s | đúng mốc: động tác ở mốc +0 và mốc +30 s |
+| ht003-tu-dong-sai | xong | 328 s | app **không** nhắc "HÔNG ĐỨNG YÊN" (giống GĐ 2) |
+| (thử lỗi) cho_chu không có thật | het-gio | 6 s | báo đúng bước 3, dòng 5 |
+
+- Độ trễ phản ứng: lúc thấy chữ và lúc bé trai đổi động tác trùng nhau trong nhật ký (cùng nhịp đọc 100 ms).
+- Video khoảng 44 MB cho 5 phút (webm của Playwright). GĐ 4 sẽ xem có cần nén không.
+
+## 13. Việc tiếp theo
+
+Làm **GĐ 4**: báo cáo gọn (mỗi case 1 bằng chứng), `docs/KICH-BAN.md` cho Claude bên siroby-app, chạy thử trên Windows. Vẫn còn: một người thật thử xoay cổ.

@@ -2,17 +2,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { moPhien, docChu, moTrinhDuyet, moSanKhau } from './trinh-duyet/mo-chrome.js';
+import { docKichBan, LoiKichBan } from './chay/doc-kich-ban.js';
+import { chayCase, type KetQuaCase } from './chay/thuc-thi.js';
 
 const URL_MAC_DINH = 'http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop';
 
+// cờ không nhận giá trị (đứng trước tham số vị trí vẫn đúng: bot run --chi-tiet kich-ban/x.yaml)
+const CO_BAT_TAT = new Set(['tu-dong', 'video', 'khong-video', 'chi-tiet']);
 function docThamSo(argv: string[]){
   const [lenh = 'giup', ...r] = argv;
-  const o: Record<string, string> = {};
+  const o: Record<string, string> = {}, viTri: string[] = [];
   for (let i = 0; i < r.length; i++){
     const a = r[i];
-    if (a.startsWith('--')){ const k = a.slice(2); const v = r[i + 1] && !r[i + 1].startsWith('--') ? r[++i] : 'true'; o[k] = v; }
+    if (a.startsWith('--')){ const k = a.slice(2); o[k] = !CO_BAT_TAT.has(k) && r[i + 1] !== undefined && !r[i + 1].startsWith('--') ? r[++i] : 'true'; }
+    else viTri.push(a);
   }
-  return { lenh, o };
+  return { lenh, o, viTri };
 }
 
 // bước dạng "bam:Bắt đầu" | "cho:Đứng vào khung" | "lam:vay" | "nghi:3"
@@ -156,11 +161,43 @@ async function thuNhanVat(o: Record<string, string>){
   console.log('xong →', ra);
 }
 
-const { lenh, o } = docThamSo(process.argv.slice(2));
-if (lenh === 'kha-thi') await khaThi(o);
-else if (lenh === 'thu-nhan-vat') await thuNhanVat(o);
-else console.log(`bot-front-cam
+// bot run <tệp.yaml | thư mục> – chạy kịch bản; mỗi case một context Chrome mới
+async function chay(duong: string | undefined, o: Record<string, string>){
+  if (!duong) throw new Error('thiếu tệp / thư mục kịch bản: bot run kich-ban/ht003.yaml');
+  const cases = docKichBan(duong).filter(c => !o.case || o.case.split(',').includes(c.ten));
+  if (!cases.length) throw new Error('không có case nào để chạy' + (o.case ? ` (lọc --case ${o.case})` : ''));
+  const ra = path.resolve(o.ra ?? `ket-qua/${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`);
+  fs.mkdirSync(ra, { recursive: true });
+  console.log(`${cases.length} case → ${path.relative(process.cwd(), ra)}`);
+  const ds: KetQuaCase[] = [];
+  for (const c of cases){
+    if (o.hat) c.hat = +o.hat;
+    console.log(`▶ ${c.ten}${c.moTa ? ' – ' + c.moTa : ''}`);
+    const kq = await chayCase(c, { ra, nen: o.nen as any, dem: o.dem ? +o.dem : undefined, quayVideo: o['khong-video'] !== 'true', phucVu: o['phuc-vu'], inRa: o['chi-tiet'] === 'true' });
+    ds.push(kq);
+    console.log(`  ${kq.chay === 'xong' ? '✓' : '✗'} ${kq.chay} · ${kq.giay}s` + (kq.loi ? ` · bước ${kq.loi.buoc} (dòng ${kq.loi.dong}) ${kq.loi.lenh}: ${kq.loi.thongBao}` : '') +
+      (kq.ghiNhan.length ? ' · ghi nhận: ' + kq.ghiNhan.map(g => `${g.ten}=${g.thay ? 'thấy' : 'không'}`).join(', ') : ''));
+    fs.writeFileSync(path.join(ra, 'tong-hop.json'), JSON.stringify(ds, null, 1));
+  }
+  const loi = ds.filter(k => k.chay !== 'xong').length;
+  console.log(`xong: ${ds.length - loi}/${ds.length} case chạy hết · ${path.relative(process.cwd(), path.join(ra, 'tong-hop.json'))}`);
+  return loi ? 1 : 0;
+}
+
+const { lenh, o, viTri } = docThamSo(process.argv.slice(2));
+try {
+  if (lenh === 'run') process.exitCode = await chay(viTri[0], o);
+  else if (lenh === 'kiem'){ const cs = docKichBan(viTri[0] ?? ''); for (const c of cs) console.log(`✓ ${c.ten}: ${c.buoc.length} bước (${path.relative(process.cwd(), c.tep)})`); }
+  else if (lenh === 'kha-thi') await khaThi(o);
+  else if (lenh === 'thu-nhan-vat') await thuNhanVat(o);
+  else console.log(`bot-front-cam
+  bot run <kich-ban.yaml | thư-mục> [--case a,b] [--nen chup|truc-tiep|phong] [--hat 7] [--khong-video] [--chi-tiet] [--ra thư-mục]
+  bot kiem <kich-ban.yaml | thư-mục>     (chỉ kiểm cú pháp)
   bot kha-thi [--url ${URL_MAC_DINH}] [--nv be-trai-11|tam/Soldier] [--nen chup|truc-tiep|phong] [--dem 5]
               [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--tu-dong [--sai dt=kiểu,…] [--bien-do dt=0.5,…]] [--den-khi chữ] [--hat 7] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
               [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)
   bot thu-nhan-vat [--nv be-trai-11] [--nen phong|chup|truc-tiep] [--hanh dung,vay,gioTay,dangTay] [--mat 0] [--hauky 0] [--ra thư-mục]`);
+} catch (e: any) {
+  if (e instanceof LoiKichBan){ console.error('KỊCH BẢN SAI:\n' + e.message); process.exitCode = 2; }
+  else throw e;
+}

@@ -1,0 +1,14 @@
+# Tự động theo app, nhưng cố tình làm SAI hai động tác:
+#   xoayTay vòng nhỏ dang ngang (app không nên đếm) · xoayLung xoay cả hông (app nên nhắc HÔNG ĐỨNG YÊN)
+case: ht003-tu-dong-sai
+mo_ta: Cả buổi tự động, xoayTay = vong_nho, xoayLung = xoay_ca_hong
+hat: 7
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - tu_dong:
+      den_khi: "CHƠI LẠI"
+      toi_da: 480
+      sai: { xoayTay: vong_nho, xoayLung: xoay_ca_hong }
+  - ghi_nhan: { chu: "HÔNG ĐỨNG YÊN", toi_da: 1 }
+    ten: nhac-hong

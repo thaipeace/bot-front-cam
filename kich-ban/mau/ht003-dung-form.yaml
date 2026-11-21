@@ -1,0 +1,56 @@
+# HT003 Khởi động khớp – bé trai làm ĐÚNG mẫu toàn bộ buổi (mức Vừa mặc định của app).
+# Viết tường minh từng động tác theo thứ tự app hiện: làm tới khi app đổi sang động tác kế (den_khi).
+case: ht003-dung-form
+mo_ta: Làm đúng mẫu cả 4 vòng, ghi nhận bảng "động tác đủ" cuối mỗi vòng
+url: http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop
+hat: 7
+buoc:
+  - bam: "Tôi là bố/mẹ"            # ô đồng ý dùng camera
+  - bam: { css: "#nutChoi" }       # ▶ CHƠI NGAY
+  - cho_chu: "ĐỨNG VÀO KHUNG HÌNH"
+
+  # làm quen
+  - cho_chu: "XOAY VAI"
+  - lam: xoayVai
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    den_khi: "VÒNG 1/4"
+
+  # vòng 1 · Cổ – vai
+  - lam: xoayCo
+    den_khi: { chu: "VÒNG 1 XONG", toi_da: 100 }
+  - ghi_nhan: { chu: "động tác đủ", toi_da: 3 }
+    ten: vong-1
+
+  # vòng 2 · Lưng – thân
+  - cho_chu: { chu: "VÒNG 2/4", toi_da: 20 }
+  - lam: xoayVai
+    den_khi: "XOAY LƯNG TRÊN"
+  - lam: xoayLung
+    den_khi: "NGHIÊNG LƯỜN"
+  - lam: nghiengLuon
+    den_khi: { chu: "VÒNG 2 XONG", toi_da: 70 }
+  - ghi_nhan: { chu: "động tác đủ", toi_da: 3 }
+    ten: vong-2
+
+  # vòng 3 · Hông – cổ chân
+  - cho_chu: { chu: "VÒNG 3/4", toi_da: 20 }
+  - lam: xoayHong
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    den_khi: { chu: "VÒNG 3 XONG", toi_da: 70 }
+  - ghi_nhan: { chu: "động tác đủ", toi_da: 3 }
+    ten: vong-3
+
+  # vòng 4 · Liên khúc + giữ ngồi xổm 10 giây
+  - cho_chu: { chu: "VÒNG 4/4", toi_da: 20 }
+  - lam: xoayVai
+    den_khi: "XOAY VÒNG TAY"
+  - lam: xoayTay
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    den_khi: "GIỮ NGỒI XỔM SÂU"
+  - lam: ngoiXomSau
+    giu_giay: 10
+  - ghi_nhan: { chu: "CHƠI LẠI", toi_da: 40 }
+    ten: man-ket-qua

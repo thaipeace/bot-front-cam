@@ -1,0 +1,16 @@
+# Theo TIMELINE: mốc = lúc app hiện "VÒNG 1/4"; mỗi bước chạy ở mốc + luc (giây).
+case: ht003-timeline
+mo_ta: Vòng 1 theo mốc thời gian – xoay cổ 5 lần, đứng yên, rồi xoay cổ chậm
+hat: 7
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - cho_chu: "XOAY VAI"
+  - lam: xoayVai
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+  - goc_thoi_gian: "VÒNG 1/4"
+  - { luc: 0, lam: xoayCo, so_lan: 5 }
+  - { luc: 20, dung_yen: true }
+  - { luc: 30, lam: xoayCo, toc_do: 0.7 }
+  - { luc: 62, ghi_nhan: { chu: "VÒNG 1 XONG", toi_da: 10 } }
