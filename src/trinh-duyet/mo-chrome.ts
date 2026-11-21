@@ -3,6 +3,7 @@ import { chromium, type Browser, type BrowserContext, type Page } from 'playwrig
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { damBaoMayChuApp } from './may-chu-app.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KIEU: Record<string, string> = {
@@ -22,6 +23,7 @@ export type TuyChonMo = {
   nen?: 'phong' | 'webcam';
   quayVideo?: string;          // thư mục lưu video tab app
   hien?: boolean;
+  phucVu?: string;             // thư mục dist/app để tự phục vụ khi URL localhost chưa chạy
 };
 export type PhienBot = { browser: Browser; ctx: BrowserContext; sanKhau: Page; app: Page; dong(): Promise<void> };
 
@@ -37,6 +39,7 @@ export async function moSanKhau(page: Page, goc: string, o: { nv?: string; nen?:
 
 export async function moPhien(o: TuyChonMo): Promise<PhienBot> {
   const goc = new URL(o.url).origin;
+  const tatMayChu = await damBaoMayChuApp(o.url, o.phucVu);
   const browser = await chromium.launch({
     channel: 'chrome',
     headless: o.hien === false,
@@ -73,7 +76,7 @@ export async function moPhien(o: TuyChonMo): Promise<PhienBot> {
 
   const app = await ctx.newPage();
   await app.goto(o.url, { timeout: 90_000 });
-  return { browser, ctx, sanKhau, app, async dong(){ await ctx.close(); await browser.close(); } };
+  return { browser, ctx, sanKhau, app, async dong(){ await ctx.close(); await browser.close(); tatMayChu?.(); } };
 }
 
 export type ChuThay = { canvas: string[]; dom: string[] };

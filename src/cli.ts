@@ -39,7 +39,7 @@ async function khaThi(o: Record<string, string>){
   const t0 = Date.now();
   const nhatKy = path.join(ra, 'nhat-ky.txt');
   const log = (s: string) => { const d = `${((Date.now() - t0) / 1000).toFixed(1).padStart(6)}s  ${s}`; console.log(d); fs.appendFileSync(nhatKy, d + '\n'); };
-  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'phong', quayVideo: o.video === 'true' ? ra : undefined });
+  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'phong', quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'] });
   p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));
   p.sanKhau.on('pageerror', e => log('LỖI SÂN KHẤU: ' + e.message));
   p.sanKhau.on('console', m => { if (m.type() === 'error') log('SÂN KHẤU console: ' + m.text()); });
@@ -83,4 +83,5 @@ const { lenh, o } = docThamSo(process.argv.slice(2));
 if (lenh === 'kha-thi') await khaThi(o);
 else console.log(`bot-front-cam
   bot kha-thi [--url ${URL_MAC_DINH}] [--nv Soldier|Michelle] [--nen phong|webcam]
-              [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--giay 30] [--chup 5] [--video] [--ra thư-mục]`);
+              [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
+              [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)`);
