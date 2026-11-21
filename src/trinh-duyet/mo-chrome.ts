@@ -8,38 +8,46 @@ import { damBaoMayChuApp } from './may-chu-app.js';
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KIEU: Record<string, string> = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json',
-  '.glb': 'model/gltf-binary', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.hdr': 'application/octet-stream',
+  '.glb': 'model/gltf-binary', '.wasm': 'application/wasm', '.tflite': 'application/octet-stream', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.hdr': 'application/octet-stream',
 };
 // /__bot/<tiền tố>/... → thư mục trên đĩa
 const BAN_DO: Record<string, string> = {
   'san-khau': path.join(GOC, 'src/san-khau'),
   'three': path.join(GOC, 'node_modules/three'),
   'assets': path.join(GOC, 'assets'),
+  'mediapipe': path.join(GOC, 'node_modules/@mediapipe/tasks-vision'),
 };
 
 export type TuyChonMo = {
   url: string;                 // trang app
-  nv?: string;                 // nhân vật (GĐ 0: Soldier | Michelle)
-  nen?: 'phong' | 'webcam';
+  nv?: string;                 // be-trai-11 (mặc định) | tam/Soldier | tam/Michelle
+  nen?: 'chup' | 'truc-tiep' | 'phong';
+  dem?: number;                // giây đếm ngược trước khi chụp nền
   quayVideo?: string;          // thư mục lưu video tab app
   hien?: boolean;
   phucVu?: string;             // thư mục dist/app để tự phục vụ khi URL localhost chưa chạy
 };
 export type PhienBot = { browser: Browser; ctx: BrowserContext; sanKhau: Page; app: Page; dong(): Promise<void> };
 
-export async function moSanKhau(page: Page, goc: string, o: { nv?: string; nen?: string; hanh?: string }){
-  const ts = new URLSearchParams({ nv: o.nv ?? 'Soldier', nen: o.nen ?? 'phong' });
+export type TuyChonSanKhau = { nv?: string; nen?: string; dem?: number; hauKy?: boolean; hat?: number; cuoi?: number };
+
+export async function moSanKhau(page: Page, goc: string, o: TuyChonSanKhau){
+  const ts = new URLSearchParams({ nv: o.nv ?? 'be-trai-11', nen: o.nen ?? 'chup', dem: String(o.dem ?? 5), hauky: o.hauKy === false ? '0' : '1', hat: String(o.hat ?? 7), cuoi: String(o.cuoi ?? 1) });
+  page.on('pageerror', e => console.error('[sân khấu] ' + e.message));
+  page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') console.error('[sân khấu] ' + m.text()); });
   await page.goto(`${goc}/__bot/san-khau/index.html?${ts}`);
+  // in lời nhắc đếm ngược chụp nền ra terminal
+  let cuoi = '';
+  const theo = setInterval(async () => { const s = await page.textContent('#tt').catch(() => ''); if (s && s !== cuoi && /Rời khỏi|chụp nền|Còn người/.test(s)) console.log('[sân khấu] ' + (cuoi = s)); }, 300);
   try {
-    await page.waitForFunction(() => (window as any).__botSanKhau?.san === true, null, { timeout: 60_000 });
+    await page.waitForFunction(() => (window as any).__botSanKhau?.san === true, null, { timeout: 90_000 });
   } catch {
     throw new Error('sân khấu không sẵn sàng: ' + (await page.textContent('#tt').catch(() => '?')));
-  }
+  } finally { clearInterval(theo); }
 }
 
-export async function moPhien(o: TuyChonMo): Promise<PhienBot> {
-  const goc = new URL(o.url).origin;
-  const tatMayChu = await damBaoMayChuApp(o.url, o.phucVu);
+/** Chrome thật + context: phục vụ /__bot/* cùng origin `goc`, gắn init script thay camera + mắt */
+export async function moTrinhDuyet(goc: string, o: { quayVideo?: string; hien?: boolean } = {}){
   const browser = await chromium.launch({
     channel: 'chrome',
     headless: o.hien === false,
@@ -67,13 +75,16 @@ export async function moPhien(o: TuyChonMo): Promise<PhienBot> {
   });
   await ctx.addInitScript({ path: path.join(GOC, 'src/trinh-duyet/thay-camera.init.js') });
   await ctx.addInitScript({ path: path.join(GOC, 'src/mat/mat.init.js') });
+  return { browser, ctx };
+}
 
+export async function moPhien(o: TuyChonMo): Promise<PhienBot> {
+  const goc = new URL(o.url).origin;
+  const tatMayChu = await damBaoMayChuApp(o.url, o.phucVu);
+  const { browser, ctx } = await moTrinhDuyet(goc, o);
   // sân khấu mở trước, sẵn sàng trả lời offer
   const sanKhau = await ctx.newPage();
-  sanKhau.on('pageerror', e => console.error('[sân khấu] ' + e.message));
-  sanKhau.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') console.error('[sân khấu] ' + m.text()); });
   await moSanKhau(sanKhau, goc, o);
-
   const app = await ctx.newPage();
   await app.goto(o.url, { timeout: 90_000 });
   return { browser, ctx, sanKhau, app, async dong(){ await ctx.close(); await browser.close(); tatMayChu?.(); } };

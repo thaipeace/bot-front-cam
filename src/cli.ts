@@ -1,7 +1,7 @@
 // CLI bot-front-cam. GĐ 0: `bot kha-thi` – đưa nhân vật tạm vào app, ghi chữ thấy trên màn, chụp ảnh định kỳ.
 import fs from 'node:fs';
 import path from 'node:path';
-import { moPhien, docChu } from './trinh-duyet/mo-chrome.js';
+import { moPhien, docChu, moTrinhDuyet, moSanKhau } from './trinh-duyet/mo-chrome.js';
 
 const URL_MAC_DINH = 'http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop';
 
@@ -39,7 +39,7 @@ async function khaThi(o: Record<string, string>){
   const t0 = Date.now();
   const nhatKy = path.join(ra, 'nhat-ky.txt');
   const log = (s: string) => { const d = `${((Date.now() - t0) / 1000).toFixed(1).padStart(6)}s  ${s}`; console.log(d); fs.appendFileSync(nhatKy, d + '\n'); };
-  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'phong', quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'] });
+  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'chup', dem: o.dem ? +o.dem : undefined, quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'] });
   p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));
   p.sanKhau.on('pageerror', e => log('LỖI SÂN KHẤU: ' + e.message));
   p.sanKhau.on('console', m => { if (m.type() === 'error') log('SÂN KHẤU console: ' + m.text()); });
@@ -67,8 +67,17 @@ async function khaThi(o: Record<string, string>){
     for (const b of (o.buoc ?? '').split('|').filter(Boolean)) await chayBuoc(b, p, log);
     await new Promise(r => setTimeout(r, +(o.giay ?? 30) * 1000));
     const tt = await p.sanKhau.evaluate(() => (window as any).__botSanKhau.trangThai());
-    const cam = await p.app.evaluate(() => { const c = (window as any).__botCamera; return c ? { coCamera: true, trangThai: c.track.readyState, ...c.track.getSettings() } : { coCamera: false }; });
+    // số khung tab app nhận + giải mã (thống kê WebRTC inbound-rtp) và nhịp vẽ của chính app
+    // (chuỗi, không phải hàm: tsx chèn helper __name vào hàm có tên → lỗi trong trang)
+    const cam = await p.app.evaluate(`(async () => {
+      const c = window.__botCamera; if (!c) return { coCamera: false };
+      const s = c.track.getSettings();
+      let f = 0; const t0 = performance.now(); await new Promise(r => { (function b(){ f++; if (performance.now() - t0 < 2000) requestAnimationFrame(b); else r(); })(); });
+      let vao = null; (await c.pc.getStats()).forEach(r => { if (r.type === 'inbound-rtp' && r.kind === 'video') vao = { khungGiay: r.framesPerSecond, giaiMa: r.framesDecoded, rot: r.framesDropped }; });
+      return { coCamera: true, trangThai: c.track.readyState, rong: s.width, cao: s.height, appVeGiay: +(f / 2).toFixed(1), nhan: vao };
+    })()`);
     log('SÂN KHẤU ' + JSON.stringify(tt));
+    log('PHÁT ' + JSON.stringify(await p.sanKhau.evaluate(() => (window as any).__botSanKhau.thongKePhat())));
     log('CAMERA APP ' + JSON.stringify(cam));
   } catch (e: any){ log('LỖI: ' + e.message); }
   finally {
@@ -79,9 +88,46 @@ async function khaThi(o: Record<string, string>){
   }
 }
 
+// Soi nhân vật: chỉ mở sân khấu, chụp từng tư thế + chụp cận mặt (cười, chớp mắt). Không cần app.
+async function thuNhanVat(o: Record<string, string>){
+  const ra = path.resolve(o.ra ?? `ket-qua/nhan-vat-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`);
+  fs.mkdirSync(ra, { recursive: true });
+  const goc = 'http://localhost:8790';
+  const { browser, ctx } = await moTrinhDuyet(goc);
+  // sân khấu chỉ cần origin – không gọi app; trả trang trống cho mọi đường khác
+  await ctx.route(`${goc}/`, r => r.fulfill({ status: 200, body: '' }));
+  const p = await ctx.newPage();
+  await p.setViewportSize({ width: 660, height: 540 });
+  try {
+    await moSanKhau(p, goc, { nv: o.nv, nen: o.nen ?? 'phong', dem: o.dem ? +o.dem : 5, hauKy: o.hauky !== '0', cuoi: o.cuoi !== undefined ? +o.cuoi : undefined });
+    const tt = await p.evaluate(() => (window as any).__botSanKhau.trangThai());
+    console.log('sân khấu:', JSON.stringify(tt));
+    const cv = p.locator('#cv');
+    for (const h of (o.hanh ?? 'dung,vay,gioTay,dangTay').split(',')){
+      await p.evaluate(h => (window as any).__botSanKhau.lam(h), h);
+      await p.waitForTimeout(+(o.cho ?? 1200));
+      await cv.screenshot({ path: path.join(ra, `${h}.png`) });
+      console.log('chụp', h);
+    }
+    if (o.mat !== '0'){
+      await p.evaluate(() => (window as any).__botSanKhau.lam('dung'));
+      const dau = await p.evaluate(() => (window as any).__botSanKhau.viTriXuong('head'));
+      if (dau){
+        const [x, y, z] = dau;
+        await p.evaluate(([x, y, z, fov]) => (window as any).__botSanKhau.soiCan({ tu: [x, y + 0.04, z + 0.9], nhin: [x, y + 0.04, z], fov }), [x, y, z, +(o.fovmat ?? 18)]);
+        for (let i = 0; i < 10; i++){ await p.waitForTimeout(450); await cv.screenshot({ path: path.join(ra, `mat-${i}.png`) }); }
+        await p.evaluate(() => (window as any).__botSanKhau.soiCan(null));
+      }
+    }
+  } finally { await ctx.close(); await browser.close(); }
+  console.log('xong →', ra);
+}
+
 const { lenh, o } = docThamSo(process.argv.slice(2));
 if (lenh === 'kha-thi') await khaThi(o);
+else if (lenh === 'thu-nhan-vat') await thuNhanVat(o);
 else console.log(`bot-front-cam
-  bot kha-thi [--url ${URL_MAC_DINH}] [--nv Soldier|Michelle] [--nen phong|webcam]
+  bot kha-thi [--url ${URL_MAC_DINH}] [--nv be-trai-11|tam/Soldier] [--nen chup|truc-tiep|phong] [--dem 5]
               [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
-              [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)`);
+              [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)
+  bot thu-nhan-vat [--nv be-trai-11] [--nen phong|chup|truc-tiep] [--hanh dung,vay,gioTay,dangTay] [--mat 0] [--hauky 0] [--ra thư-mục]`);

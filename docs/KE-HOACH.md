@@ -233,6 +233,32 @@ Ghi chú cho các GĐ sau:
 - Context đang quay video cả trang sân khấu. GĐ 4 chỉ giữ video tab app.
 - Nhân vật tạm có mặt nạ và giáp mà vẫn được nhận, nên bé trai 11 tuổi (người thật hơn) gần như chắc chắn được nhận.
 
-## 10. Việc tiếp theo
+## 10. Kết quả GĐ 1 (21/11/2026): ĐẠT, chờ bạn duyệt ảnh
 
-Làm **GĐ 1**: dựng bé trai 11 tuổi (MPFB2 → GLB), nền và ánh sáng từ webcam thật, làm hình giống webcam.
+Nhân vật:
+- **Bé trai 11 tuổi**, cao 1,40 m, người châu Á, áo thun xanh và quần jean (đã xoá logo), giày sneaker. Mặt cười mỉm và chớp mắt 3–5 giây một lần.
+- Tệp `assets/avatar/be-trai-11.glb` (16 MB, khoảng 19 nghìn đỉnh). Cách dựng lại: `cong-cu/dung-avatar.md`.
+
+Sân khấu (`src/san-khau/`):
+- **Nền** (`nen.js`): mặc định `chup`, tức đếm ngược rồi chụp một khung nền phòng. **Có lớp chặn người thật**: MediaPipe EfficientDet‑Lite0 tìm người trong ảnh nền. Nếu còn người thì nhắc và chụp lại; sau 30 lần vẫn còn người thì dừng và báo lỗi. Ở chế độ `truc-tiep` thì kiểm tra mỗi 3 giây và báo qua `nenCoNguoi`.
+- **Ánh sáng** (`anh-sang.js`): lấy từ webcam thật gồm độ sáng chung, màu nửa trên và nửa dưới, hướng sáng ngang. Bản đồ môi trường dựng từ ảnh phòng. Tone mapping AgX.
+- **Giống webcam** (`camera-that.js`): nhoè nhẹ, nhiễu hạt (vùng tối nhiều hơn), tối góc, giảm bão hoà.
+- **Khung hình** (`khung-hinh.js`): đứng cách camera 2,22 m, trọn người kể cả khi giơ tay, người cao khoảng 68% khung.
+
+Kiểm chứng trên HT003 thật:
+- Ghép với webcam phòng thật: app nhận bé trai và đếm **XOAY VAI 5/5 "⭐ 5/5 chuẩn"** (lan7).
+- Chạy lặp 3 lần (nền phòng dựng sẵn, cùng hạt): **3/3 lần đếm đủ 5/5 và "XONG!"**. Nhân vật tạm ở GĐ 0 chỉ đạt 2/4.
+- Tốc độ: sân khấu vẽ 31 khung/giây (0,5–0,7 ms mỗi khung), bộ mã hoá gửi 30–31, tab app **giải mã 29–31 khung/giây, 0 khung rớt** (thống kê WebRTC).
+- Lớp chặn người: bắt được người thật trong ảnh nền (điểm 0,87–0,93) và không nhầm ảnh phòng trống.
+
+Lệnh mới: `npm run bot -- thu-nhan-vat [--nen phong|chup|truc-tiep] [--cuoi 0..1]` để chụp từng tư thế và chụp cận mặt.
+
+Còn hạn chế (để GĐ sau):
+- Mô hình xoá logo áo chỉ đúng với `male_casualsuit04`.
+- Lông mi không đi theo mí khi chớp mắt (chỉ 150 ms, khó thấy).
+- Ánh sáng chỉ ước lượng thô từ ảnh 2D. Nếu webcam không thấy sàn thì bé trai trông như đứng trước đồ đạc, nhưng việc này không ảnh hưởng nhận dáng.
+- `kha-thi` chưa truyền `--hat` xuống sân khấu (GĐ 3 làm cùng phần chạy kịch bản).
+
+## 11. Việc tiếp theo
+
+Làm **GĐ 2**: 8 động tác HT003 theo mẫu `MAU3D`, kèm kiểu sai và độ tự nhiên.

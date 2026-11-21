@@ -20,6 +20,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.14",
     "playwright": "^1.56.0",
     "three": "^0.160.0"
   }
