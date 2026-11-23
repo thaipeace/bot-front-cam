@@ -1,4 +1,4 @@
-// CLI bot-front-cam. GĐ 0: `bot kha-thi` – đưa nhân vật tạm vào app, ghi chữ thấy trên màn, chụp ảnh định kỳ.
+// CLI bot-front-cam: run · kiem · dong-tac · thu-nhan-vat · kha-thi (dò lỗi: đưa bé trai vào app, ghi chữ thấy trên màn, chụp ảnh định kỳ).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -217,7 +217,7 @@ try {
   bot run <kich-ban.yaml | thư-mục> [--case a,b] [--nen chup|truc-tiep|phong] [--hat 7] [--khong-video] [--chi-tiet] [--ra thư-mục]
   bot kiem <kich-ban.yaml | thư-mục>     (chỉ kiểm cú pháp)
   bot dong-tac                           (danh sách động tác + kiểu sai)
-  bot kha-thi [--url ${URL_MAC_DINH}] [--nv be-trai-11|tam/Soldier] [--nen chup|truc-tiep|phong] [--dem 5]
+  bot kha-thi [--url ${URL_MAC_DINH}] [--nen chup|truc-tiep|phong] [--dem 5]
               [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--tu-dong [--sai dt=kiểu,…] [--bien-do dt=0.5,…]] [--den-khi chữ] [--hat 7] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
               [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)
   bot thu-nhan-vat [--nv be-trai-11] [--nen phong|chup|truc-tiep] [--hanh dung,vay,gioTay,dangTay] [--mat 0] [--hauky 0] [--ra thư-mục]`);

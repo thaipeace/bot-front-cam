@@ -1,3 +1,6 @@
 node_modules/
 ket-qua/
 .DS_Store
+
+# sinh lại khi dựng nhân vật (cong-cu/dung-avatar.md bước 1) – không lưu trong git
+assets/avatar/nguon/

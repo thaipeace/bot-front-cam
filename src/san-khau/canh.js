@@ -1,5 +1,5 @@
 // SÂN KHẤU – ghép: nền + ánh sáng từ webcam thật, bé trai 3D đứng ở khoảng cách tốt nhất, hậu kỳ giống webcam, phát cho tab app.
-// Tham số URL: nv (be-trai-11 | tam/Soldier | tam/Michelle), nen (chup | truc-tiep | phong), cao (m), dem (giây đếm ngược chụp nền), hauky (0/1), hat
+// Tham số URL: nv (tệp trong assets/avatar/, mặc định be-trai-11), nen (chup | truc-tiep | phong), cao (m), dem (giây đếm ngược chụp nền), hauky (0/1), hat
 import * as THREE from 'three';
 import { dungNen } from './nen.js';
 import { dungAnhSang } from './anh-sang.js';

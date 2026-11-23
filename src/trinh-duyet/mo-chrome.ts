@@ -21,7 +21,7 @@ const BAN_DO: Record<string, string> = {
 
 export type TuyChonMo = {
   url: string;                 // trang app
-  nv?: string;                 // be-trai-11 (mặc định) | tam/Soldier | tam/Michelle
+  nv?: string;                 // tên tệp trong assets/avatar/ (mặc định be-trai-11)
   nen?: 'chup' | 'truc-tiep' | 'phong';
   dem?: number;                // giây đếm ngược trước khi chụp nền
   hat?: number;                // hạt ngẫu nhiên của chuyển động

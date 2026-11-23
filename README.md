@@ -52,7 +52,7 @@ src/
   san-khau/              trang sân khấu: three.js, nền và ánh sáng webcam, chặn người thật trong nền, hậu kỳ giống webcam, phát WebRTC
   dong-tac/              mẫu MAU3D trích từ app, retarget lên bé trai, thư viện động tác, kiểu sai, hiệu chỉnh
   bao-cao/nen-video.ts   nén video bằng chứng (ffmpeg của Playwright)
-assets/                  bé trai (GLB), mô hình tìm người (MediaPipe), nhân vật tạm
+assets/                  bé trai (GLB), mô hình tìm người (MediaPipe)
 cong-cu/                 dựng nhân vật (Blender + MPFB2), trích mẫu từ app, công cụ dò lỗi (soi/)
 kich-ban/mau/            kịch bản mẫu HT003
 ```
