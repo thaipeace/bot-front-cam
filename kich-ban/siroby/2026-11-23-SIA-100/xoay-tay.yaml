@@ -1,0 +1,48 @@
+# SIA-100 / SIA-163: XOAY VÒNG TAY (HT003 vòng 4) trên bản dựng 4a021a37 (mẫu mới + bộ đếm mới)
+cases:
+  - case: xoay-tay-dung-h7
+    mo_ta: Cả buổi tự động tới vòng 4, xoay vòng tay đúng mẫu – phải được đếm (không còn 0)
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "XOAY VÒNG TAY", toi_da: 420 }
+      - lam: xoayTay
+        den_khi: { chu: "NHÓN GÓT", toi_da: 100 }
+      - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+        nhin_lai: 40
+        ten: xoay-tay-khong-du
+      - ghi_nhan: { chu: "XONG!", toi_da: 1 }
+        nhin_lai: 40
+        ten: xoay-tay-xong
+  - case: xoay-tay-dung-h11
+    mo_ta: Như trên, hạt 11
+    hat: 11
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "XOAY VÒNG TAY", toi_da: 420 }
+      - lam: xoayTay
+        den_khi: { chu: "NHÓN GÓT", toi_da: 100 }
+      - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+        nhin_lai: 40
+        ten: xoay-tay-khong-du
+      - ghi_nhan: { chu: "XONG!", toi_da: 1 }
+        nhin_lai: 40
+        ten: xoay-tay-xong
+  - case: xoay-tay-vong-nho-h7
+    mo_ta: Đối chứng – xoay vòng tay SAI (vòng nhỏ dang ngang) – không được đếm đủ
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "XOAY VÒNG TAY", toi_da: 420 }
+      - lam: xoayTay
+        kieu_sai: vong_nho
+        den_khi: { chu: "NHÓN GÓT", toi_da: 100 }
+      - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+        nhin_lai: 60
+        ten: xoay-tay-khong-du
+      - ghi_nhan: { chu: "XONG!", toi_da: 1 }
+        nhin_lai: 60
+        ten: xoay-tay-xong
