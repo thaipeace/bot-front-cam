@@ -1,0 +1,17 @@
+case: e-vua-dung-yen
+mo_ta: Vừa – đứng yên suốt lượt xoay cổ
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - tu_dong: { den_khi: "XOAY CỔ", toi_da: 150 }
+  - goc_thoi_gian: bay_gio
+  - dung_yen: 70
+  - ghi_nhan: { chu: "10/10", toi_da: 1 }
+    nhin_lai: 100
+    ten: du-10-lan
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 100
+    ten: khong-du-doi-dong-tac
+  - ghi_nhan: { chu: "VAI ĐỨNG YÊN", toi_da: 1 }
+    nhin_lai: 100
+    ten: nhac-vai-dung-yen

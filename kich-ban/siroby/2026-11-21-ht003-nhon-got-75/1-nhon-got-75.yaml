@@ -1,0 +1,69 @@
+# Test case: HT003 – nhón gót làm 75 % biên độ vẫn được đếm (cả 3 lượt nhón gót của buổi).
+# Các động tác khác làm đúng mẫu.
+case: ht003-nhon-got-75
+mo_ta: Nhón gót bien_do 0.75 ở làm quen, vòng 3 (sau xoay hông), vòng 4 – phải đủ lần (XONG!), không ĐỔI ĐỘNG TÁC
+url: http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop
+hat: 7
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - cho_chu: "ĐỨNG VÀO KHUNG HÌNH"
+
+  # làm quen
+  - cho_chu: "XOAY VAI"
+  - lam: xoayVai
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    bien_do: 0.75
+    den_khi: { chu: "VÒNG 1/4", toi_da: 90 }
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 15
+    ten: lam-quen-khong-doi-dong-tac
+  - ghi_nhan: { chu: "NHÓN CAO HƠN", toi_da: 1 }
+    nhin_lai: 15
+    ten: lam-quen-nhac-nhon-cao
+
+  # vòng 1
+  - lam: xoayCo
+    den_khi: { chu: "VÒNG 1 XONG", toi_da: 100 }
+
+  # vòng 2
+  - cho_chu: { chu: "VÒNG 2/4", toi_da: 20 }
+  - lam: xoayVai
+    den_khi: "XOAY LƯNG TRÊN"
+  - lam: xoayLung
+    den_khi: "NGHIÊNG LƯỜN"
+  - lam: nghiengLuon
+    den_khi: { chu: "VÒNG 2 XONG", toi_da: 70 }
+
+  # vòng 3 – nhón gót sau xoay hông
+  - cho_chu: { chu: "VÒNG 3/4", toi_da: 20 }
+  - lam: xoayHong
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    bien_do: 0.75
+    den_khi: { chu: "VÒNG 3 XONG", toi_da: 70 }
+  - ghi_nhan: { chu: "động tác đủ", toi_da: 3 }
+    ten: vong-3-dong-tac-du
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 40
+    ten: vong-3-khong-doi-dong-tac
+
+  # vòng 4
+  - cho_chu: { chu: "VÒNG 4/4", toi_da: 20 }
+  - lam: xoayVai
+    den_khi: "XOAY VÒNG TAY"
+  - lam: xoayTay
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    bien_do: 0.75
+    den_khi: { chu: "GIỮ NGỒI XỔM SÂU", toi_da: 70 }
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 15
+    ten: vong-4-khong-doi-dong-tac
+  - lam: ngoiXomSau
+    giu_giay: 10
+  - ghi_nhan: { chu: "động tác đủ", toi_da: 40 }
+    ten: vong-4-dong-tac-du
+  - ghi_nhan: { chu: "CHƠI LẠI", toi_da: 40 }
+    ten: man-ket-qua

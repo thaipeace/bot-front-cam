@@ -1,0 +1,21 @@
+# Đối chứng cho test 75 %: nhón gót bien_do 0 ở phần làm quen.
+case: ht003-nhon-got-doi-chung-0
+mo_ta: Đối chứng – nhón gót bien_do 0 ở làm quen
+url: http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop
+hat: 7
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - cho_chu: "ĐỨNG VÀO KHUNG HÌNH"
+  - cho_chu: "XOAY VAI"
+  - lam: xoayVai
+    den_khi: "NHÓN GÓT"
+  - lam: nhonGot
+    bien_do: 0
+    den_khi: { chu: "VÒNG 1/4", toi_da: 90 }
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 90
+    ten: doi-dong-tac
+  - ghi_nhan: { chu: "1/5", toi_da: 1 }
+    nhin_lai: 90
+    ten: co-dem-lan-1

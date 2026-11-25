@@ -1,0 +1,19 @@
+case: d-vua-nghieng-ca-vai
+mo_ta: Vừa – nghiêng cả vai theo đầu (sai)
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: { css: "#nutChoi" }
+  - tu_dong: { den_khi: "XOAY CỔ", toi_da: 150 }
+  - goc_thoi_gian: bay_gio
+  - lam: xoayCo
+    kieu_sai: nghieng_ca_vai
+    den_khi: { chu: "XOAY VAI", toi_da: 90 }
+  - ghi_nhan: { chu: "10/10", toi_da: 1 }
+    nhin_lai: 100
+    ten: du-10-lan
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 100
+    ten: khong-du-doi-dong-tac
+  - ghi_nhan: { chu: "VAI ĐỨNG YÊN", toi_da: 1 }
+    nhin_lai: 100
+    ten: nhac-vai-dung-yen

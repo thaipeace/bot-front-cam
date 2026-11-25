@@ -55,6 +55,7 @@ src/
 assets/                  bé trai (GLB), mô hình tìm người (MediaPipe)
 cong-cu/                 dựng nhân vật (Blender + MPFB2), trích mẫu từ app, công cụ dò lỗi (soi/)
 kich-ban/mau/            kịch bản mẫu HT003
+kich-ban/siroby/         kịch bản Claude bên siroby-app viết theo từng task (<ngày>-<mã SIA>/); skill gọi bot nằm ở siroby-app .claude/skills/bot-front-cam
 ```
 
 ## Giới hạn hiện tại

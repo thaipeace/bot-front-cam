@@ -1,0 +1,16 @@
+case: c-de-dung-mau
+mo_ta: Dễ – xoay cổ đúng mẫu
+buoc:
+  - bam: "Tôi là bố/mẹ"
+  - bam: "Dễ"
+  - bam: { css: "#nutChoi" }
+  - tu_dong: { den_khi: "XOAY CỔ", toi_da: 150 }
+  - goc_thoi_gian: bay_gio
+  - lam: xoayCo
+    den_khi: { chu: "XOAY VAI", toi_da: 90 }
+  - ghi_nhan: { chu: "ĐỔI ĐỘNG TÁC NHÉ!", toi_da: 1 }
+    nhin_lai: 100
+    ten: khong-du-doi-dong-tac
+  - ghi_nhan: { chu: "VAI ĐỨNG YÊN", toi_da: 1 }
+    nhin_lai: 100
+    ten: nhac-vai-dung-yen

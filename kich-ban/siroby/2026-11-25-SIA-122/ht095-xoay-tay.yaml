@@ -1,0 +1,48 @@
+# SIA-122 / SIA-124: XOAY VÒNG TAY trong ht095-vai-lung-tren (cùng HT_DT.xoayTay + bộ đếm 'quay' của HT003, đã sửa ở SIA-100 / SIA-163).
+# Bot chỉ có mẫu xoayVai / xoayLung / xoayHong / xoayTay… của HT003 – động tác khác bot giữ động tác trước, app tự sang lượt sau khi hết giờ.
+# Đọc kết quả từng lượt: node cong-cu/hieu-chuan-bot/phan-tich.mjs <ra>/nhat-ky/<case>.txt (trong siroby-app)
+cases:
+  - case: ht095-dung-h7
+    mo_ta: Cả buổi tự động, xoay vòng tay ĐÚNG mẫu – phải được đếm đủ (XONG)
+    url: http://localhost:8790/vui/index.html?tro=ht095-vai-lung-tren&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 540 }
+      - ghi_nhan: { chu: "XOAY VÒNG TAY", toi_da: 1 }
+        nhin_lai: 540
+        ten: co-luot-xoay-tay
+  - case: ht095-dung-h11
+    mo_ta: Như trên, hạt 11
+    url: http://localhost:8790/vui/index.html?tro=ht095-vai-lung-tren&muc=0
+    hat: 11
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 540 }
+      - ghi_nhan: { chu: "XOAY VÒNG TAY", toi_da: 1 }
+        nhin_lai: 540
+        ten: co-luot-xoay-tay
+  - case: ht095-vong-nho-h7
+    mo_ta: Đối chứng – xoay vòng tay SAI (vòng nhỏ dang ngang) – không được đếm đủ
+    url: http://localhost:8790/vui/index.html?tro=ht095-vai-lung-tren&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 540, sai: { xoayTay: vong_nho } }
+      - ghi_nhan: { chu: "XOAY VÒNG TAY", toi_da: 1 }
+        nhin_lai: 540
+        ten: co-luot-xoay-tay
+  - case: ht095-dung-yen-h7
+    mo_ta: Đối chứng – tới lượt xoay vòng tay thì ĐỨNG YÊN (biên độ 0) – phải 0 lần
+    url: http://localhost:8790/vui/index.html?tro=ht095-vai-lung-tren&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 540, bien_do: { xoayTay: 0 } }
+      - ghi_nhan: { chu: "XOAY VÒNG TAY", toi_da: 1 }
+        nhin_lai: 540
+        ten: co-luot-xoay-tay
