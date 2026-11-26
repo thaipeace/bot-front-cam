@@ -6,7 +6,7 @@ const GOC_DU_AN = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..
 import { moPhien, docChu, moTrinhDuyet, moSanKhau } from './trinh-duyet/mo-chrome.js';
 import { docKichBan, LoiKichBan } from './chay/doc-kich-ban.js';
 import { chayCase, type KetQuaCase } from './chay/thuc-thi.js';
-import { docMau, docChuaHoTro, banDoTen } from './dong-tac/doc-mau.js';
+import { docMau, docChuaHoTro, banDoTen, troCuaUrl } from './dong-tac/doc-mau.js';
 
 const URL_MAC_DINH = 'http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop';
 
@@ -58,7 +58,7 @@ async function khaThi(o: Record<string, string>){
   let truoc = new Set<string>();
   let dung = false;
   const tuDong = o['tu-dong'] === 'true';
-  const TEN_DT = banDoTen(docMau());
+  const TEN_DT = banDoTen(docMau(), troCuaUrl(o.url ?? URL_MAC_DINH));
   let dtHien = '';
   // ép kiểu sai / biên độ cho động tác trong chế độ tự động: --sai xoayTay=vong_nho,xoayCo=nghieng_ca_vai · --bien-do nhonGot=0.5
   const capGT = (v?: string) => new Map((v ?? '').split(',').filter(Boolean).map(x => x.split('=') as [string, string]));

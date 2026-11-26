@@ -33,10 +33,22 @@ export function docMau(thuMuc = THU_MUC_MAU): BoMau {
   return bo;
 }
 
-/** tên app hiện → id (tu_dong). Hai id cùng tên: lấy id đầu (lay-mau3d.ts in cảnh báo TÊN TRÙNG) */
-export function banDoTen(bo: BoMau): Map<string, string> {
-  const m = new Map<string, string>();
-  for (const [id, d] of Object.entries<any>(bo.dongTac)) if (!m.has(d.ten)) m.set(d.ten, id);
+export const TEP_TRO = path.join(GOC, 'src/dong-tac/tro.json');
+export type TheTro = { ma: string; cam?: string; nghi?: string; hoc?: string[]; dongTac: string[] };
+/** thẻ bài từng trò (lay-mau3d.ts đọc từ bản dựng): id trò → { ma, cam, nghi, dongTac } */
+export function docTro(): Record<string, TheTro> {
+  try { return JSON.parse(fs.readFileSync(TEP_TRO, 'utf8')).tro; } catch { return {}; }
+}
+/** id trò trong URL app (?tro=…) */
+export const troCuaUrl = (url: string) => { try { return new URL(url).searchParams.get('tro'); } catch { return null; } };
+
+/** tên app hiện → id (tu_dong). Hai id cùng tên (vd. "NGHIÊNG CỔ CHÂN TRONG – NGOÀI": nghiengCoChan đứng / nghiengCoChanNgoi ngồi):
+ *  chọn id có trong thẻ bài của trò đang chơi; trò không rõ / không có id nào trong thẻ thì lấy id đầu */
+export function banDoTen(bo: BoMau, tro?: string | null): Map<string, string> {
+  const theo = new Map<string, string[]>();
+  for (const [id, d] of Object.entries<any>(bo.dongTac)) theo.set(d.ten, [...(theo.get(d.ten) ?? []), id]);
+  const the = tro ? docTro()[tro] : undefined, m = new Map<string, string>();
+  for (const [ten, ds] of theo) m.set(ten, (the && ds.find(id => the.dongTac.includes(id))) ?? ds[0]);
   return m;
 }
 

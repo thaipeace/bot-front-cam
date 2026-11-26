@@ -1,0 +1,2061 @@
+{
+ "nguon": "siroby-app 2.51.2",
+ "trich": "2026-11-26",
+ "tro": {
+  "ht001-khoi-dong-nhe": {
+   "ma": "HT001",
+   "hoc": [
+    "diBo",
+    "xoayVai"
+   ],
+   "dongTac": [
+    "diBo",
+    "xoayVai",
+    "buocDeu",
+    "xoayTay",
+    "xoayThan",
+    "xoayHong",
+    "buocGoiCao",
+    "jackNua",
+    "duoiHong",
+    "gianDui"
+   ]
+  },
+  "ht002-khoi-dong-chay": {
+   "ma": "HT002",
+   "hoc": [
+    "chayTaiCho",
+    "chayGotMong"
+   ],
+   "dongTac": [
+    "chayTaiCho",
+    "chayGotMong",
+    "chayNangGoi",
+    "jumpingJack",
+    "truotNgang",
+    "truotBang",
+    "gianBapChan"
+   ]
+  },
+  "ht003-khoi-dong-khop": {
+   "ma": "HT003",
+   "hoc": [
+    "xoayVai",
+    "nhonGot"
+   ],
+   "dongTac": [
+    "xoayVai",
+    "nhonGot",
+    "xoayCo",
+    "xoayLung",
+    "nghiengLuon",
+    "xoayHong",
+    "xoayTay",
+    "ngoiXomSau"
+   ]
+  },
+  "ht004-truoc-bat-nhay": {
+   "ma": "HT004",
+   "hoc": [
+    "nhonGot",
+    "jackNua"
+   ],
+   "dongTac": [
+    "nhonGot",
+    "jackNua",
+    "batLoXo",
+    "jumpingJack",
+    "squat",
+    "batDungVung",
+    "gianDui"
+   ]
+  },
+  "ht005-truoc-suc-manh": {
+   "ma": "HT005",
+   "hoc": [
+    "squatVuon",
+    "xoayTay"
+   ],
+   "dongTac": [
+    "squatVuon",
+    "xoayTay",
+    "lungeNgang",
+    "xoayThan",
+    "squatNhon",
+    "epBaVai",
+    "ngoiXomSau"
+   ]
+  },
+  "ht006-khoi-dong-phan-xa": {
+   "ma": "HT006",
+   "hoc": [
+    "jab",
+    "neTrai"
+   ],
+   "dongTac": [
+    "jab",
+    "neTrai",
+    "theThu",
+    "chanNhanh",
+    "cross",
+    "nePhai",
+    "cuiNe",
+    "motHai",
+    "thoBung"
+   ]
+  },
+  "ht007-di-chay-dung-nhip": {
+   "ma": "HT007",
+   "hoc": [
+    "diBo",
+    "buocDeu"
+   ],
+   "dongTac": [
+    "diBo",
+    "buocDeu",
+    "buocGoiCao",
+    "chayTaiCho",
+    "chayNangGoi",
+    "chayGotMong",
+    "diChamTho"
+   ]
+  },
+  "ht008-buoc-ngang-cheo": {
+   "ma": "HT008",
+   "hoc": [
+    "truotNgang",
+    "diLui"
+   ],
+   "dongTac": [
+    "truotNgang",
+    "diLui",
+    "carioca",
+    "chayLui",
+    "truotHaiBuoc",
+    "diChamTho"
+   ]
+  },
+  "ht009-bo-gau-bo-cua": {
+   "ma": "HT009",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "gauGiu",
+    "boGau"
+   ],
+   "dongTac": [
+    "gauGiu",
+    "boGau",
+    "boCua",
+    "boGauNgang",
+    "theEmBe"
+   ]
+  },
+  "ht010-con-vat-ngoi-thap": {
+   "ma": "HT010",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "ngoiXomGiu",
+    "diVit"
+   ],
+   "dongTac": [
+    "ngoiXomGiu",
+    "diVit",
+    "diEch",
+    "diKhiDot",
+    "theEmBe"
+   ]
+  },
+  "ht011-sau-do-truon": {
+   "ma": "HT011",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "sauDo",
+    "truon"
+   ],
+   "dongTac": [
+    "sauDo",
+    "truon",
+    "plankThang",
+    "choUpMat",
+    "theEmBe"
+   ]
+  },
+  "ht012-nhay-tho-doi-huong": {
+   "ma": "HT012",
+   "hoc": [
+    "nhayTho",
+    "batToiLui"
+   ],
+   "dongTac": [
+    "nhayTho",
+    "batToiLui",
+    "batHaiChan",
+    "truotNgang",
+    "diLui",
+    "diChamTho"
+   ]
+  },
+  "ht013-jack-cac-kieu": {
+   "ma": "HT013",
+   "hoc": [
+    "jackNua",
+    "jumpingJack"
+   ],
+   "dongTac": [
+    "jackNua",
+    "jumpingJack",
+    "jackVoTay",
+    "jackCheo",
+    "thoBung"
+   ]
+  },
+  "ht014-chan-nhanh": {
+   "ma": "HT014",
+   "hoc": [
+    "chanNhanh",
+    "raVao"
+   ],
+   "dongTac": [
+    "chanNhanh",
+    "raVao",
+    "chanNhanhNgang",
+    "chanNhanhDung",
+    "chayDungHinh",
+    "chayNuocRut",
+    "thoBung"
+   ]
+  },
+  "ht015-buoc-theo-huong": {
+   "ma": "HT015",
+   "hoc": [
+    "buocNgang",
+    "buocToiLui"
+   ],
+   "dongTac": [
+    "buocNgang",
+    "buocToiLui",
+    "truotHaiBuoc",
+    "buocCheo",
+    "theoMuiTen",
+    "thoBung"
+   ]
+  },
+  "ht016-truot-bang-cham-san": {
+   "ma": "HT016",
+   "hoc": [
+    "truotBang",
+    "truotCham"
+   ],
+   "dongTac": [
+    "truotBang",
+    "truotCham",
+    "batTruotTuyet",
+    "batTruotBang",
+    "gianBapChan"
+   ]
+  },
+  "ht017-o-lo-co": {
+   "ma": "HT017",
+   "hoc": [
+    "oLoCo",
+    "loCo"
+   ],
+   "dongTac": [
+    "oLoCo",
+    "loCo",
+    "raVao",
+    "loCoNgang",
+    "thoBung"
+   ]
+  },
+  "ht018-cheo-tay-chan": {
+   "ma": "HT018",
+   "hoc": [
+    "cheoTayChan",
+    "chamChanCheo"
+   ],
+   "dongTac": [
+    "cheoTayChan",
+    "chamChanCheo",
+    "khuyuGoi",
+    "jackCheo",
+    "thoBung"
+   ]
+  },
+  "ht019-squat-ngoi-dung-cach": {
+   "ma": "HT019",
+   "hoc": [
+    "squatVin",
+    "squat"
+   ],
+   "dongTac": [
+    "squatVin",
+    "squat",
+    "squatGhe",
+    "squatHop",
+    "squatCham",
+    "ngoiXomSau"
+   ]
+  },
+  "ht020-squat-tay-thang-bang": {
+   "ma": "HT020",
+   "hoc": [
+    "squat",
+    "squatVuon"
+   ],
+   "dongTac": [
+    "squat",
+    "squatVuon",
+    "squatDung",
+    "squatNhon",
+    "squatGoiMui",
+    "squatHong",
+    "gianDui"
+   ]
+  },
+  "ht021-squat-doi-the-chan": {
+   "ma": "HT021",
+   "hoc": [
+    "squatSumo",
+    "squatHep"
+   ],
+   "dongTac": [
+    "squatSumo",
+    "squatHep",
+    "squatOm",
+    "squatKeGot",
+    "squatGoiMui",
+    "ngoiXomSau"
+   ]
+  },
+  "ht022-squat-sang-ngang": {
+   "ma": "HT022",
+   "hoc": [
+    "squatNgang",
+    "lungeNgang"
+   ],
+   "dongTac": [
+    "squatNgang",
+    "lungeNgang",
+    "cossack",
+    "squatGoiNang",
+    "squatHong",
+    "ngoiXomSau"
+   ]
+  },
+  "ht023-squat-chan-truoc-sau": {
+   "ma": "HT023",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "squatSole",
+    "squatSoleGiu"
+   ],
+   "dongTac": [
+    "squatSole",
+    "squatSoleGiu",
+    "lungeTaiCho",
+    "gapHongSole",
+    "squatBulgaria",
+    "gianGapHong"
+   ]
+  },
+  "ht024-squat-suc-manh-bat": {
+   "ma": "HT024",
+   "hoc": [
+    "squatHong",
+    "squatDung"
+   ],
+   "dongTac": [
+    "squatHong",
+    "squatDung",
+    "squatCham",
+    "squatBat",
+    "squatMotChan",
+    "squatGoiMui",
+    "gianDui"
+   ]
+  },
+  "ht025-gap-hong-nen-tang": {
+   "ma": "HT025",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "gapHongTuong",
+    "gapHong"
+   ],
+   "dongTac": [
+    "gapHongTuong",
+    "gapHong",
+    "gapHongGay",
+    "goodMorning",
+    "gapHongVuon",
+    "gianDuiSau"
+   ]
+  },
+  "ht026-nhat-do-dung-cach": {
+   "ma": "HT026",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "rdl",
+    "gapHong"
+   ],
+   "dongTac": [
+    "rdl",
+    "gapHong",
+    "gapHongKeo",
+    "gapHongSole",
+    "gapHongVuon",
+    "gianDuiSau"
+   ]
+  },
+  "ht027-gap-hong-mot-chan": {
+   "ma": "HT027",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "gapHongMotVin",
+    "gapHongMot"
+   ],
+   "dongTac": [
+    "gapHongMotVin",
+    "gapHongMot",
+    "rdlMot",
+    "giuGapHongMot",
+    "gapHongNangGoi",
+    "gianDuiSau"
+   ]
+  },
+  "ht028-hong-khoe-lung-thang": {
+   "ma": "HT028",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "gapHong",
+    "dungDuoiHong"
+   ],
+   "dongTac": [
+    "gapHong",
+    "dungDuoiHong",
+    "rdl",
+    "goodMorning",
+    "gapHongNangGoi",
+    "gapHongVuon",
+    "gianGapHong"
+   ]
+  },
+  "ht029-gap-hong-hay-ngoi": {
+   "ma": "HT029",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "gapHong",
+    "squatKhoanh"
+   ],
+   "dongTac": [
+    "gapHong",
+    "squatKhoanh",
+    "rdl",
+    "squatGheNg",
+    "squatTayTruoc",
+    "gapHongVuon",
+    "theEmBe"
+   ]
+  },
+  "ht030-cau-mong-nen-tang": {
+   "ma": "HT030",
+   "cam": "nghieng",
+   "nghi": "namNgua",
+   "hoc": [
+    "nghiengChau",
+    "cauMong"
+   ],
+   "dongTac": [
+    "nghiengChau",
+    "cauMong",
+    "giuCauMong",
+    "cauMongBuoc"
+   ]
+  },
+  "ht031-cau-mong-nang-cao": {
+   "ma": "HT031",
+   "cam": "nghieng",
+   "nghi": "namNgua",
+   "hoc": [
+    "cauMongEch",
+    "cauMong"
+   ],
+   "dongTac": [
+    "cauMongEch",
+    "cauMong",
+    "cauMongMot",
+    "giuCauMong",
+    "cauMongRa",
+    "cauMongBuoc",
+    "gianGapHong"
+   ]
+  },
+  "ht032-day-hong-tua-ghe": {
+   "ma": "HT032",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "dayHong",
+    "giuDayHong"
+   ],
+   "dongTac": [
+    "dayHong",
+    "giuDayHong",
+    "dayHongMot",
+    "cauMong",
+    "gianGapHong"
+   ]
+  },
+  "ht033-mong-bon-diem": {
+   "ma": "HT033",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "bonDuoiChan",
+    "daChanSau"
+   ],
+   "dongTac": [
+    "bonDuoiChan",
+    "daChanSau",
+    "moHongBon",
+    "birdDog",
+    "theEmBe"
+   ]
+  },
+  "ht034-mong-khoe-khi-dung": {
+   "ma": "HT034",
+   "hoc": [
+    "duoiHong",
+    "squatSumo"
+   ],
+   "dongTac": [
+    "duoiHong",
+    "squatSumo",
+    "lungeCheoSau",
+    "lungeNgang",
+    "squatGoiNang",
+    "gianDui"
+   ]
+  },
+  "ht035-lunge-lui": {
+   "ma": "HT035",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "lungeLuiNg",
+    "lungeTaiCho"
+   ],
+   "dongTac": [
+    "lungeLuiNg",
+    "lungeTaiCho",
+    "lungeDoiChan",
+    "lungeLuiNangGoi",
+    "squatSoleGiu",
+    "gianGapHong"
+   ]
+  },
+  "ht036-lunge-toi": {
+   "ma": "HT036",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "lungeToi",
+    "lungeTaiCho"
+   ],
+   "dongTac": [
+    "lungeToi",
+    "lungeTaiCho",
+    "lungeNangGoi",
+    "lungeVuonNg",
+    "lungeLuiNg",
+    "gianGapHong"
+   ]
+  },
+  "ht037-lunge-ngang-cheo": {
+   "ma": "HT037",
+   "hoc": [
+    "lungeNgang",
+    "lungeCheoTruoc"
+   ],
+   "dongTac": [
+    "lungeNgang",
+    "lungeCheoTruoc",
+    "lungeCheoSau",
+    "lungeVuon",
+    "ngoiXomSau"
+   ]
+  },
+  "ht038-lunge-xoay-nguoi": {
+   "ma": "HT038",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "lungeLuiNg",
+    "lungeXoay"
+   ],
+   "dongTac": [
+    "lungeLuiNg",
+    "lungeXoay",
+    "lungeLuiNangGoi",
+    "gianTuyetNhat",
+    "gianGapHong"
+   ]
+  },
+  "ht039-lunge-di-bo": {
+   "ma": "HT039",
+   "hoc": [
+    "lungeTruoc",
+    "diLui"
+   ],
+   "dongTac": [
+    "lungeTruoc",
+    "diLui",
+    "lungeDiBo",
+    "chayLui",
+    "gianDui"
+   ]
+  },
+  "ht040-lunge-bat": {
+   "ma": "HT040",
+   "hoc": [
+    "lungeTruoc",
+    "lungeLui"
+   ],
+   "dongTac": [
+    "lungeTruoc",
+    "lungeLui",
+    "lungeBat",
+    "batTruotBang",
+    "gianDui"
+   ]
+  },
+  "ht041-plank-nen-tang": {
+   "ma": "HT041",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "plankGoi",
+    "plankCangTay"
+   ],
+   "dongTac": [
+    "plankGoi",
+    "plankCangTay",
+    "plankThang",
+    "chongDayBaVai",
+    "theEmBe"
+   ]
+  },
+  "ht042-plank-cham-voi-nhac": {
+   "ma": "HT042",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "plankThang",
+    "plankChamVai"
+   ],
+   "dongTac": [
+    "plankThang",
+    "plankChamVai",
+    "plankVuonTay",
+    "plankNhacChan",
+    "theEmBe"
+   ]
+  },
+  "ht043-plank-nghieng": {
+   "ma": "HT043",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "plankNghiengGoi",
+    "plankNghieng"
+   ],
+   "dongTac": [
+    "plankNghiengGoi",
+    "plankNghieng",
+    "plankNghiengSao",
+    "nangHongNghieng",
+    "plankThang",
+    "theEmBe"
+   ]
+  },
+  "ht044-leo-nui": {
+   "ma": "HT044",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "plankThang",
+    "plankKeoGoi"
+   ],
+   "dongTac": [
+    "plankThang",
+    "plankKeoGoi",
+    "leoNuiCham",
+    "leoNui",
+    "theEmBe"
+   ]
+  },
+  "ht045-bo-ngua-bird-dog": {
+   "ma": "HT045",
+   "cam": "nghieng",
+   "nghi": "namNgua",
+   "hoc": [
+    "boNgua",
+    "birdDog"
+   ],
+   "dongTac": [
+    "boNgua",
+    "birdDog",
+    "nghiengChau",
+    "giuBirdDog",
+    "theEmBe"
+   ]
+  },
+  "ht046-thuyen-lom": {
+   "ma": "HT046",
+   "cam": "nghieng",
+   "nghi": "namNgua",
+   "hoc": [
+    "nghiengChau",
+    "boNgua"
+   ],
+   "dongTac": [
+    "nghiengChau",
+    "boNgua",
+    "thuyenLom",
+    "thuyenLomDua",
+    "theEmBe"
+   ]
+  },
+  "ht047-gau-khoe": {
+   "ma": "HT047",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "gauGiu",
+    "gauChamVai"
+   ],
+   "dongTac": [
+    "gauGiu",
+    "gauChamVai",
+    "boGau",
+    "boGauNgang",
+    "theEmBe"
+   ]
+  },
+  "ht048-lung-khoe-sieu-nhan": {
+   "ma": "HT048",
+   "cam": "nghieng",
+   "nghi": "sap",
+   "hoc": [
+    "epBaVaiSap",
+    "sieuNhan"
+   ],
+   "dongTac": [
+    "epBaVaiSap",
+    "sieuNhan",
+    "giuSieuNhan",
+    "giuRaHoMang",
+    "thienThanSap",
+    "theEmBe"
+   ]
+  },
+  "ht049-chong-day-tuong": {
+   "ma": "HT049",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "chongDayTuong",
+    "chongDayBaVaiTuong"
+   ],
+   "dongTac": [
+    "chongDayTuong",
+    "chongDayBaVaiTuong",
+    "chongDayTuongCham",
+    "chongDayTuongDung",
+    "truotTuongNg",
+    "gianNgucNg"
+   ]
+  },
+  "ht050-chong-day-nghieng": {
+   "ma": "HT050",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "chongDayGhe",
+    "chongDayGheCham"
+   ],
+   "dongTac": [
+    "chongDayGhe",
+    "chongDayGheCham",
+    "chongDayGheDung",
+    "plankGhe",
+    "gianNgucNg"
+   ]
+  },
+  "ht051-chong-day-goi": {
+   "ma": "HT051",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "chongDayBaVai",
+    "chongDayGoi"
+   ],
+   "dongTac": [
+    "chongDayBaVai",
+    "chongDayGoi",
+    "chongDayCham",
+    "plankGoi",
+    "theEmBe"
+   ]
+  },
+  "ht052-chong-day-chuan": {
+   "ma": "HT052",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "plankThang",
+    "chongDay"
+   ],
+   "dongTac": [
+    "plankThang",
+    "chongDay",
+    "chongDayCham",
+    "chongDayDung",
+    "chongDayGoi",
+    "theEmBe"
+   ]
+  },
+  "ht053-doi-the-tay": {
+   "ma": "HT053",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "chongDayRong",
+    "chongDayHep"
+   ],
+   "dongTac": [
+    "chongDayRong",
+    "chongDayHep",
+    "chongDayChamVai",
+    "plankChamVai",
+    "chongDay",
+    "theEmBe"
+   ]
+  },
+  "ht054-day-nang-cao": {
+   "ma": "HT054",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "plankLenXuong",
+    "plankThang"
+   ],
+   "dongTac": [
+    "plankLenXuong",
+    "plankThang",
+    "choUpMat",
+    "chongDayPike",
+    "chongDay",
+    "theEmBe"
+   ]
+  },
+  "ht055-vai-dung-thang": {
+   "ma": "HT055",
+   "hoc": [
+    "epBaVai",
+    "xoayVaiNgoai"
+   ],
+   "dongTac": [
+    "epBaVai",
+    "xoayVaiNgoai",
+    "datBaVai",
+    "xoayVai",
+    "giuChuT",
+    "giuChuY",
+    "gianTayNguc"
+   ]
+  },
+  "ht056-y-t-w-nam-sap": {
+   "ma": "HT056",
+   "cam": "nghieng",
+   "nghi": "sap",
+   "hoc": [
+    "epBaVaiSap",
+    "chuYSap"
+   ],
+   "dongTac": [
+    "epBaVaiSap",
+    "chuYSap",
+    "chuTSap",
+    "chuWSap",
+    "chuoiYTW",
+    "keoTayW",
+    "theEmBe"
+   ]
+  },
+  "ht057-chu-i-thien-than": {
+   "ma": "HT057",
+   "cam": "nghieng",
+   "nghi": "sap",
+   "hoc": [
+    "chuISap",
+    "chuYSap"
+   ],
+   "dongTac": [
+    "chuISap",
+    "chuYSap",
+    "thienThanSap",
+    "giuRaHoMang",
+    "chuoiYTW",
+    "giuSieuNhan",
+    "theEmBe"
+   ]
+  },
+  "ht058-truot-tuong": {
+   "ma": "HT058",
+   "hoc": [
+    "truotTuong",
+    "thienThan"
+   ],
+   "dongTac": [
+    "truotTuong",
+    "thienThan",
+    "epBaVai",
+    "duaTayDoc",
+    "gianNguc"
+   ]
+  },
+  "ht059-keo-day-thun": {
+   "ma": "HT059",
+   "hoc": [
+    "keoDayVe",
+    "gianDay"
+   ],
+   "dongTac": [
+    "keoDayVe",
+    "gianDay",
+    "keoDayMot",
+    "keoDayMat",
+    "epBaVai",
+    "keoXa",
+    "gianTayNguc"
+   ]
+  },
+  "ht060-keo-khi-ngoi": {
+   "ma": "HT060",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "keoDayNgoi",
+    "epBaVaiSap"
+   ],
+   "dongTac": [
+    "keoDayNgoi",
+    "epBaVaiSap",
+    "gapHongKeo",
+    "keoTayW",
+    "theEmBe"
+   ]
+  },
+  "ht061-bat-lo-xo": {
+   "ma": "HT061",
+   "hoc": [
+    "batLoXo",
+    "batDungVung"
+   ],
+   "dongTac": [
+    "batLoXo",
+    "batDungVung",
+    "nhonGot",
+    "batMuiChan",
+    "batHaiChan",
+    "gianBapChan"
+   ]
+  },
+  "ht062-bat-cao-xa": {
+   "ma": "HT062",
+   "hoc": [
+    "batCao",
+    "batDungVung"
+   ],
+   "dongTac": [
+    "batCao",
+    "batDungVung",
+    "batXa",
+    "squatBat",
+    "gianBapChan"
+   ]
+  },
+  "ht063-bat-hinh": {
+   "ma": "HT063",
+   "hoc": [
+    "jumpingJack",
+    "batSao"
+   ],
+   "dongTac": [
+    "jumpingJack",
+    "batSao",
+    "batCo",
+    "batDungVung",
+    "gianDui"
+   ]
+  },
+  "ht064-bat-qua-vach": {
+   "ma": "HT064",
+   "hoc": [
+    "batQuaVach",
+    "batToiLui"
+   ],
+   "dongTac": [
+    "batQuaVach",
+    "batToiLui",
+    "batNgangDung",
+    "gianBapChan"
+   ]
+  },
+  "ht065-bat-mot-chan": {
+   "ma": "HT065",
+   "hoc": [
+    "loCo",
+    "loCoDung"
+   ],
+   "dongTac": [
+    "loCo",
+    "loCoDung",
+    "tiepMotChan",
+    "loCoNgang",
+    "batTruotBang",
+    "gianBapChan"
+   ]
+  },
+  "ht066-bat-xoay": {
+   "ma": "HT066",
+   "hoc": [
+    "batDungVung",
+    "batXoay"
+   ],
+   "dongTac": [
+    "batDungVung",
+    "batXoay",
+    "batXoayNua",
+    "tiepDatCao",
+    "gianBapChan"
+   ]
+  },
+  "ht067-dung-mot-chan": {
+   "ma": "HT067",
+   "hoc": [
+    "motChanDang",
+    "dungHac"
+   ],
+   "dongTac": [
+    "motChanDang",
+    "dungHac",
+    "motChanHong",
+    "dangCay",
+    "motChanTayLen",
+    "goiGiu",
+    "thoBung"
+   ]
+  },
+  "ht068-di-day": {
+   "ma": "HT068",
+   "hoc": [
+    "noiGot",
+    "diNoiGot"
+   ],
+   "dongTac": [
+    "noiGot",
+    "diNoiGot",
+    "luiNoiGot",
+    "nhonGiu",
+    "thoBung"
+   ]
+  },
+  "ht069-voi-mot-chan": {
+   "ma": "HT069",
+   "hoc": [
+    "motChanVuon",
+    "dongHo"
+   ],
+   "dongTac": [
+    "motChanVuon",
+    "dongHo",
+    "motChanVoi",
+    "motChanDang",
+    "thoBung"
+   ]
+  },
+  "ht070-may-bay": {
+   "ma": "HT070",
+   "hoc": [
+    "mayBay",
+    "gapHongMotChan"
+   ],
+   "dongTac": [
+    "mayBay",
+    "gapHongMotChan",
+    "xoayMotChan",
+    "thoBung"
+   ]
+  },
+  "ht071-nhon-got-dung-got": {
+   "ma": "HT071",
+   "hoc": [
+    "nhonGot",
+    "nhonGiu"
+   ],
+   "dongTac": [
+    "nhonGot",
+    "nhonGiu",
+    "dungGot",
+    "nhacMui",
+    "nhonMotChan",
+    "gianBapChan"
+   ]
+  },
+  "ht072-thang-bang-bat-bong": {
+   "ma": "HT072",
+   "hoc": [
+    "motChanDang",
+    "batBongMotChan"
+   ],
+   "dongTac": [
+    "motChanDang",
+    "batBongMotChan",
+    "batBong",
+    "xoayMotChan",
+    "thoBung"
+   ]
+  },
+  "ht073-dang-thang-tua-tuong": {
+   "ma": "HT073",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "dungTuaTuong",
+    "kiemTraTuong"
+   ],
+   "dongTac": [
+    "dungTuaTuong",
+    "kiemTraTuong",
+    "thuCam",
+    "giuThuCam",
+    "nghiengChauDung",
+    "thoBung"
+   ]
+  },
+  "ht074-co-vai-dung": {
+   "ma": "HT074",
+   "hoc": [
+    "xoayCo",
+    "xoayVaiNgoai"
+   ],
+   "dongTac": [
+    "xoayCo",
+    "xoayVaiNgoai",
+    "datBaVai",
+    "thienThan",
+    "truotTuong",
+    "epBaVai",
+    "thoBung"
+   ]
+  },
+  "ht075-goi-dung-huong": {
+   "ma": "HT075",
+   "hoc": [
+    "squatGoiMui",
+    "motChanTayLen"
+   ],
+   "dongTac": [
+    "squatGoiMui",
+    "motChanTayLen",
+    "goiGiu",
+    "squatMotChan",
+    "batDungVung",
+    "gianDui"
+   ]
+  },
+  "ht076-buoc-xuong-kiem-soat": {
+   "ma": "HT076",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "buocXuongBac",
+    "gapHongMotVin"
+   ],
+   "dongTac": [
+    "buocXuongBac",
+    "gapHongMotVin",
+    "giuGapHongMot",
+    "squatSole",
+    "gianGapHong"
+   ]
+  },
+  "ht077-ban-chan-nhon-got": {
+   "ma": "HT077",
+   "hoc": [
+    "nhonGot",
+    "diNhon"
+   ],
+   "dongTac": [
+    "nhonGot",
+    "diNhon",
+    "nhonMotChan",
+    "nhonGiu",
+    "squatNhon",
+    "gianBapChan"
+   ]
+  },
+  "ht078-got-mui-chan": {
+   "ma": "HT078",
+   "hoc": [
+    "nhacMui",
+    "diGot"
+   ],
+   "dongTac": [
+    "nhacMui",
+    "diGot",
+    "dungGot",
+    "nghiengCoChan",
+    "nhonGot",
+    "gianBapChan"
+   ]
+  },
+  "ht079-ban-chan-kheo": {
+   "ma": "HT079",
+   "hoc": [
+    "coVom",
+    "xoeNgon"
+   ],
+   "dongTac": [
+    "coVom",
+    "xoeNgon",
+    "anNgonCai",
+    "nghiengCoChanNgoi",
+    "thoBung"
+   ]
+  },
+  "ht080-nem-hai-tay": {
+   "ma": "HT080",
+   "hoc": [
+    "nemNguc",
+    "nemQuaDau"
+   ],
+   "dongTac": [
+    "nemNguc",
+    "nemQuaDau",
+    "nemDuoi",
+    "nemDich",
+    "thoBung"
+   ]
+  },
+  "ht081-nem-mot-tay-xoay": {
+   "ma": "HT081",
+   "hoc": [
+    "nemMotTay",
+    "nemNgangHong"
+   ],
+   "dongTac": [
+    "nemMotTay",
+    "nemNgangHong",
+    "nemXoay",
+    "nemDich",
+    "thoBung"
+   ]
+  },
+  "ht082-bat-bong": {
+   "ma": "HT082",
+   "hoc": [
+    "batBong",
+    "batBongThap"
+   ],
+   "dongTac": [
+    "batBong",
+    "batBongThap",
+    "batBongCao",
+    "batMotTay",
+    "thoBung"
+   ]
+  },
+  "ht083-tung-nay-vo-tay": {
+   "ma": "HT083",
+   "hoc": [
+    "tungBat",
+    "nayBat"
+   ],
+   "dongTac": [
+    "tungBat",
+    "nayBat",
+    "tungVoBat",
+    "thoBung"
+   ]
+  },
+  "ht084-cham-bong": {
+   "ma": "HT084",
+   "hoc": [
+    "chamBong",
+    "chanBong"
+   ],
+   "dongTac": [
+    "chamBong",
+    "chanBong",
+    "chamNgang",
+    "keoBongNgang",
+    "thoBung"
+   ]
+  },
+  "ht085-chuyen-sut": {
+   "ma": "HT085",
+   "hoc": [
+    "chuyenBong",
+    "daMaTrong"
+   ],
+   "dongTac": [
+    "chuyenBong",
+    "daMaTrong",
+    "daMu",
+    "chanBong",
+    "daGiu",
+    "thoBung"
+   ]
+  },
+  "ht086-dan-bong": {
+   "ma": "HT086",
+   "hoc": [
+    "danBong",
+    "chamBong"
+   ],
+   "dongTac": [
+    "danBong",
+    "chamBong",
+    "keoBongNgang",
+    "chanBong",
+    "daGiu",
+    "thoBung"
+   ]
+  },
+  "ht087-the-dung-dam-thang": {
+   "ma": "HT087",
+   "hoc": [
+    "theThu",
+    "jab"
+   ],
+   "dongTac": [
+    "theThu",
+    "jab",
+    "cross",
+    "motHai",
+    "thoBung"
+   ]
+  },
+  "ht088-don-moc": {
+   "ma": "HT088",
+   "hoc": [
+    "mocTruoc",
+    "mocLen"
+   ],
+   "dongTac": [
+    "mocTruoc",
+    "mocLen",
+    "mocSau",
+    "motHai",
+    "motHaiBa",
+    "thoBung"
+   ]
+  },
+  "ht089-ne-lac-cui": {
+   "ma": "HT089",
+   "hoc": [
+    "neTrai",
+    "cuiNe"
+   ],
+   "dongTac": [
+    "neTrai",
+    "cuiNe",
+    "nePhai",
+    "lacU",
+    "damNe",
+    "damCui",
+    "chuoiPhongThu",
+    "thoBung"
+   ]
+  },
+  "ht090-bo-phap": {
+   "ma": "HT090",
+   "hoc": [
+    "buocToiBP",
+    "buocNgangBP"
+   ],
+   "dongTac": [
+    "buocToiBP",
+    "buocNgangBP",
+    "buocLuiBP",
+    "xoayTru",
+    "buocToiDam",
+    "buocLuiCui",
+    "thoBung"
+   ]
+  },
+  "ht091-lung-mem": {
+   "ma": "HT091",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "meoBo",
+    "theEmBe"
+   ],
+   "dongTac": [
+    "meoBo",
+    "theEmBe",
+    "nhanSu",
+    "raHoMang",
+    "thoBungNam"
+   ]
+  },
+  "ht092-gian-toan-than": {
+   "ma": "HT092",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "choUpMat",
+    "sauDo"
+   ],
+   "dongTac": [
+    "choUpMat",
+    "sauDo",
+    "gianTuyetNhat",
+    "luonKim",
+    "moSach",
+    "theEmBe"
+   ]
+  },
+  "ht093-hong-mem": {
+   "ma": "HT093",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "gianGapHong",
+    "gianDuiSau"
+   ],
+   "dongTac": [
+    "gianGapHong",
+    "gianDuiSau",
+    "gianDuiTrong",
+    "xoayHong9090",
+    "theEmBe"
+   ]
+  },
+  "ht094-co-chan-bap-chan": {
+   "ma": "HT094",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "gianBapChanNg",
+    "dayGoiCoChan"
+   ],
+   "dongTac": [
+    "gianBapChanNg",
+    "dayGoiCoChan",
+    "dayGoiDung",
+    "ngoiXomGiu",
+    "gianDuiSau",
+    "thoBung"
+   ]
+  },
+  "ht095-vai-lung-tren": {
+   "ma": "HT095",
+   "hoc": [
+    "xoayVai",
+    "xoayLung"
+   ],
+   "dongTac": [
+    "xoayVai",
+    "xoayLung",
+    "xoayTay",
+    "xoayThan",
+    "xoayHong",
+    "duaTayDoc",
+    "thoBung"
+   ]
+  },
+  "ht096-tha-long-dung": {
+   "ma": "HT096",
+   "hoc": [
+    "thoBung",
+    "xoayVai"
+   ],
+   "dongTac": [
+    "thoBung",
+    "xoayVai",
+    "gongTha",
+    "xoayCo",
+    "xoayThan",
+    "gianTayNguc",
+    "nghiengLuon",
+    "diChamTho"
+   ]
+  },
+  "ht097-tha-long-tren-san": {
+   "ma": "HT097",
+   "cam": "nghieng",
+   "nghi": "quyNgoi",
+   "hoc": [
+    "theEmBe",
+    "meoBo"
+   ],
+   "dongTac": [
+    "theEmBe",
+    "meoBo",
+    "gianDuiSau",
+    "gianGapHong",
+    "nghiengChau",
+    "thoBungNam"
+   ]
+  },
+  "ht098-ngu-ngon": {
+   "ma": "HT098",
+   "cam": "nghieng",
+   "nghi": "namNgua",
+   "hoc": [
+    "thoBungNam",
+    "nghiengChau"
+   ],
+   "dongTac": [
+    "thoBungNam",
+    "nghiengChau",
+    "xoayHong9090",
+    "moSach",
+    "theEmBe",
+    "namThaLong"
+   ]
+  },
+  "ht099-thu-thach-toan-than": {
+   "ma": "HT099",
+   "hoc": [
+    "squat",
+    "jumpingJack"
+   ],
+   "dongTac": [
+    "squat",
+    "jumpingJack",
+    "lungeTruoc",
+    "chayNangGoi",
+    "squatBat",
+    "motHai",
+    "thoBung"
+   ]
+  },
+  "ht100-do-suc": {
+   "ma": "HT100",
+   "hoc": [
+    "squat",
+    "nhonGot"
+   ],
+   "dongTac": [
+    "squat",
+    "nhonGot",
+    "jumpingJack",
+    "motChanDang",
+    "batDungVung",
+    "squatGoiMui",
+    "thoBung"
+   ]
+  },
+  "ht101-bo-bon-diem": {
+   "ma": "HT101",
+   "cam": "nghieng",
+   "nghi": "bon",
+   "hoc": [
+    "boBon",
+    "bonChamDich"
+   ],
+   "dongTac": [
+    "boBon",
+    "bonChamDich",
+    "boBonNgang",
+    "gauGiu",
+    "truon",
+    "meoBo",
+    "theEmBe"
+   ]
+  },
+  "ht102-nhip-chan-vui": {
+   "ma": "HT102",
+   "hoc": [
+    "chamGotTruoc",
+    "chanSao"
+   ],
+   "dongTac": [
+    "chamGotTruoc",
+    "chanSao",
+    "chamMuiSau",
+    "truotNgang",
+    "nhayDay",
+    "batXoay",
+    "jackNua",
+    "thoBung"
+   ]
+  },
+  "ht103-bac-thang-vung-chan": {
+   "ma": "HT103",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "vungChanTS",
+    "buocLenBac"
+   ],
+   "dongTac": [
+    "vungChanTS",
+    "buocLenBac",
+    "leoBacMay",
+    "buocXuongBac",
+    "gianBapChanNg"
+   ]
+  },
+  "ht104-lung-bung-tren-san": {
+   "ma": "HT104",
+   "cam": "nghieng",
+   "nghi": "sap",
+   "hoc": [
+    "boiSap",
+    "truotGot"
+   ],
+   "dongTac": [
+    "boiSap",
+    "truotGot",
+    "sieuNhan",
+    "boNgua",
+    "namNghiengNang",
+    "moSach",
+    "ngoiSangBon",
+    "meoBo",
+    "daChanSau",
+    "theEmBe"
+   ]
+  },
+  "ht105-chong-xoay-day-tay": {
+   "ma": "HT105",
+   "hoc": [
+    "keoDayVe",
+    "chongXoay"
+   ],
+   "dongTac": [
+    "keoDayVe",
+    "chongXoay",
+    "epBaVai",
+    "treoTay",
+    "giuChuT",
+    "thoBung"
+   ]
+  },
+  "ht106-mang-vac-kheo-leo": {
+   "ma": "HT106",
+   "hoc": [
+    "xachTui",
+    "omQuaDung"
+   ],
+   "dongTac": [
+    "xachTui",
+    "omQuaDung",
+    "bungKhay",
+    "xoayOmGoi",
+    "thoBung"
+   ]
+  },
+  "ht107-burpee-ech": {
+   "ma": "HT107",
+   "cam": "nghieng",
+   "nghi": "dung",
+   "hoc": [
+    "burpeeBuoc",
+    "echBat"
+   ],
+   "dongTac": [
+    "burpeeBuoc",
+    "echBat",
+    "squatKhoanh",
+    "plankThang",
+    "burpeeBat",
+    "leoNui",
+    "theEmBe"
+   ]
+  },
+  "ht108-lan-bong-danh-vot": {
+   "ma": "HT108",
+   "hoc": [
+    "lanBong",
+    "vungVot"
+   ],
+   "dongTac": [
+    "lanBong",
+    "vungVot",
+    "batBongThap",
+    "chuyenNay",
+    "batBong",
+    "thoBung"
+   ]
+  },
+  "ht109-gian-chan-sau-van-dong": {
+   "ma": "HT109",
+   "hoc": [
+    "gianBapChan",
+    "gianDuiSauDung"
+   ],
+   "dongTac": [
+    "gianBapChan",
+    "gianDuiSauDung",
+    "diChamTho",
+    "gianDui",
+    "lungeNgang",
+    "ngoiXomSau",
+    "nghiengLuon",
+    "gongTha",
+    "thoBung"
+   ]
+  },
+  "ht110-tho-cung-siroby": {
+   "ma": "HT110",
+   "hoc": [
+    "thoBung",
+    "hoaNo"
+   ],
+   "dongTac": [
+    "thoBung",
+    "hoaNo",
+    "xoayVai",
+    "nghiengLuon",
+    "dangCay",
+    "nhonGiu",
+    "diChamTho",
+    "dungYen"
+   ]
+  },
+  "ht111-yoga-muong-thu": {
+   "ma": "HT111",
+   "hoc": [
+    "dangNui",
+    "chienBinh"
+   ],
+   "dongTac": [
+    "dangNui",
+    "chienBinh",
+    "dangCay",
+    "nghiengLuon",
+    "mayBay",
+    "gongTha",
+    "thoBung"
+   ]
+  },
+  "ht112-cau-chuyen-ru-ngu": {
+   "ma": "HT112",
+   "hoc": [
+    "bupBeVai",
+    "hoaNo"
+   ],
+   "dongTac": [
+    "bupBeVai",
+    "hoaNo",
+    "dangNui",
+    "nghiengLuon",
+    "gongTha",
+    "ngoiXomSau",
+    "diChamTho",
+    "xoayVai",
+    "dungYen"
+   ]
+  },
+  "ht113-hong-lung-vai": {
+   "ma": "HT113",
+   "hoc": [
+    "duoiHong",
+    "xoayVaiNgoai"
+   ],
+   "dongTac": [
+    "duoiHong",
+    "xoayVaiNgoai",
+    "xoayHong",
+    "xoayLung",
+    "squatGoiNang",
+    "giuChuT",
+    "gianDui"
+   ]
+  },
+  "ht114-thang-bang-tay-mat": {
+   "ma": "HT114",
+   "hoc": [
+    "motChanVoi",
+    "tungBat"
+   ],
+   "dongTac": [
+    "motChanVoi",
+    "tungBat",
+    "nhonGot",
+    "khuyuGoi",
+    "dongHo",
+    "chamChanCheo",
+    "thoBung"
+   ]
+  },
+  "ht115-vuon-thu-buoi-sang": {
+   "ma": "HT115",
+   "hoc": [
+    "buocGoiCao",
+    "nhayTho"
+   ],
+   "dongTac": [
+    "buocGoiCao",
+    "nhayTho",
+    "diNhon",
+    "truotNgang",
+    "chayTaiCho",
+    "motChanDang",
+    "xoayTay",
+    "thoBung"
+   ]
+  },
+  "ht116-chan-ngang-dui-trong": {
+   "ma": "HT116",
+   "hoc": [
+    "squatSumo",
+    "lungeNgang"
+   ],
+   "dongTac": [
+    "squatSumo",
+    "lungeNgang",
+    "squatDung",
+    "truotNgang",
+    "cossack",
+    "truotCham",
+    "ngoiXomSau"
+   ]
+  },
+  "ht117-dui-sau-khoe": {
+   "ma": "HT117",
+   "cam": "nghieng",
+   "nghi": "namNgua",
+   "hoc": [
+    "cauMongRa",
+    "bonDuoiChan"
+   ],
+   "dongTac": [
+    "cauMongRa",
+    "bonDuoiChan",
+    "giuCauMong",
+    "cauMongMot",
+    "cauMong",
+    "gianDuiSau"
+   ]
+  },
+  "ht118-phieu-luu-khong-nghi": {
+   "ma": "HT118",
+   "hoc": [
+    "buocGoiCao",
+    "chayGotMong"
+   ],
+   "dongTac": [
+    "buocGoiCao",
+    "chayGotMong",
+    "diBo",
+    "nhayTho",
+    "truotNgang",
+    "chayTaiCho",
+    "chamGotTruoc",
+    "jackNua",
+    "thoBung"
+   ]
+  },
+  "ht119-giu-nhip-xanh": {
+   "ma": "HT119",
+   "hoc": [
+    "jumpingJack",
+    "chanSao"
+   ],
+   "dongTac": [
+    "jumpingJack",
+    "chanSao",
+    "chayTaiCho",
+    "chayNangGoi",
+    "truotHaiBuoc",
+    "motHaiBa",
+    "thoBung"
+   ]
+  },
+  "ht120-nhay-theo-nhip": {
+   "ma": "HT120",
+   "hoc": [
+    "buocNgang",
+    "chanSao"
+   ],
+   "dongTac": [
+    "buocNgang",
+    "chanSao",
+    "jackVoTay",
+    "cheoTayChan",
+    "chamGotTruoc",
+    "xoayThan",
+    "chamMuiSau",
+    "jackNua",
+    "thoBung"
+   ]
+  },
+  "ht121-vu-dieu-8-nhip": {
+   "ma": "HT121",
+   "hoc": [
+    "carioca",
+    "motHai"
+   ],
+   "dongTac": [
+    "carioca",
+    "motHai",
+    "jackNua",
+    "chamMuiSau",
+    "xoayThan",
+    "jackCheo",
+    "thoBung"
+   ]
+  },
+  "ht122-tang-toc-doi-huong": {
+   "ma": "HT122",
+   "hoc": [
+    "catHuong",
+    "chayNuocRut"
+   ],
+   "dongTac": [
+    "catHuong",
+    "chayNuocRut",
+    "chayDungHinh",
+    "truotHaiBuoc",
+    "chayLui",
+    "theoMuiTen",
+    "gianBapChan"
+   ]
+  },
+  "ht123-mot-chan-tiep-dat": {
+   "ma": "HT123",
+   "hoc": [
+    "tiepMotChan",
+    "batXa"
+   ],
+   "dongTac": [
+    "tiepMotChan",
+    "batXa",
+    "loCoDung",
+    "loCoNgang",
+    "batTruotTuyet",
+    "batNgangDung",
+    "gianDui"
+   ]
+  },
+  "ht124-suc-manh-the-thao": {
+   "ma": "HT124",
+   "hoc": [
+    "squatMotChan",
+    "lungeBat"
+   ],
+   "dongTac": [
+    "squatMotChan",
+    "lungeBat",
+    "gapHongMotChan",
+    "squatBat",
+    "chongXoay",
+    "cossack",
+    "gianDui"
+   ]
+  },
+  "ht125-interval-40-20": {
+   "ma": "HT125",
+   "hoc": [
+    "squatBat",
+    "lungeBat"
+   ],
+   "dongTac": [
+    "squatBat",
+    "lungeBat",
+    "chayNangGoi",
+    "diChamTho",
+    "jackCheo",
+    "thoBung",
+    "truotCham",
+    "motHaiBa",
+    "gianBapChan",
+    "batTruotTuyet",
+    "chayTaiCho",
+    "nghiengLuon"
+   ]
+  },
+  "ht126-lung-van-phong": {
+   "ma": "HT126",
+   "hoc": [
+    "thuCamDung",
+    "xoayLung"
+   ],
+   "dongTac": [
+    "thuCamDung",
+    "xoayLung",
+    "xoayVaiNgoai",
+    "thienThan",
+    "duoiHong",
+    "gianNguc",
+    "thoBung"
+   ]
+  },
+  "ht127-tim-mach-nhe": {
+   "ma": "HT127",
+   "hoc": [
+    "buocNgang",
+    "chamGotTruoc"
+   ],
+   "dongTac": [
+    "buocNgang",
+    "chamGotTruoc",
+    "diBo",
+    "buocGoiCao",
+    "jackNua",
+    "motHai",
+    "thoBung"
+   ]
+  },
+  "ht128-thang-bang-vung-vang": {
+   "ma": "HT128",
+   "hoc": [
+    "noiGot",
+    "diNoiGot"
+   ],
+   "dongTac": [
+    "noiGot",
+    "diNoiGot",
+    "motChanHong",
+    "nhonGiu",
+    "luiNoiGot",
+    "dungGot",
+    "thoBung"
+   ]
+  },
+  "ht129-dung-ngoi-chac-chan": {
+   "ma": "HT129",
+   "hoc": [
+    "squatGhe",
+    "squatKhoanhTruoc"
+   ],
+   "dongTac": [
+    "squatGhe",
+    "squatKhoanhTruoc",
+    "squatVin",
+    "nhonGot",
+    "buocNgang",
+    "squatCham",
+    "gianBapChan"
+   ]
+  }
+ }
+}

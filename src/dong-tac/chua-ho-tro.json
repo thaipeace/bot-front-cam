@@ -87,6 +87,36 @@
     }
    ]
   },
+  "ghe": {
+   "mo": "ngồi ghế (HT_DT.ngoi): bot chưa có ghế",
+   "viec": "dựng ghế đẩu trong sân khấu, hông chạm mặt ghế theo dáng mẫu, bàn chân trên sàn",
+   "ds": [
+    {
+     "id": "nghiengCoChanNgoi",
+     "ten": "NGHIÊNG CỔ CHÂN TRONG – NGOÀI",
+     "kieu": "huongDan",
+     "mau": "nghiengCoChanNgoi"
+    },
+    {
+     "id": "coVom",
+     "ten": "CO VÒM BÀN CHÂN",
+     "kieu": "huongDan",
+     "mau": "coVom"
+    },
+    {
+     "id": "xoeNgon",
+     "ten": "XÒE NGÓN CHÂN",
+     "kieu": "huongDan",
+     "mau": "xoeNgon"
+    },
+    {
+     "id": "anNgonCai",
+     "ten": "ẤN NGÓN CHÂN CÁI",
+     "kieu": "huongDan",
+     "mau": "anNgonCai"
+    }
+   ]
+  },
   "san": {
    "mo": "bài sàn / camera nghiêng: mẫu MAU3D dạng sàn (vị trí khớp, nằm – quỳ – chống tay)",
    "viec": "sân khấu camera thấp ngang hông + nhìn nghiêng; áp dáng từ vị trí khớp (sanDang) lên bé trai; dáng nằm / quỳ / chống tay có va chạm sàn",

@@ -9,11 +9,10 @@ import { Mat, HetGio } from './mat.js';
 import type { Case } from './doc-kich-ban.js';
 import type { ChoChu } from './schema.js';
 import { nenVideo } from '../bao-cao/nen-video.js';
-import { docMau, banDoTen } from '../dong-tac/doc-mau.js';
+import { docMau, banDoTen, troCuaUrl } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const MAU = docMau();
-const TEN_DT = banDoTen(MAU);
 const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa/i;
 
 export type GhiNhan = { ten: string; thay: boolean; luc: number | null; chuThay?: string };
@@ -111,6 +110,7 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
           kq.ghiNhan.push(g); break;
         }
         case 'tu_dong': {
+          const TEN_DT = banDoTen(MAU, troCuaUrl(c.url));   // tên trùng → id theo thẻ bài của trò trong URL
           const td = b.tu_dong, het = Date.now() + td.toi_da * 1000;
           let dang = '';
           const nen = new Set<string>();   // tên động tác hiện lúc CỔNG VÀO (tên bài trùng tên động tác, vd. "BƯỚC CHÉO" của ht008) – không phải lượt

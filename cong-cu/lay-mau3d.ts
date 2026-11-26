@@ -12,13 +12,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import { damBaoMayChuApp } from '../src/trinh-duyet/may-chu-app.js';
+import { damBaoMayChuApp, timThuMucApp } from '../src/trinh-duyet/may-chu-app.js';
 
 const arg = (k: string, md?: string) => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : md; };
 const URL_APP = arg('url', 'http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop')!;
 const CHON = arg('dong-tac')?.split(',').map(s => s.trim()).filter(Boolean) ?? null;
 const RA = path.resolve(arg('ra', 'src/dong-tac/mau')!);
 const RA_CHUA = path.resolve(path.dirname(RA), 'chua-ho-tro.json');
+const RA_TRO = path.resolve(path.dirname(RA), 'tro.json');
 
 // kiểu HT_DT bot làm được: phát mẫu lặp (như máy chơi của app – vui/2b bot(): giaMau(mẫu, { so: 99 })) hoặc giữ – thả (giu / giuDk / thoiGian)
 const KIEU_HO_TRO = ['lay', 'buoc', 'chay', 'chuoi', 'dam', 'giu', 'giuDk', 'thoiGian', 'tho', 'tanDung', 'huongDan', 'ld'];
@@ -30,6 +31,8 @@ const LY_DO: Record<string, { mo: string; viec: string }> = {
     viec: 'mắt bot đọc vị trí bóng trên màn (hoặc trạng thái app) rồi với tay tới đó – cần IK tay theo điểm đích' },
   dung: { mo: 'chạy / đi rồi DỪNG theo lệnh trên màn (đèn đỏ, "DỪNG!") – phản xạ theo app',
     viec: 'tu_dong đọc lệnh dừng trên màn rồi đứng hình (thêm sự kiện "thấy chữ → dừng" cho động tác kiểu dung)' },
+  ghe: { mo: 'ngồi ghế (HT_DT.ngoi): bot chưa có ghế',
+    viec: 'dựng ghế đẩu trong sân khấu, hông chạm mặt ghế theo dáng mẫu, bàn chân trên sàn' },
   huong: { mo: 'mỗi lần một HƯỚNG do Siroby chỉ (mauHuong) – phải đọc mũi tên trên màn',
     viec: 'mắt bot đọc hướng (mũi tên / chữ) rồi phát mẫu của hướng đó (mauHuong)' },
   kieu: { mo: 'kiểu động tác thư viện bot chưa hiểu',
@@ -49,10 +52,11 @@ try {
     for (const id of chon || Object.keys(HT_DT)){
       const d = HT_DT[id]; if (!d) throw new Error('HT_DT không có ' + id);
       const m = MAU3D[d.mau];
-      const ly = !m ? 'kieu' : m.san ? 'san' : d.kieu === 'bong' ? 'bong' : d.kieu === 'dung' ? 'dung' : d.mauHuong ? 'huong' : !KIEU.includes(d.kieu) ? 'kieu' : null;
+      const ly = !m ? 'kieu' : m.san ? 'san' : d.kieu === 'bong' ? 'bong' : d.kieu === 'dung' ? 'dung' : d.mauHuong ? 'huong' : !KIEU.includes(d.kieu) ? 'kieu'
+        : d.ngoi ? 'ghe' : null;
       if (ly){ chua.push({ id, ten: d.ten, kieu: d.kieu, mau: d.mau, ly }); continue; }
       dongTac[id] = { ten: d.ten, mau: d.mau, kieu: d.kieu, lay: d.lay, nhip: d.nhip, moiLan: d.moiLan || 1, giay: d.giay, giayMuc: d.giayMuc, giu: d.giu,
-        giuLien: d.giuLien, buoc: d.buoc, doiBen: d.doiBen, viTri: d.viTri, bp: d.bp };
+        giuLien: d.giuLien, buoc: d.buoc, doiBen: d.doiBen, viTri: d.viTri, bp: d.bp, ngoi: d.ngoi };
       if (!mau[d.mau]) mau[d.mau] = { ten: m.ten, ma: m.ma, lap: m.lap || 1, k: mauKhung(m, MAU_DUNG), nhac: m.nhac, doDai: mauDoDai(d.mau) };
     }
     return { nguon: 'siroby-app ' + ((window.VUI_CFG && VUI_CFG.phienBan) || window.PHIEN_BAN || '?'), MAU_DUNG, MAU_KT, MG, GIAY_MUC: HT_GIAY_MUC, dongTac, mau, chua, tong: Object.keys(HT_DT).length };
@@ -90,10 +94,27 @@ try {
     for (const [k, l] of Object.entries<any>(lyDo)) console.log(`  ${String(l.ds.length).padStart(3)} · ${l.mo}\n        ${l.ds.map((x: any) => x.id).join(', ')}`);
   } else if (du.chua.length) console.log('\nCHƯA HỖ TRỢ (không ghi):', du.chua.map((c: any) => `${c.id} (${LY_DO[c.ly].mo})`).join('; '));
 
+  // ---- thẻ bài của từng trò (bản dựng: vui/tro/<id>.<mã>.js, mỗi trò một tệp; thẻ THE còn nguyên dạng chữ) ----
+  if (!CHON) {
+    const goc = timThuMucApp(arg('phuc-vu')); if (!goc) throw new Error('không thấy thư mục bản dựng (--phuc-vu) để đọc thẻ bài');
+    const tro: Record<string, any> = {};
+    for (const f of fs.readdirSync(path.join(goc, 'vui/tro')).filter(f => /^ht\d+.*\.js$/.test(f)).sort()) {
+      const id = f.replace(/\.[0-9a-f]+\.js$/, ''), s = fs.readFileSync(path.join(goc, 'vui/tro', f), 'utf8'), a = s.search(/\{ma:"HT\d+"/);
+      if (a < 0) continue;
+      let i = a, sau = 0; for (; i < s.length; i++) { if (s[i] === '{') sau++; else if (s[i] === '}' && --sau === 0) break; }
+      let the: any; try { the = new Function('return (' + s.slice(a, i + 1) + ')')(); } catch (e: any) { console.log('  (không đọc được thẻ ' + id + ': ' + e.message + ')'); continue; }
+      const ds = new Set<string>(the.hoc || []);
+      for (const v of the.vong || []) { for (const x of v.ds || []) ds.add(x[0]); if (v.chot) ds.add(v.chot[0]); }
+      tro[id] = { ma: the.ma, ...(the.cam ? { cam: the.cam } : {}), ...(the.nghi ? { nghi: the.nghi } : {}), hoc: the.hoc, dongTac: [...ds] };
+    }
+    fs.writeFileSync(RA_TRO, JSON.stringify({ nguon: du.nguon, trich, tro }, null, 1));
+    console.log(`thẻ bài: ${Object.keys(tro).length} trò (${Object.values(tro).filter((t: any) => t.cam === 'nghieng').length} camera nghiêng) → ${path.relative(process.cwd(), RA_TRO)}`);
+  }
+
   // tên trùng: tu_dong nhận động tác theo TÊN app hiện – hai id cùng tên mà khác mẫu thì bot không phân biệt được
   const theoTen: Record<string, string[]> = {};
   for (const [id, x] of Object.entries<any>(du.dongTac)) (theoTen[x.ten] ??= []).push(id);
   const trung = Object.entries(theoTen).filter(([, ds]) => new Set(ds.map(id => du.dongTac[id].mau)).size > 1);
-  if (trung.length) console.log('\nTÊN TRÙNG khác mẫu (tu_dong lấy id đầu):', trung.map(([t, ds]) => `"${t}": ${ds.join(' / ')}`).join(' · '));
+  if (trung.length) console.log('\nTÊN TRÙNG khác mẫu (tu_dong chọn theo thẻ bài của trò đang chơi – tro.json):', trung.map(([t, ds]) => `"${t}": ${ds.join(' / ')}`).join(' · '));
   console.log(`\nhỗ trợ ${Object.keys(du.dongTac).length} động tác · ${Object.keys(du.mau).length} mẫu · nguồn ${String(du.nguon).trim()} → ${path.relative(process.cwd(), RA)}`);
 } finally { await b.close(); tat?.(); }
