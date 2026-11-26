@@ -1,9 +1,10 @@
 # Tóm tắt nhật ký kha-thi: mỗi động tác app yêu cầu → số lần đếm cuối cùng / mục tiêu, số lần "chuẩn", các câu nhắc kỹ thuật.
 # Dùng: python3 cong-cu/tom-tat-buoi.py ket-qua/<lần>/nhat-ky.txt
-import re, sys, json
+import re, sys, json, glob
 dong = open(sys.argv[1], encoding='utf-8').read().splitlines()
-MAU = json.load(open('src/dong-tac/mau/ht003.json', encoding='utf-8'))
-TEN = {d['ten']: k for k, d in MAU['dongTac'].items()}
+TEN = {}
+for tep in sorted(glob.glob('src/dong-tac/mau/*.json')):   # mọi nhóm mẫu (cong-cu/lay-mau3d.ts)
+    for k, d in json.load(open(tep, encoding='utf-8')).get('dongTac', {}).items(): TEN.setdefault(d['ten'], k)
 NHAC = {'NGHIÊNG THÊM', 'DUỖI THẲNG TAY', 'NGỰC NHÌN THẲNG', 'NÂNG KHUỶU LÊN', 'ĐỔI ĐỘNG TÁC NHÉ!', 'NHÓN CAO HƠN', 'DANG TAY RỘNG RA', 'ĐƯA TAY LÊN CAO', 'HÔNG ĐỨNG YÊN', 'VAI ĐỨNG YÊN'}
 ds, hien = [], None
 for d in dong:

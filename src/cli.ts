@@ -6,11 +6,12 @@ const GOC_DU_AN = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..
 import { moPhien, docChu, moTrinhDuyet, moSanKhau } from './trinh-duyet/mo-chrome.js';
 import { docKichBan, LoiKichBan } from './chay/doc-kich-ban.js';
 import { chayCase, type KetQuaCase } from './chay/thuc-thi.js';
+import { docMau, docChuaHoTro, banDoTen } from './dong-tac/doc-mau.js';
 
 const URL_MAC_DINH = 'http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop';
 
 // cờ không nhận giá trị (đứng trước tham số vị trí vẫn đúng: bot run --chi-tiet kich-ban/x.yaml)
-const CO_BAT_TAT = new Set(['tu-dong', 'video', 'khong-video', 'chi-tiet']);
+const CO_BAT_TAT = new Set(['tu-dong', 'video', 'khong-video', 'chi-tiet', 'chua-ho-tro']);
 function docThamSo(argv: string[]){
   const [lenh = 'giup', ...r] = argv;
   const o: Record<string, string> = {}, viTri: string[] = [];
@@ -57,8 +58,7 @@ async function khaThi(o: Record<string, string>){
   let truoc = new Set<string>();
   let dung = false;
   const tuDong = o['tu-dong'] === 'true';
-  const MAU = JSON.parse(fs.readFileSync(path.join(GOC_DU_AN, 'src/dong-tac/mau/ht003.json'), 'utf8'));
-  const TEN_DT = new Map<string, string>(Object.entries<any>(MAU.dongTac).map(([id, d]) => [d.ten, id]));
+  const TEN_DT = banDoTen(docMau());
   let dtHien = '';
   // ép kiểu sai / biên độ cho động tác trong chế độ tự động: --sai xoayTay=vong_nho,xoayCo=nghieng_ca_vai · --bien-do nhonGot=0.5
   const capGT = (v?: string) => new Map((v ?? '').split(',').filter(Boolean).map(x => x.split('=') as [string, string]));
@@ -194,29 +194,45 @@ async function chay(duong: string | undefined, o: Record<string, string>){
 }
 
 // bot dong-tac – danh sách động tác + kiểu sai có trong thư viện (cho người / Claude viết kịch bản)
-async function inDongTac(){
-  const MAU = JSON.parse(fs.readFileSync(path.join(GOC_DU_AN, 'src/dong-tac/mau/ht003.json'), 'utf8'));
+async function inDongTac(o: Record<string, string>){
+  const MAU = docMau();
   // @ts-ignore – module JS dùng chung với sân khấu
   const { KIEU_SAI, HIEU_CHINH } = await import('./dong-tac/kieu-sai.js');
-  for (const [id, d] of Object.entries<any>(MAU.dongTac)){
-    const sai = Object.entries<any>(KIEU_SAI[id] ?? {}).map(([k, v]) => `${k} (${v.mo})`).join(', ');
-    console.log(`${id.padEnd(12)} "${d.ten}" · ${d.kieu === 'giu' ? `giữ ${d.giay ?? 10}s` : `~${(d.nhip * (d.moiLan || 1)).toFixed(1)}s/lần`}` +
-      `${sai ? ' · kiểu sai: ' + sai : ''}${HIEU_CHINH[id] ? ' · có hiệu chỉnh theo cơ thể' : ''}`);
+  // @ts-ignore
+  const { laGiu, giayGiuMacDinh } = await import('./dong-tac/thu-vien.js');
+  const tim = o.tim?.toLowerCase();
+  const theoTep: Record<string, string[]> = {};
+  for (const id of Object.keys(MAU.dongTac)) (theoTep[MAU.tep[id]] ??= []).push(id);
+  for (const [tep, ds] of Object.entries(theoTep)){
+    const dong = ds.filter(id => !tim || id.toLowerCase().includes(tim) || MAU.dongTac[id].ten.toLowerCase().includes(tim));
+    if (!dong.length) continue;
+    console.log(`\n== ${tep.replace(/\.json$/, '')} (${ds.length})`);
+    for (const id of dong){
+      const d = MAU.dongTac[id], sai = Object.entries<any>(KIEU_SAI[id] ?? {}).map(([k, v]) => `${k} (${v.mo})`).join(', ');
+      const nhip = laGiu(d) ? `giữ ${giayGiuMacDinh(d, MAU.GIAY_MUC)}s` : d.nhip ? `~${(d.nhip * (d.moiLan || 1)).toFixed(1)}s/lần` : `mẫu ${MAU.mau[d.mau].doDai.toFixed(1)}s`;
+      console.log(`  ${id.padEnd(16)} "${d.ten}" · ${d.kieu} · ${nhip}${sai ? ' · kiểu sai: ' + sai : ''}${HIEU_CHINH[id] ? ' · có hiệu chỉnh theo cơ thể' : ''}`);
+    }
   }
-  console.log(`(mẫu trích từ ${String(MAU.nguon || 'siroby-app').trim()} ngày ${MAU.trich})`);
+  console.log(`\n${Object.keys(MAU.dongTac).length} động tác · mẫu trích từ ${String(MAU.nguon || 'siroby-app').trim()} ngày ${MAU.trich}`);
+  const c = docChuaHoTro();
+  if (c){
+    const n = Object.values(c.lyDo).reduce((s, l) => s + l.ds.length, 0);
+    console.log(`\nCHƯA HỖ TRỢ ${n} động tác${o['chua-ho-tro'] ? '' : ' (xem đủ id: npm run bot -- dong-tac --chua-ho-tro)'}:`);
+    for (const l of Object.values(c.lyDo)) console.log(`  ${String(l.ds.length).padStart(3)} · ${l.mo}` + (o['chua-ho-tro'] ? `\n        ${l.ds.map(x => x.id).join(', ')}` : ''));
+  }
 }
 
 const { lenh, o, viTri } = docThamSo(process.argv.slice(2));
 try {
   if (lenh === 'run') process.exitCode = await chay(viTri[0], o);
   else if (lenh === 'kiem'){ const cs = docKichBan(viTri[0] ?? ''); for (const c of cs) console.log(`✓ ${c.ten}: ${c.buoc.length} bước (${path.relative(process.cwd(), c.tep)})`); }
-  else if (lenh === 'dong-tac') await inDongTac();
+  else if (lenh === 'dong-tac') await inDongTac(o);
   else if (lenh === 'kha-thi') await khaThi(o);
   else if (lenh === 'thu-nhan-vat') await thuNhanVat(o);
   else console.log(`bot-front-cam
   bot run <kich-ban.yaml | thư-mục> [--case a,b] [--nen chup|truc-tiep|phong] [--hat 7] [--khong-video] [--chi-tiet] [--ra thư-mục]
   bot kiem <kich-ban.yaml | thư-mục>     (chỉ kiểm cú pháp)
-  bot dong-tac                           (danh sách động tác + kiểu sai)
+  bot dong-tac [--tim squat] [--chua-ho-tro]   (danh sách động tác + kiểu sai; động tác chưa hỗ trợ + lý do)
   bot kha-thi [--url ${URL_MAC_DINH}] [--nen chup|truc-tiep|phong] [--dem 5]
               [--buoc "bam:Bắt đầu|cho:Đứng vào|lam:vay|nghi:3"] [--tu-dong [--sai dt=kiểu,…] [--bien-do dt=0.5,…]] [--den-khi chữ] [--hat 7] [--giay 30] [--chup 5] [--video] [--ra thư-mục]
               [--phuc-vu <siroby-app/dist/app>]  (tự phục vụ app nếu URL localhost chưa chạy)

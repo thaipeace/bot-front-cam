@@ -9,10 +9,11 @@ import { Mat, HetGio } from './mat.js';
 import type { Case } from './doc-kich-ban.js';
 import type { ChoChu } from './schema.js';
 import { nenVideo } from '../bao-cao/nen-video.js';
+import { docMau, banDoTen } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const MAU = JSON.parse(fs.readFileSync(path.join(GOC, 'src/dong-tac/mau/ht003.json'), 'utf8'));
-const TEN_DT = new Map<string, string>(Object.entries<any>(MAU.dongTac).map(([id, d]) => [d.ten, id]));
+const MAU = docMau();
+const TEN_DT = banDoTen(MAU);
 
 export type GhiNhan = { ten: string; thay: boolean; luc: number | null; chuThay?: string };
 export type KetQuaCase = {
