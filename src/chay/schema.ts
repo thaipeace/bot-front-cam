@@ -60,6 +60,8 @@ export const KichBan = z.object({
   url: z.string().url().default(URL_MAC_DINH),
   hat: z.number().int().default(7),
   nen: z.enum(['chup', 'truc-tiep', 'phong']).optional(),
+  /** ghế cho động tác ngồi (tự hiện khi ngồi): don (mặc định, ghế đẩu) · van_phong (tay vịn / trụ che một phần chân) · ban (bàn thấp che bàn chân) · khong */
+  ghe: z.enum(['don', 'van_phong', 'ban', 'khong']).optional(),
   buoc: z.array(z.record(z.unknown())).min(1),
 }).strict();
 export type KichBanTho = z.infer<typeof KichBan>;

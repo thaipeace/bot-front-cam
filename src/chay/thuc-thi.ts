@@ -9,11 +9,17 @@ import { Mat, HetGio } from './mat.js';
 import type { Case } from './doc-kich-ban.js';
 import type { ChoChu } from './schema.js';
 import { nenVideo } from '../bao-cao/nen-video.js';
-import { docMau, banDoTen, troCuaUrl } from '../dong-tac/doc-mau.js';
+import { docMau, banDoTen, troCuaUrl, docTro } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const MAU = docMau();
 const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa/i;
+
+/** bối cảnh sân khấu theo trò trong URL (thẻ bài – tro.json) + khoá của case: trò có động tác ngồi → ngồi chờ trên ghế */
+function boiCanhCase(c: Case){
+  const the = docTro()[troCuaUrl(c.url) ?? ''];
+  return { ghe: c.ghe ?? 'don', ngoiCho: !!the && the.dongTac.some(id => MAU.dongTac[id]?.ngoi) };
+}
 
 export type GhiNhan = { ten: string; thay: boolean; luc: number | null; chuThay?: string };
 export type KetQuaCase = {
@@ -70,7 +76,7 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
 
   let buocDang = -1;
   try {
-    p = await moPhien({ url: c.url, nen: o.nen ?? c.nen ?? 'chup', dem: o.dem, hat: c.hat, phucVu: o.phucVu, hien: o.hien,
+    p = await moPhien({ url: c.url, nen: o.nen ?? c.nen ?? 'chup', dem: o.dem, hat: c.hat, phucVu: o.phucVu, hien: o.hien, boiCanh: boiCanhCase(c),
       quayVideo: o.quayVideo ? (fs.mkdirSync(thuMuc, { recursive: true }), thuMuc) : undefined });
     kq.videoTu = +giay().toFixed(1);     // tab app (và video của nó) vừa mở xong
     p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));

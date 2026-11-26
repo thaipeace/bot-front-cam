@@ -21,7 +21,7 @@ function kiemDongTac(dt: string, sai?: string): string | null {
   return null;
 }
 
-export type Case = { tep: string; ten: string; moTa?: string; url: string; hat: number; nen?: 'chup' | 'truc-tiep' | 'phong'; buoc: (Buoc & { dong: number })[] };
+export type Case = { tep: string; ten: string; moTa?: string; url: string; hat: number; nen?: 'chup' | 'truc-tiep' | 'phong'; ghe?: 'don' | 'van_phong' | 'ban' | 'khong'; buoc: (Buoc & { dong: number })[] };
 
 export class LoiKichBan extends Error {}
 
@@ -62,7 +62,7 @@ export function docTep(tep: string): Case[] {
       buoc.push({ ...d, lenh: lenh[0], dong });
     });
     if (!r.success) continue;
-    cases.push({ tep, ten: r.data.case, moTa: r.data.mo_ta, url: r.data.url, hat: r.data.hat, nen: r.data.nen, buoc });
+    cases.push({ tep, ten: r.data.case, moTa: r.data.mo_ta, url: r.data.url, hat: r.data.hat, nen: r.data.nen, ghe: r.data.ghe, buoc });
   }
   if (loi.length) throw new LoiKichBan(loi.join('\n'));
   const trung = cases.map(c => c.ten).filter((t, i, a) => a.indexOf(t) !== i);

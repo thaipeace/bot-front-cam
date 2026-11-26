@@ -11,6 +11,7 @@ import { taoThuVien } from '../dong-tac/thu-vien.js';
 import { dungMat, apMat } from './mat.js';
 import { datKhungHinh } from './khung-hinh.js';
 import { batDauPhat } from './phat.js';
+import { taoGhe, KIEU_GHE } from './ghe.js';
 
 const q = new URLSearchParams(location.search);
 const W = 640, H = 480;                                   // đúng cỡ siroby-app xin (vui/10-camera.js)
@@ -38,7 +39,7 @@ hungBong.rotation.x = -Math.PI / 2; hungBong.receiveShadow = true;
 
 const anhSang = dungAnhSang(scene, renderer);
 const hauKy = q.get('hauky') === '0' ? null : dungHauKy(renderer, W, H);
-const tr = { nv: null, mat: null, hanh: 'dung', t0: 0, soKhung: 0, nen: null, khung: null };
+const tr = { nv: null, mat: null, hanh: 'dung', t0: 0, soKhung: 0, nen: null, khung: null, ghe: null, kieuGhe: 'don' };
 const dongHo = new THREE.Clock();
 
 const do_ = { ms: 0, khungGiay: 0, dem: 0, moc: performance.now(), tuThe: 0 };   // đo hiệu năng
@@ -49,6 +50,7 @@ function ve(){
   if (nv){
     apDang(nv, tr.tv.dang(t), tr.MAU);                       // động tác (hoặc đứng chờ) theo mẫu chuẩn của app
     if (tr.hanh !== 'dung') HANH[tr.hanh](nv, t - tr.t0);      // hành động thử cũ (vẫy tay…) đè lên tay
+    if (tr.ghe){ if (tr.kieuGhe !== 'khong' && tr.tv.dangNgoi()) tr.ghe.dat(nv, tr.kieuGhe); else tr.ghe.an(); }   // ghế dưới hông khi ngồi
     if (tr.mat) apMat(tr.mat, t);
   }
   const b1 = performance.now();
@@ -83,6 +85,12 @@ window.__botSanKhau = {
   datCach(m){ tr.khung = datKhungHinh(camera, tr.nv, CAO, m); return tr.khung; },
   datSang(k){ anhSang.troi.intensity = 1.5 * k; anhSang.den.intensity = 1.8 * k; return k; },
   thongKePhat(){ return tr.phat ? tr.phat.thongKe() : []; },
+  /** bối cảnh của case: { ghe: 'don' | 'van_phong' | 'ban' | 'khong', ngoiCho: bool } */
+  datBoiCanh(o = {}){
+    if (o.ghe !== undefined){ if (![...KIEU_GHE, 'khong'].includes(o.ghe)) throw new Error('kiểu ghế lạ: ' + o.ghe); tr.kieuGhe = o.ghe; }
+    if (o.ngoiCho !== undefined) tr.tv.datNgoiCho(o.ngoiCho);
+    return { ghe: tr.kieuGhe, ngoiCho: !!o.ngoiCho };
+  },
   /** liệt kê lưới + vật liệu – soi lỗi */
   luoi(){ const ds = []; tr.nv.goc.traverse(o => { if (o.isMesh){ const m = o.material; ds.push({ ten: o.name, dinh: o.geometry.attributes.position.count, hien: o.visible,
     vl: { ten: m.name, loai: m.type, truyen: m.transmission, ior: m.ior, phu: m.clearcoat, bong: m.specularIntensity, sheen: m.sheen, phat: m.emissive && m.emissive.getHexString(), kim: m.metalness, nham: m.roughness, mau: m.color && m.color.getHexString(), map: !!m.map, nmap: !!m.normalMap, trongSuot: m.transparent, alphaTest: m.alphaTest, mo: m.opacity, side: m.side } }); } }); return ds; },
@@ -99,6 +107,7 @@ window.__botSanKhau = {
   tr.MAU = await napMau();
   tr.tv = taoThuVien(tr.MAU, { hat: HAT });
   scene.add(tr.nv.goc);
+  tr.ghe = taoGhe(scene);
   tr.mat = dungMat(tr.nv, { cuoi: +(q.get('cuoi') ?? 1), hat: HAT });
   tr.khung = datKhungHinh(camera, tr.nv, CAO, +(q.get('cach') || 0));
   if (tr.nen.video) { anhSang.capNhat(tr.nen.video); setInterval(() => { anhSang.capNhat(tr.nen.video); tr.nen.capNhat(); }, 500); }

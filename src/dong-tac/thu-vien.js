@@ -30,9 +30,13 @@ export function taoThuVien(MAU, { hat = 7 } = {}){
   let hoa = null;               // { tu: dáng lúc bắt đầu hoà, t0 }
   let cuoi = sao(DUNG);         // dáng khung trước
   let soDongTac = 0;
+  // trò NGỒI GHẾ (thẻ có động tác HT_DT.ngoi – HT079): chờ giữa các lượt bằng dáng ngồi đầu tiên của mẫu ngồi, không đứng dậy
+  const MAU_NGOI = Object.values(MAU.dongTac).find(d => d.ngoi);
+  let ngoiCho = false;
 
-  function dangCho(t){          // đứng chờ: thở, đầu nhìn quanh nhẹ, đung đưa – vui tươi
-    const P = sao(DUNG), s = (f, p) => Math.sin(t * 2 * Math.PI * f + p + hat);
+  function dangCho(t){          // đứng chờ: thở, đầu nhìn quanh nhẹ, đung đưa – vui tươi (trò ngồi: ngồi chờ, chỉ thở – nhìn quanh)
+    const P = sao(ngoiCho && MAU_NGOI ? MAU.mau[MAU_NGOI.mau].k[0][1] : DUNG), s = (f, p) => Math.sin(t * 2 * Math.PI * f + p + hat);
+    if (ngoiCho && MAU_NGOI){ P.than.gap += 1.5 * s(0.27, 0); P.dau.xoay += 5 * s(0.11, 2); P.dau.gat += 2 * s(0.15, 4); return P; }
     P.than.gap += 1.5 * s(0.27, 0); P.than.nghieng += 1.2 * s(0.18, 1);
     P.dau.xoay += 5 * s(0.11, 2); P.dau.nghieng = (P.dau.nghieng || 0) + 3 * s(0.23, 3); P.dau.gat += 2 * s(0.15, 4);
     P.hong.x += 0.015 * s(0.09, 5);
@@ -99,5 +103,9 @@ export function taoThuVien(MAU, { hat = 7 } = {}){
       doDai: isFinite(hien.doDai) ? +hien.doDai.toFixed(1) : null };
   }
 
-  return { batDau, dung, dang, trangThai, danhSach: () => Object.keys(MAU.dongTac) };
+  return { batDau, dung, dang, trangThai, danhSach: () => Object.keys(MAU.dongTac),
+    /** trò ngồi ghế: chờ ở dáng ngồi */
+    datNgoiCho(v){ ngoiCho = !!v; },
+    /** đang ngồi (động tác ngồi hoặc ngồi chờ) – sân khấu hiện ghế */
+    dangNgoi(){ return hien ? !!hien.dt.ngoi : ngoiCho && !!MAU_NGOI; } };
 }

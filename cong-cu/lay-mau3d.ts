@@ -31,8 +31,6 @@ const LY_DO: Record<string, { mo: string; viec: string }> = {
     viec: 'mắt bot đọc vị trí bóng trên màn (hoặc trạng thái app) rồi với tay tới đó – cần IK tay theo điểm đích' },
   dung: { mo: 'chạy / đi rồi DỪNG theo lệnh trên màn (đèn đỏ, "DỪNG!") – phản xạ theo app',
     viec: 'tu_dong đọc lệnh dừng trên màn rồi đứng hình (thêm sự kiện "thấy chữ → dừng" cho động tác kiểu dung)' },
-  ghe: { mo: 'ngồi ghế (HT_DT.ngoi): bot chưa có ghế',
-    viec: 'dựng ghế đẩu trong sân khấu, hông chạm mặt ghế theo dáng mẫu, bàn chân trên sàn' },
   huong: { mo: 'mỗi lần một HƯỚNG do Siroby chỉ (mauHuong) – phải đọc mũi tên trên màn',
     viec: 'mắt bot đọc hướng (mũi tên / chữ) rồi phát mẫu của hướng đó (mauHuong)' },
   kieu: { mo: 'kiểu động tác thư viện bot chưa hiểu',
@@ -53,7 +51,7 @@ try {
       const d = HT_DT[id]; if (!d) throw new Error('HT_DT không có ' + id);
       const m = MAU3D[d.mau];
       const ly = !m ? 'kieu' : m.san ? 'san' : d.kieu === 'bong' ? 'bong' : d.kieu === 'dung' ? 'dung' : d.mauHuong ? 'huong' : !KIEU.includes(d.kieu) ? 'kieu'
-        : d.ngoi ? 'ghe' : null;
+        : null;
       if (ly){ chua.push({ id, ten: d.ten, kieu: d.kieu, mau: d.mau, ly }); continue; }
       dongTac[id] = { ten: d.ten, mau: d.mau, kieu: d.kieu, lay: d.lay, nhip: d.nhip, moiLan: d.moiLan || 1, giay: d.giay, giayMuc: d.giayMuc, giu: d.giu,
         giuLien: d.giuLien, buoc: d.buoc, doiBen: d.doiBen, viTri: d.viTri, bp: d.bp, ngoi: d.ngoi };

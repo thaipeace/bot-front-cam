@@ -128,6 +128,9 @@ async function thuNhanVat(o: Record<string, string>){
   await p.setViewportSize({ width: 660, height: 540 });
   try {
     await moSanKhau(p, goc, { nv: o.nv, nen: o.nen ?? 'phong', dem: o.dem ? +o.dem : 5, hauKy: o.hauky !== '0', cuoi: o.cuoi !== undefined ? +o.cuoi : undefined });
+    // bối cảnh: --ghe don|van_phong|ban|khong · --boi-canh '<json>' (vd. camera nghiêng)
+    const bc = { ...(o['boi-canh'] ? JSON.parse(o['boi-canh']) : {}), ...(o.ghe ? { ghe: o.ghe } : {}) };
+    if (Object.keys(bc).length) console.log('bối cảnh:', JSON.stringify(await p.evaluate(b => (window as any).__botSanKhau.datBoiCanh(b), bc)));
     const tt = await p.evaluate(() => (window as any).__botSanKhau.trangThai());
     console.log('sân khấu:', JSON.stringify(tt));
     const cv = p.locator('#cv');

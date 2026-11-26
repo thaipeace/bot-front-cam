@@ -30,6 +30,7 @@ export type TuyChonMo = {
   coVideo?: { width: number; height: number };   // cỡ video bằng chứng (mặc định 1024×560 – đọc rõ chữ, nhẹ hơn ~½ so với 1408×770)
   hien?: boolean;
   phucVu?: string;             // thư mục dist/app để tự phục vụ khi URL localhost chưa chạy
+  boiCanh?: Record<string, unknown>;   // __botSanKhau.datBoiCanh (ghế, camera nghiêng…) – đặt TRƯỚC khi mở app
 };
 export type PhienBot = { browser: Browser; ctx: BrowserContext; sanKhau: Page; app: Page; dong(): Promise<void> };
 
@@ -90,6 +91,7 @@ export async function moPhien(o: TuyChonMo): Promise<PhienBot> {
   // sân khấu mở trước, sẵn sàng trả lời offer
   const sanKhau = await ctx.newPage();
   await moSanKhau(sanKhau, goc, o);
+  if (o.boiCanh) await sanKhau.evaluate(b => (window as any).__botSanKhau.datBoiCanh(b), o.boiCanh);
   const app = await ctx.newPage();
   await app.goto(o.url, { timeout: 90_000 });
   return { browser, ctx, sanKhau, app, async dong(){ await ctx.close(); await browser.close(); tatMayChu?.(); } };
