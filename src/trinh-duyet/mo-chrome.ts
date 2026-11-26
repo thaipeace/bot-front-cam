@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { damBaoMayChuApp } from './may-chu-app.js';
+import { docMau } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const KIEU: Record<string, string> = {
@@ -70,6 +71,7 @@ export async function moTrinhDuyet(goc: string, o: { quayVideo?: string; hien?: 
   });
   await ctx.route(`${goc}/__bot/**`, async r => {
     const p = decodeURIComponent(new URL(r.request().url()).pathname).replace(/^\/__bot\//, '');
+    if (p === 'dong-tac/mau/_tat-ca.json') return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(docMau()) });   // mọi tệp mẫu gộp lại
     const [dau, ...con] = p.split('/');
     const thuMuc = BAN_DO[dau];
     const tep = thuMuc ? path.join(thuMuc, ...con) : '';

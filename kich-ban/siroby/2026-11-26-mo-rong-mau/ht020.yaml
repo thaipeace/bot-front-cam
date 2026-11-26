@@ -1,0 +1,20 @@
+# Mở rộng mẫu (26/11/2026) – ht020-squat-tay-thang-bang (squat): squat, squatVuon ở phần LÀM QUEN, mức Dễ.
+# Hai ca: làm đúng mẫu (tu_dong tới khi vào VÒNG 1) · đứng im ở cả hai động tác (biên độ 0, 150 giây) – phải 0 lần.
+# Đọc từng lượt: node cong-cu/hieu-chuan-bot/phan-tich.mjs <ra>/nhat-ky/<case>.txt (trong siroby-app)
+cases:
+  - case: ht020-dung
+    mo_ta: Làm đúng mẫu squat + squatVuon – app phải đếm đủ (XONG!) rồi vào vòng 1
+    url: http://localhost:8790/vui/index.html?tro=ht020-squat-tay-thang-bang&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "VÒNG 1/4", toi_da: 300 }
+  - case: ht020-dung-im
+    mo_ta: Đối chứng – tới lượt squat / squatVuon thì ĐỨNG IM (biên độ 0) – phải 0 lần
+    url: http://localhost:8790/vui/index.html?tro=ht020-squat-tay-thang-bang&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { toi_da: 150, bien_do: { squat: 0, squatVuon: 0 } }

@@ -9,10 +9,12 @@ import { Mat, HetGio } from './mat.js';
 import type { Case } from './doc-kich-ban.js';
 import type { ChoChu } from './schema.js';
 import { nenVideo } from '../bao-cao/nen-video.js';
+import { docMau, banDoTen } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const MAU = JSON.parse(fs.readFileSync(path.join(GOC, 'src/dong-tac/mau/ht003.json'), 'utf8'));
-const TEN_DT = new Map<string, string>(Object.entries<any>(MAU.dongTac).map(([id, d]) => [d.ten, id]));
+const MAU = docMau();
+const TEN_DT = banDoTen(MAU);
+const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa/i;
 
 export type GhiNhan = { ten: string; thay: boolean; luc: number | null; chuThay?: string };
 export type KetQuaCase = {
@@ -111,10 +113,18 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
         case 'tu_dong': {
           const td = b.tu_dong, het = Date.now() + td.toi_da * 1000;
           let dang = '';
+          const nen = new Set<string>();   // tên động tác hiện lúc CỔNG VÀO (tên bài trùng tên động tác, vd. "BƯỚC CHÉO" của ht008) – không phải lượt
           for (;;){
             if (td.den_khi && mat.thay(td.den_khi)){ log(`THẤY "${td.den_khi.chu}" – hết tự động`); break; }
             if (Date.now() > het){ if (td.den_khi) throw new HetGio(`tự động: không thấy "${td.den_khi.chu}" sau ${td.toi_da} giây`); break; }
-            const ten = mat.hien.map(s => TEN_DT.get(s)).filter(Boolean) as string[];
+            let ten = [...new Set(mat.hien.map(s => TEN_DT.get(s)).filter(Boolean) as string[])];
+            // cổng vào (2.51.2: thấy cả người → đứng yên → giơ 2 tay / đứng đúng chỗ 30 giây): đứng chờ như bé thật, không làm theo chữ trên màn
+            if (mat.hien.some(s => CONG_VAO.test(s))){
+              for (const x of ten) if (!nen.has(x)){ nen.add(x); log(`TỰ ĐỘNG: bỏ qua "${MAU.dongTac[x].ten}" (chữ ở cổng vào)`); }
+              if (dang){ dang = ''; await dungLam(); }
+              await ngu(100); continue;
+            }
+            if (ten.length > 1) ten = ten.filter(x => !nen.has(x));
             if (ten.length === 1 && ten[0] !== dang){
               dang = ten[0];
               log(`TỰ ĐỘNG → ${dang}`);

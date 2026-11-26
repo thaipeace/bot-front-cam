@@ -1,0 +1,925 @@
+{
+ "nguon": "siroby-app 2.51.2",
+ "trich": "2026-11-26",
+ "tongHT_DT": 343,
+ "lyDo": {
+  "dung": {
+   "mo": "chạy / đi rồi DỪNG theo lệnh trên màn (đèn đỏ, \"DỪNG!\") – phản xạ theo app",
+   "viec": "tu_dong đọc lệnh dừng trên màn rồi đứng hình (thêm sự kiện \"thấy chữ → dừng\" cho động tác kiểu dung)",
+   "ds": [
+    {
+     "id": "chanNhanhDung",
+     "ten": "CHÂN NHANH RỒI DỪNG",
+     "kieu": "dung",
+     "mau": "chanNhanh"
+    },
+    {
+     "id": "chayDungHinh",
+     "ten": "CHẠY RỒI ĐỨNG HÌNH",
+     "kieu": "dung",
+     "mau": "chay"
+    },
+    {
+     "id": "chayNuocRut",
+     "ten": "CHẠY NƯỚC RÚT RỒI DỪNG",
+     "kieu": "dung",
+     "mau": "chanNhanh"
+    },
+    {
+     "id": "omQuaDung",
+     "ten": "ÔM QUÀ – ĐÈN ĐỎ DỪNG",
+     "kieu": "dung",
+     "mau": "omQuaDi"
+    }
+   ]
+  },
+  "huong": {
+   "mo": "mỗi lần một HƯỚNG do Siroby chỉ (mauHuong) – phải đọc mũi tên trên màn",
+   "viec": "mắt bot đọc hướng (mũi tên / chữ) rồi phát mẫu của hướng đó (mauHuong)",
+   "ds": [
+    {
+     "id": "theoMuiTen",
+     "ten": "BƯỚC THEO MŨI TÊN",
+     "kieu": "lay",
+     "mau": "theoMuiTen"
+    },
+    {
+     "id": "nemDich",
+     "ten": "NÉM TRÚNG ĐÍCH",
+     "kieu": "lay",
+     "mau": "nemQuaDau"
+    }
+   ]
+  },
+  "bong": {
+   "mo": "bóng ảo: phải đưa tay tới đúng chỗ quả bóng Siroby tung (vị trí đổi mỗi lần)",
+   "viec": "mắt bot đọc vị trí bóng trên màn (hoặc trạng thái app) rồi với tay tới đó – cần IK tay theo điểm đích",
+   "ds": [
+    {
+     "id": "batBong",
+     "ten": "BẮT BÓNG HAI TAY",
+     "kieu": "bong",
+     "mau": "batBong"
+    },
+    {
+     "id": "batBongThap",
+     "ten": "BẮT BÓNG THẤP",
+     "kieu": "bong",
+     "mau": "batBongThap"
+    },
+    {
+     "id": "batBongCao",
+     "ten": "BẮT BÓNG TRÊN CAO",
+     "kieu": "bong",
+     "mau": "batBongCao"
+    },
+    {
+     "id": "batMotTay",
+     "ten": "BẮT BÓNG MỘT TAY",
+     "kieu": "bong",
+     "mau": "batMotTay"
+    },
+    {
+     "id": "batBongMotChan",
+     "ten": "THĂNG BẰNG BẮT BÓNG",
+     "kieu": "bong",
+     "mau": "batBongMotChan"
+    }
+   ]
+  },
+  "san": {
+   "mo": "bài sàn / camera nghiêng: mẫu MAU3D dạng sàn (vị trí khớp, nằm – quỳ – chống tay)",
+   "viec": "sân khấu camera thấp ngang hông + nhìn nghiêng; áp dáng từ vị trí khớp (sanDang) lên bé trai; dáng nằm / quỳ / chống tay có va chạm sàn",
+   "ds": [
+    {
+     "id": "plankGoi",
+     "ten": "PLANK CHỐNG GỐI",
+     "kieu": "giuDk",
+     "mau": "plankGoi"
+    },
+    {
+     "id": "plankCangTay",
+     "ten": "PLANK CẲNG TAY",
+     "kieu": "giuDk",
+     "mau": "plankCangTay"
+    },
+    {
+     "id": "plankThang",
+     "ten": "PLANK TAY THẲNG",
+     "kieu": "giuDk",
+     "mau": "plankThang"
+    },
+    {
+     "id": "theEmBe",
+     "ten": "TƯ THẾ EM BÉ",
+     "kieu": "giuDk",
+     "mau": "theEmBe"
+    },
+    {
+     "id": "chongDayBaVai",
+     "ten": "CHỐNG ĐẨY BẢ VAI",
+     "kieu": "huongDan",
+     "mau": "chongDayBaVai"
+    },
+    {
+     "id": "plankChamVai",
+     "ten": "PLANK CHẠM VAI",
+     "kieu": "lay",
+     "mau": "plankChamVai"
+    },
+    {
+     "id": "plankVuonTay",
+     "ten": "PLANK VƯƠN TAY",
+     "kieu": "lay",
+     "mau": "plankVuonTay"
+    },
+    {
+     "id": "plankNhacChan",
+     "ten": "PLANK NHẤC CHÂN",
+     "kieu": "lay",
+     "mau": "plankNhacChan"
+    },
+    {
+     "id": "plankKeoGoi",
+     "ten": "PLANK KÉO GỐI",
+     "kieu": "lay",
+     "mau": "plankKeoGoi"
+    },
+    {
+     "id": "leoNui",
+     "ten": "LEO NÚI",
+     "kieu": "lay",
+     "mau": "leoNui"
+    },
+    {
+     "id": "gauGiu",
+     "ten": "PLANK GẤU",
+     "kieu": "giuDk",
+     "mau": "gauGiu"
+    },
+    {
+     "id": "gauChamVai",
+     "ten": "GẤU CHẠM VAI",
+     "kieu": "lay",
+     "mau": "gauChamVai"
+    },
+    {
+     "id": "plankLenXuong",
+     "ten": "PLANK LÊN CHỐNG ĐẨY",
+     "kieu": "lay",
+     "mau": "plankLenXuong"
+    },
+    {
+     "id": "chongDay",
+     "ten": "CHỐNG ĐẨY",
+     "kieu": "lay",
+     "mau": "chongDay"
+    },
+    {
+     "id": "chongDayGoi",
+     "ten": "CHỐNG ĐẨY CHỐNG GỐI",
+     "kieu": "lay",
+     "mau": "chongDayGoi"
+    },
+    {
+     "id": "chongDayTuong",
+     "ten": "CHỐNG ĐẨY TƯỜNG",
+     "kieu": "ld",
+     "mau": "chongDayTuong"
+    },
+    {
+     "id": "chongDayGhe",
+     "ten": "CHỐNG ĐẨY NGHIÊNG",
+     "kieu": "lay",
+     "mau": "chongDayGhe"
+    },
+    {
+     "id": "chongDayCham",
+     "ten": "CHỐNG ĐẨY HẠ CHẬM",
+     "kieu": "lay",
+     "mau": "chongDayCham"
+    },
+    {
+     "id": "chongDayDung",
+     "ten": "CHỐNG ĐẨY DỪNG DƯỚI",
+     "kieu": "lay",
+     "mau": "chongDayDung"
+    },
+    {
+     "id": "chongDayRong",
+     "ten": "CHỐNG ĐẨY TAY RỘNG",
+     "kieu": "lay",
+     "mau": "chongDayRong"
+    },
+    {
+     "id": "chongDayHep",
+     "ten": "CHỐNG ĐẨY TAY HẸP",
+     "kieu": "lay",
+     "mau": "chongDayHep"
+    },
+    {
+     "id": "chongDayPike",
+     "ten": "CHỐNG ĐẨY CHỮ V NGƯỢC",
+     "kieu": "lay",
+     "mau": "chongDayPike"
+    },
+    {
+     "id": "cauMong",
+     "ten": "CẦU MÔNG",
+     "kieu": "lay",
+     "mau": "cauMong"
+    },
+    {
+     "id": "cauMongBuoc",
+     "ten": "CẦU MÔNG BƯỚC CHÂN",
+     "kieu": "lay",
+     "mau": "cauMongBuoc"
+    },
+    {
+     "id": "cauMongRa",
+     "ten": "CẦU MÔNG BƯỚC CHÂN RA XA",
+     "kieu": "lay",
+     "mau": "cauMongRa"
+    },
+    {
+     "id": "giuCauMong",
+     "ten": "GIỮ CẦU MÔNG",
+     "kieu": "giuDk",
+     "mau": "giuCauMong"
+    },
+    {
+     "id": "dayHong",
+     "ten": "ĐẨY HÔNG TỰA GHẾ",
+     "kieu": "lay",
+     "mau": "dayHong"
+    },
+    {
+     "id": "giuDayHong",
+     "ten": "GIỮ ĐẨY HÔNG",
+     "kieu": "giuDk",
+     "mau": "giuDayHong"
+    },
+    {
+     "id": "cauMongMot",
+     "ten": "CẦU MÔNG MỘT CHÂN",
+     "kieu": "lay",
+     "mau": "cauMongMot"
+    },
+    {
+     "id": "cauMongEch",
+     "ten": "CẦU MÔNG CHÂN ẾCH",
+     "kieu": "lay",
+     "mau": "cauMongEch"
+    },
+    {
+     "id": "dayHongMot",
+     "ten": "ĐẨY HÔNG MỘT CHÂN",
+     "kieu": "lay",
+     "mau": "dayHongMot"
+    },
+    {
+     "id": "leoNuiCham",
+     "ten": "LEO NÚI CHẬM",
+     "kieu": "lay",
+     "mau": "leoNuiCham"
+    },
+    {
+     "id": "bonDuoiChan",
+     "ten": "BỐN ĐIỂM DUỖI CHÂN SAU",
+     "kieu": "lay",
+     "mau": "bonDuoiChan"
+    },
+    {
+     "id": "daChanSau",
+     "ten": "ĐÁ CHÂN SAU",
+     "kieu": "lay",
+     "mau": "daChanSau"
+    },
+    {
+     "id": "moHongBon",
+     "ten": "MỞ HÔNG BỐN ĐIỂM",
+     "kieu": "lay",
+     "mau": "moHongBon"
+    },
+    {
+     "id": "birdDog",
+     "ten": "BIRD DOG",
+     "kieu": "lay",
+     "mau": "birdDog"
+    },
+    {
+     "id": "giuBirdDog",
+     "ten": "GIỮ BIRD DOG",
+     "kieu": "giuDk",
+     "mau": "giuBirdDog"
+    },
+    {
+     "id": "meoBo",
+     "ten": "MÈO – BÒ",
+     "kieu": "lay",
+     "mau": "meoBo"
+    },
+    {
+     "id": "luonKim",
+     "ten": "LUỒN KIM",
+     "kieu": "lay",
+     "mau": "luonKim"
+    },
+    {
+     "id": "gianDuiTrong",
+     "ten": "GIÃN ĐÙI TRONG",
+     "kieu": "lay",
+     "mau": "gianDuiTrong"
+    },
+    {
+     "id": "sieuNhan",
+     "ten": "SIÊU NHÂN NẰM SẤP",
+     "kieu": "lay",
+     "mau": "sieuNhan"
+    },
+    {
+     "id": "giuSieuNhan",
+     "ten": "GIỮ SIÊU NHÂN",
+     "kieu": "giuDk",
+     "mau": "giuSieuNhan"
+    },
+    {
+     "id": "epBaVaiSap",
+     "ten": "ÉP BẢ VAI NẰM SẤP",
+     "kieu": "lay",
+     "mau": "epBaVaiSap"
+    },
+    {
+     "id": "chuISap",
+     "ten": "NÂNG TAY CHỮ I",
+     "kieu": "lay",
+     "mau": "chuISap"
+    },
+    {
+     "id": "chuYSap",
+     "ten": "NÂNG TAY CHỮ Y",
+     "kieu": "lay",
+     "mau": "chuYSap"
+    },
+    {
+     "id": "chuTSap",
+     "ten": "CHỮ T NẰM SẤP",
+     "kieu": "lay",
+     "mau": "chuTSap"
+    },
+    {
+     "id": "chuWSap",
+     "ten": "CHỮ W NẰM SẤP",
+     "kieu": "lay",
+     "mau": "chuWSap"
+    },
+    {
+     "id": "keoTayW",
+     "ten": "KÉO TAY CHỮ W",
+     "kieu": "chuoi",
+     "mau": "keoTayW"
+    },
+    {
+     "id": "chuoiYTW",
+     "ten": "CHUỖI Y – T – W",
+     "kieu": "chuoi",
+     "mau": "chuoiYTW"
+    },
+    {
+     "id": "thienThanSap",
+     "ten": "THIÊN THẦN TUYẾT",
+     "kieu": "lay",
+     "mau": "thienThanSap"
+    },
+    {
+     "id": "raHoMang",
+     "ten": "RẮN HỔ MANG",
+     "kieu": "lay",
+     "mau": "raHoMang"
+    },
+    {
+     "id": "giuRaHoMang",
+     "ten": "GIỮ RẮN HỔ MANG",
+     "kieu": "giuDk",
+     "mau": "giuRaHoMang"
+    },
+    {
+     "id": "nhanSu",
+     "ten": "NHÂN SƯ",
+     "kieu": "giuDk",
+     "mau": "nhanSu"
+    },
+    {
+     "id": "boNgua",
+     "ten": "BỌ NGỬA",
+     "kieu": "lay",
+     "mau": "boNgua"
+    },
+    {
+     "id": "thuyenLom",
+     "ten": "GIỮ THUYỀN LÕM",
+     "kieu": "giuDk",
+     "mau": "thuyenLom"
+    },
+    {
+     "id": "thuyenLomDua",
+     "ten": "THUYỀN LÕM ĐUNG ĐƯA",
+     "kieu": "lay",
+     "mau": "thuyenLomDua"
+    },
+    {
+     "id": "nghiengChau",
+     "ten": "NGHIÊNG XƯƠNG CHẬU",
+     "kieu": "huongDan",
+     "mau": "nghiengChau"
+    },
+    {
+     "id": "xoayHong9090",
+     "ten": "XOAY HÔNG 90/90",
+     "kieu": "huongDan",
+     "mau": "xoayHong9090"
+    },
+    {
+     "id": "namThaLong",
+     "ten": "NẰM THẢ LỎNG",
+     "kieu": "thoiGian",
+     "mau": "namThaLong"
+    },
+    {
+     "id": "thoBungNam",
+     "ten": "THỞ BỤNG NẰM",
+     "kieu": "huongDan",
+     "mau": "thoBungNam"
+    },
+    {
+     "id": "plankNghieng",
+     "ten": "PLANK NGHIÊNG",
+     "kieu": "giuDk",
+     "mau": "plankNghieng"
+    },
+    {
+     "id": "plankNghiengGoi",
+     "ten": "PLANK NGHIÊNG CHỐNG GỐI",
+     "kieu": "giuDk",
+     "mau": "plankNghiengGoi"
+    },
+    {
+     "id": "plankNghiengSao",
+     "ten": "PLANK NGHIÊNG NGÔI SAO",
+     "kieu": "giuDk",
+     "mau": "plankNghiengSao"
+    },
+    {
+     "id": "nangHongNghieng",
+     "ten": "PLANK NGHIÊNG GỐI – NÂNG HÔNG",
+     "kieu": "lay",
+     "mau": "nangHongNghieng"
+    },
+    {
+     "id": "moSach",
+     "ten": "MỞ SÁCH",
+     "kieu": "lay",
+     "mau": "moSach"
+    },
+    {
+     "id": "boGau",
+     "ten": "BÒ GẤU",
+     "kieu": "lay",
+     "mau": "boGau"
+    },
+    {
+     "id": "boCua",
+     "ten": "BÒ CUA",
+     "kieu": "lay",
+     "mau": "boCua"
+    },
+    {
+     "id": "boGauNgang",
+     "ten": "BÒ GẤU NGANG",
+     "kieu": "lay",
+     "mau": "boGauNgang"
+    },
+    {
+     "id": "diVit",
+     "ten": "ĐI VỊT",
+     "kieu": "lay",
+     "mau": "diVit"
+    },
+    {
+     "id": "diKhiDot",
+     "ten": "ĐI KHỈ ĐỘT",
+     "kieu": "lay",
+     "mau": "diKhiDot"
+    },
+    {
+     "id": "diEch",
+     "ten": "NHẢY ẾCH",
+     "kieu": "lay",
+     "mau": "diEch"
+    },
+    {
+     "id": "sauDo",
+     "ten": "SÂU ĐO",
+     "kieu": "lay",
+     "mau": "sauDo"
+    },
+    {
+     "id": "truon",
+     "ten": "TRƯỜN",
+     "kieu": "lay",
+     "mau": "truon"
+    },
+    {
+     "id": "choUpMat",
+     "ten": "CHÓ ÚP MẶT",
+     "kieu": "giuDk",
+     "mau": "choUpMat"
+    },
+    {
+     "id": "gapHong",
+     "ten": "GẬP HÔNG",
+     "kieu": "lay",
+     "mau": "gapHong"
+    },
+    {
+     "id": "gapHongTuong",
+     "ten": "GẬP HÔNG CHẠM TƯỜNG",
+     "kieu": "lay",
+     "mau": "gapHongTuong"
+    },
+    {
+     "id": "gapHongGay",
+     "ten": "GẬP HÔNG VỚI GẬY",
+     "kieu": "lay",
+     "mau": "gapHongGay"
+    },
+    {
+     "id": "goodMorning",
+     "ten": "GẬP HÔNG TAY SAU ĐẦU",
+     "kieu": "lay",
+     "mau": "goodMorning"
+    },
+    {
+     "id": "rdl",
+     "ten": "GẬP HÔNG TAY TRƯỢT ĐÙI",
+     "kieu": "lay",
+     "mau": "rdl"
+    },
+    {
+     "id": "gapHongVuon",
+     "ten": "GẬP HÔNG VƯƠN TAY",
+     "kieu": "lay",
+     "mau": "gapHongVuon"
+    },
+    {
+     "id": "gapHongKeo",
+     "ten": "GẬP HÔNG KÉO TAY",
+     "kieu": "lay",
+     "mau": "gapHongKeo"
+    },
+    {
+     "id": "gapHongSole",
+     "ten": "GẬP HÔNG CHÂN SO LE",
+     "kieu": "lay",
+     "mau": "gapHongSole"
+    },
+    {
+     "id": "gapHongMot",
+     "ten": "GẬP HÔNG MỘT CHÂN",
+     "kieu": "lay",
+     "mau": "gapHongMot"
+    },
+    {
+     "id": "gapHongMotVin",
+     "ten": "GẬP HÔNG MỘT CHÂN CÓ VỊN",
+     "kieu": "lay",
+     "mau": "gapHongMotVin"
+    },
+    {
+     "id": "rdlMot",
+     "ten": "RDL MỘT CHÂN",
+     "kieu": "lay",
+     "mau": "rdlMot"
+    },
+    {
+     "id": "giuGapHongMot",
+     "ten": "GIỮ GẬP HÔNG MỘT CHÂN",
+     "kieu": "giuDk",
+     "mau": "giuGapHongMot"
+    },
+    {
+     "id": "gapHongNangGoi",
+     "ten": "GẬP HÔNG RỒI NÂNG GỐI",
+     "kieu": "chuoi",
+     "mau": "gapHongNangGoi"
+    },
+    {
+     "id": "dungDuoiHong",
+     "ten": "ĐỨNG DUỖI HÔNG RA SAU",
+     "kieu": "lay",
+     "mau": "dungDuoiHong"
+    },
+    {
+     "id": "squatKhoanh",
+     "ten": "SQUAT TAY KHOANH",
+     "kieu": "lay",
+     "mau": "squatKhoanh"
+    },
+    {
+     "id": "squatGheNg",
+     "ten": "SQUAT NGỒI CHẠM GHẾ",
+     "kieu": "lay",
+     "mau": "squatGheNg"
+    },
+    {
+     "id": "squatTayTruoc",
+     "ten": "SQUAT ĐƯA TAY TRƯỚC",
+     "kieu": "lay",
+     "mau": "squatTayTruoc"
+    },
+    {
+     "id": "squatSole",
+     "ten": "SQUAT CHÂN TRƯỚC – SAU",
+     "kieu": "lay",
+     "mau": "squatSole"
+    },
+    {
+     "id": "squatSoleGiu",
+     "ten": "SQUAT TRƯỚC – SAU GIỮ DƯỚI",
+     "kieu": "lay",
+     "mau": "squatSoleGiu"
+    },
+    {
+     "id": "squatBulgaria",
+     "ten": "SQUAT BULGARIA",
+     "kieu": "lay",
+     "mau": "squatBulgaria"
+    },
+    {
+     "id": "lungeTaiCho",
+     "ten": "LUNGE TẠI CHỖ",
+     "kieu": "ld",
+     "mau": "lungeTaiCho"
+    },
+    {
+     "id": "lungeLuiNg",
+     "ten": "LUNGE LÙI",
+     "kieu": "lay",
+     "mau": "lungeLuiNg"
+    },
+    {
+     "id": "lungeToi",
+     "ten": "LUNGE TỚI",
+     "kieu": "lay",
+     "mau": "lungeToi"
+    },
+    {
+     "id": "lungeDoiChan",
+     "ten": "LUNGE ĐỔI CHÂN",
+     "kieu": "lay",
+     "mau": "lungeDoiChan"
+    },
+    {
+     "id": "lungeLuiNangGoi",
+     "ten": "LUNGE LÙI RỒI NÂNG GỐI",
+     "kieu": "chuoi",
+     "mau": "lungeLuiNangGoi"
+    },
+    {
+     "id": "lungeNangGoi",
+     "ten": "LUNGE RỒI NÂNG GỐI",
+     "kieu": "chuoi",
+     "mau": "lungeNangGoi"
+    },
+    {
+     "id": "lungeVuonNg",
+     "ten": "LUNGE VƯƠN TAY",
+     "kieu": "lay",
+     "mau": "lungeVuonNg"
+    },
+    {
+     "id": "lungeXoay",
+     "ten": "LUNGE XOAY NGƯỜI",
+     "kieu": "lay",
+     "mau": "lungeXoay"
+    },
+    {
+     "id": "gianTuyetNhat",
+     "ten": "GIÃN TUYỆT NHẤT THẾ GIỚI",
+     "kieu": "lay",
+     "mau": "gianTuyetNhat"
+    },
+    {
+     "id": "gianGapHong",
+     "ten": "GIÃN CƠ GẬP HÔNG (QUỲ)",
+     "kieu": "giuDk",
+     "mau": "gianGapHong"
+    },
+    {
+     "id": "gianDuiSau",
+     "ten": "GIÃN ĐÙI SAU",
+     "kieu": "giuDk",
+     "mau": "gianDuiSau"
+    },
+    {
+     "id": "gianBapChanNg",
+     "ten": "GIÃN BẮP CHÂN",
+     "kieu": "giuDk",
+     "mau": "gianBapChanNg"
+    },
+    {
+     "id": "dayGoiCoChan",
+     "ten": "ĐẨY GỐI QUA MŨI CHÂN (QUỲ)",
+     "kieu": "lay",
+     "mau": "dayGoiCoChan"
+    },
+    {
+     "id": "dayGoiDung",
+     "ten": "ĐẨY GỐI QUA MŨI CHÂN",
+     "kieu": "lay",
+     "mau": "dayGoiDung"
+    },
+    {
+     "id": "ngoiXomGiu",
+     "ten": "GIỮ NGỒI XỔM SÂU",
+     "kieu": "giuDk",
+     "mau": "ngoiXomGiu"
+    },
+    {
+     "id": "gianNgucNg",
+     "ten": "GIÃN NGỰC TỰA TƯỜNG",
+     "kieu": "giuDk",
+     "mau": "gianNgucNg"
+    },
+    {
+     "id": "dungTuaTuong",
+     "ten": "ĐỨNG THẲNG TỰA TƯỜNG",
+     "kieu": "giuDk",
+     "mau": "dungTuaTuong"
+    },
+    {
+     "id": "kiemTraTuong",
+     "ten": "KIỂM TRA THẲNG NGƯỜI",
+     "kieu": "lay",
+     "mau": "kiemTraTuong"
+    },
+    {
+     "id": "thuCam",
+     "ten": "THU CẰM",
+     "kieu": "huongDan",
+     "mau": "thuCam"
+    },
+    {
+     "id": "giuThuCam",
+     "ten": "GIỮ THU CẰM",
+     "kieu": "giuDk",
+     "mau": "giuThuCam"
+    },
+    {
+     "id": "nghiengChauDung",
+     "ten": "NGHIÊNG XƯƠNG CHẬU (TỰA TƯỜNG)",
+     "kieu": "huongDan",
+     "mau": "nghiengChauDung"
+    },
+    {
+     "id": "truotTuongNg",
+     "ten": "ĐƯA TAY LÊN DỌC TƯỜNG",
+     "kieu": "lay",
+     "mau": "truotTuongNg"
+    },
+    {
+     "id": "buocXuongBac",
+     "ten": "BƯỚC XUỐNG CÓ KIỂM SOÁT",
+     "kieu": "lay",
+     "mau": "buocXuongBac"
+    },
+    {
+     "id": "keoDayNgoi",
+     "ten": "KÉO DÂY THUN KHI NGỒI",
+     "kieu": "lay",
+     "mau": "keoDayNgoi"
+    },
+    {
+     "id": "plankGhe",
+     "ten": "PLANK TAY TRÊN GHẾ",
+     "kieu": "giuDk",
+     "mau": "plankGhe"
+    },
+    {
+     "id": "chongDayTuongCham",
+     "ten": "CHỐNG ĐẨY TƯỜNG HẠ CHẬM",
+     "kieu": "lay",
+     "mau": "chongDayTuongCham"
+    },
+    {
+     "id": "chongDayTuongDung",
+     "ten": "CHỐNG ĐẨY TƯỜNG DỪNG DƯỚI",
+     "kieu": "lay",
+     "mau": "chongDayTuongDung"
+    },
+    {
+     "id": "chongDayGheCham",
+     "ten": "CHỐNG ĐẨY GHẾ HẠ CHẬM",
+     "kieu": "lay",
+     "mau": "chongDayGheCham"
+    },
+    {
+     "id": "chongDayGheDung",
+     "ten": "CHỐNG ĐẨY GHẾ DỪNG DƯỚI",
+     "kieu": "lay",
+     "mau": "chongDayGheDung"
+    },
+    {
+     "id": "chongDayBaVaiTuong",
+     "ten": "CHỐNG ĐẨY BẢ VAI Ở TƯỜNG",
+     "kieu": "huongDan",
+     "mau": "chongDayBaVaiTuong"
+    },
+    {
+     "id": "chongDayChamVai",
+     "ten": "CHỐNG ĐẨY CHẠM VAI",
+     "kieu": "chuoi",
+     "mau": "chongDayChamVai"
+    },
+    {
+     "id": "boBon",
+     "ten": "BÒ BỐN ĐIỂM",
+     "kieu": "lay",
+     "mau": "boBon"
+    },
+    {
+     "id": "boBonNgang",
+     "ten": "BÒ BỐN ĐIỂM NGANG",
+     "kieu": "lay",
+     "mau": "boBonNgang"
+    },
+    {
+     "id": "bonChamDich",
+     "ten": "BỐN ĐIỂM CHẠM ĐÍCH",
+     "kieu": "lay",
+     "mau": "bonChamDich"
+    },
+    {
+     "id": "vungChanTS",
+     "ten": "VUNG CHÂN TRƯỚC – SAU",
+     "kieu": "lay",
+     "mau": "vungChanTS"
+    },
+    {
+     "id": "leoBacMay",
+     "ten": "LEO CẦU THANG MÂY",
+     "kieu": "lay",
+     "mau": "leoBacMay"
+    },
+    {
+     "id": "buocLenBac",
+     "ten": "BƯỚC LÊN BẬC",
+     "kieu": "lay",
+     "mau": "buocLenBac"
+    },
+    {
+     "id": "boiSap",
+     "ten": "BƠI SẤP (RÁI CÁ)",
+     "kieu": "lay",
+     "mau": "boiSap"
+    },
+    {
+     "id": "truotGot",
+     "ten": "NẰM NGỬA TRƯỢT GÓT",
+     "kieu": "lay",
+     "mau": "truotGot"
+    },
+    {
+     "id": "namNghiengNang",
+     "ten": "NẰM NGHIÊNG NÂNG CHÂN",
+     "kieu": "lay",
+     "mau": "namNghiengNang"
+    },
+    {
+     "id": "ngoiSangBon",
+     "ten": "NGỒI SANG BỐN ĐIỂM",
+     "kieu": "lay",
+     "mau": "ngoiSangBon"
+    },
+    {
+     "id": "burpeeBuoc",
+     "ten": "BURPEE BƯỚC",
+     "kieu": "lay",
+     "mau": "burpeeBuoc"
+    },
+    {
+     "id": "burpeeBat",
+     "ten": "BURPEE BẬT",
+     "kieu": "lay",
+     "mau": "burpeeBat"
+    },
+    {
+     "id": "echBat",
+     "ten": "ẾCH BẬT TẠI CHỖ",
+     "kieu": "lay",
+     "mau": "echBat"
+    }
+   ]
+  }
+ }
+}

@@ -6,12 +6,17 @@ import { fileURLToPath } from 'node:url';
 import { KichBan, LENH, type Buoc, type TenLenh } from './schema.js';
 // @ts-ignore – module JS dùng chung với sân khấu
 import { KIEU_SAI } from '../dong-tac/kieu-sai.js';
+import { docMau, lyDoChuaHoTro } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const DONG_TAC: string[] = Object.keys(JSON.parse(fs.readFileSync(path.join(GOC, 'src/dong-tac/mau/ht003.json'), 'utf8')).dongTac);
+const DONG_TAC: string[] = Object.keys(docMau().dongTac);
 /** kiểm tên động tác + kiểu sai có trong thư viện */
 function kiemDongTac(dt: string, sai?: string): string | null {
-  if (!DONG_TAC.includes(dt)) return `không có động tác "${dt}" (có: ${DONG_TAC.join(', ')})`;
+  if (!DONG_TAC.includes(dt)){
+    const ly = lyDoChuaHoTro(dt); if (ly) return `động tác "${dt}" bot CHƯA HỖ TRỢ: ${ly} (xem: npm run bot -- dong-tac)`;
+    const gan = DONG_TAC.filter(k => k.toLowerCase().includes(dt.toLowerCase().slice(0, 4))).slice(0, 8);
+    return `không có động tác "${dt}" – id theo HT_DT của app, xem: npm run bot -- dong-tac${gan.length ? ` (gần giống: ${gan.join(', ')})` : ''}`;
+  }
   if (sai && !(KIEU_SAI as any)[dt]?.[sai]) return `động tác ${dt} không có kiểu sai "${sai}" (có: ${Object.keys((KIEU_SAI as any)[dt] ?? {}).join(', ') || 'không'})`;
   return null;
 }
@@ -52,7 +57,7 @@ export function docTep(tep: string): Case[] {
       if (!v.success){ for (const e of v.error.issues) loi.push(`${tep}:${dongCua([...duong, 'buoc', i, ...e.path])}: bước ${i + 1} (${lenh[0]}): ${e.path.join('.') || ''} ${e.message}`.replace(/\s+/g, ' ')); return; }
       const d: any = v.data;
       const sai = lenh[0] === 'lam' ? kiemDongTac(d.lam, d.kieu_sai)
-        : lenh[0] === 'tu_dong' ? Object.entries<string>(d.tu_dong.sai ?? {}).map(([k, x]) => kiemDongTac(k, x)).find(Boolean) ?? null : null;
+        : lenh[0] === 'tu_dong' ? [...Object.entries<string>(d.tu_dong.sai ?? {}).map(([k, x]) => kiemDongTac(k, x)), ...Object.keys(d.tu_dong.bien_do ?? {}).map(k => kiemDongTac(k))].find(Boolean) ?? null : null;
       if (sai){ loi.push(`${tep}:${dong}: bước ${i + 1} (${lenh[0]}): ${sai}`); return; }
       buoc.push({ ...d, lenh: lenh[0], dong });
     });
