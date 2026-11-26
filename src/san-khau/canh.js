@@ -122,6 +122,7 @@ window.__botSanKhau = {
     else if (o.camera && tr.san) tr.camSan = datCamNghieng({ ...tr.camSan, ...o.camera });
     if (o.ghe !== undefined){ if (![...KIEU_GHE, 'khong'].includes(o.ghe)) throw new Error('kiểu ghế lạ: ' + o.ghe); tr.kieuGhe = o.ghe; }
     if (o.ngoiCho !== undefined) tr.tv.datNgoiCho(o.ngoiCho);
+    if (o.nhieu !== undefined && hauKy) hauKy.datNhieu(o.nhieu);   // nhiễu hạt webcam (mặc định 0,035)
     return { ghe: tr.kieuGhe, ngoiCho: !!o.ngoiCho, cam: tr.san ? 'nghieng' : 'truoc', camera: tr.camSan || null, tiLe: tr.san ? Object.fromEntries(Object.entries(tr.san.Ls).map(([k, v]) => [k, +(+v).toFixed(3)])) : null };
   },
   /** liệt kê lưới + vật liệu – soi lỗi */

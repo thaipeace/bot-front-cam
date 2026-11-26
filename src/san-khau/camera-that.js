@@ -34,5 +34,7 @@ export function dungHauKy(renderer, W, H, o = {}){
       renderer.setRenderTarget(null); mat.uniforms.uThoi.value = t % 100; renderer.render(canhPhu, camPhu);
     },
     tat(){ /* để tắt hậu kỳ khi soi lỗi */ },
+    /** độ nhiễu hạt (mặc định 0,035) – soi ảnh hưởng của nhiễu cảm biến webcam lên điểm khớp bị che */
+    datNhieu(v){ mat.uniforms.uNhieu.value = v; return v; },
   };
 }

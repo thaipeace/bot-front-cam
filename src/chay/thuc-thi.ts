@@ -13,10 +13,10 @@ import { docMau, banDoTen, troCuaUrl, docTro } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const MAU = docMau();
-const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa|Quỳ hoặc đứng nghiêng|giơ tay qua đầu để|Đặt máy thấp/i;
+export const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa|Quỳ hoặc đứng nghiêng|giơ tay qua đầu để|Đặt máy thấp/i;
 
 /** bối cảnh sân khấu theo trò trong URL (thẻ bài – tro.json) + khoá của case: trò có động tác ngồi → ngồi chờ trên ghế */
-function boiCanhCase(c: Case){
+export function boiCanhCase(c: Pick<Case, 'url' | 'ghe' | 'camera'>){
   const the = docTro()[troCuaUrl(c.url) ?? ''];
   return { ghe: c.ghe ?? 'don', ngoiCho: !!the && the.dongTac.some(id => MAU.dongTac[id]?.ngoi),
     ...(the?.cam === 'nghieng' ? { cam: 'nghieng', nghi: the.nghi, camera: c.camera } : {}) };
