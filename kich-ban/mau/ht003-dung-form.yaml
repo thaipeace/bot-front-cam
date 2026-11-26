@@ -1,5 +1,7 @@
 # HT003 Khởi động khớp – bé trai làm ĐÚNG mẫu toàn bộ buổi (mức Vừa mặc định của app).
 # Viết tường minh từng động tác theo thứ tự app hiện: làm tới khi app đổi sang động tác kế (den_khi).
+# LƯU Ý (26/11): thứ tự dưới đây là của bản 21/11. Bản 2.51.2 chèn thêm lượt (XOAY VAI sau XOAY CỔ, xoay hông lần 2 ở vòng 3…)
+# nên kịch bản tường minh lệch nhịp và hết giờ ở vòng 4 – muốn làm đúng cả buổi thì dùng tu_dong (ht003-tu-dong-sai.yaml bỏ `sai`).
 case: ht003-dung-form
 mo_ta: Làm đúng mẫu cả 4 vòng, ghi nhận bảng "động tác đủ" cuối mỗi vòng
 url: http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop
@@ -7,10 +9,9 @@ hat: 7
 buoc:
   - bam: "Tôi là bố/mẹ"            # ô đồng ý dùng camera
   - bam: { css: "#nutChoi" }       # ▶ CHƠI NGAY
-  - cho_chu: "ĐỨNG VÀO KHUNG HÌNH"
-
+  # 2.51.2: cổng vào "Giơ 2 tay lên để bắt đầu" – bé đứng yên đúng chỗ 30 giây thì app tự vào
   # làm quen
-  - cho_chu: "XOAY VAI"
+  - cho_chu: { chu: "XOAY VAI", toi_da: 90 }
   - lam: xoayVai
     den_khi: "NHÓN GÓT"
   - lam: nhonGot

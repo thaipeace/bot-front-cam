@@ -345,7 +345,14 @@ Windows:
 
 ## 14. Còn mở sau MVP
 
-1. **Xoay cổ**: một người thật thử ở mức Vừa, để biết lỗi ở bot hay ở app.
+1. ~~**Xoay cổ**~~: đã rõ ngày 26/11 – lỗi ở bot (lật trái – phải so với app), đã sửa, app đếm đủ (mục 15).
 2. **Xoay cả hông** không làm app nhắc "HÔNG ĐỨNG YÊN": cần xác nhận.
 3. **Chạy thử trên Windows.**
-4. Bài khác ngoài HT003: trích thêm mẫu, có thể cần hiệu chỉnh theo cơ thể.
+4. ~~Bài khác ngoài HT003~~: đã mở rộng 26/11 (mục 15). Còn lại: bài sàn / camera nghiêng.
+
+## 15. Mở rộng mẫu (26/11/2026): 194 động tác · độ phủ 7/340 → 190/340 (56 %)
+
+- `cong-cu/lay-mau3d.ts` trích MỌI động tác `HT_DT` ngay trong trang, ghi `src/dong-tac/mau/{tay,chan,goi,hong,toan-than}.json` + `src/dong-tac/chua-ho-tro.json` (149 chưa hỗ trợ, 138 là bài sàn).
+- Kiểm chứng 18 động tác ở 9 bài (chạy, nâng gối, squat, lunge, nhảy sao, đấm, giữ dáng, hai bên, đi lùi): làm đúng 18/18 XONG, đứng im 18/18 = 0 – bảng ở `docs/KICH-BAN.md` mục 4.
+- Sửa ba lỗi bot lộ ra khi kiểm: (1) app **soi gương** ảnh camera, bot lật trái – phải (jab 0/3 → 3/3; XOAY CỔ HT003 0/10 → 10/10); (2) nhảy bị dập chân xuống sàn (thêm pha bay); (3) `tu_dong` khớp nhầm tên bài ở cổng vào.
+- Trần độ phủ khi chưa làm bài sàn là 202/340 (59 %); 70–80 % cần làm bài sàn / camera nghiêng.

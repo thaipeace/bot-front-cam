@@ -50,7 +50,7 @@ src/
   trinh-duyet/           mở Chrome (Playwright), thay camera của app, tự phục vụ dist/app
   mat/mat.init.js        mắt trong trang app: chữ DOM + chữ vẽ lên canvas
   san-khau/              trang sân khấu: three.js, nền và ánh sáng webcam, chặn người thật trong nền, hậu kỳ giống webcam, phát WebRTC
-  dong-tac/              mẫu MAU3D trích từ app, retarget lên bé trai, thư viện động tác, kiểu sai, hiệu chỉnh
+  dong-tac/              mẫu MAU3D trích từ app (mau/*.json theo nhóm, chua-ho-tro.json), retarget lên bé trai, thư viện động tác, kiểu sai, hiệu chỉnh
   bao-cao/nen-video.ts   nén video bằng chứng (ffmpeg của Playwright)
 assets/                  bé trai (GLB), mô hình tìm người (MediaPipe)
 cong-cu/                 dựng nhân vật (Blender + MPFB2), trích mẫu từ app, công cụ dò lỗi (soi/)
@@ -60,6 +60,6 @@ kich-ban/siroby/         kịch bản Claude bên siroby-app viết theo từng 
 
 ## Giới hạn hiện tại
 
-- Chỉ HT003 (8 động tác). Bài khác thì trích thêm mẫu (`cong-cu/lay-mau3d.ts --dong-tac …`), có thể cần hiệu chỉnh.
+- Làm được 194 động tác đứng trước camera (mọi `HT_DT` có mẫu MAU3D không phải bài sàn) – `npm run bot -- dong-tac`. Chưa làm: bài sàn / camera nghiêng, bóng ảo, dừng theo lệnh, theo hướng Siroby chỉ (`src/dong-tac/chua-ho-tro.json`). App đổi mẫu thì trích lại: [docs/KICH-BAN.md](docs/KICH-BAN.md) mục 4.
 - XOAY CỔ chưa được app đếm với bé trai 3D. Chi tiết ở [docs/KICH-BAN.md](docs/KICH-BAN.md) mục "Đã biết".
 - Đã chạy thật trên macOS (Apple Silicon). Windows: mã đã rà để chạy được nhưng **chưa chạy thử trên máy Windows thật**.
