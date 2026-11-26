@@ -5,7 +5,7 @@
 //    – trừ lúc mẫu nhấc CẢ HAI chân (bật nhảy): cả người lên đúng bằng khoảng chân thấp nhất rời sàn trong mẫu
 //  - P.xa (đi lùi / bước tới / bật xa): cả người lùi xa (+) / tới gần (−) camera, cùng tỉ lệ ảnh như người giả của app (mauLmGia: 1 / (1 + 0,3·xa))
 import * as THREE from 'three';
-import { khop } from './mau.js';
+import { khop, latGuong } from './mau.js';
 import { chiDoan } from '../san-khau/nhan-vat.js';
 
 const D2R = Math.PI / 180;
@@ -24,6 +24,10 @@ function datQC(nv, b, qC){
 }
 
 export function apDang(nv, P, MAU){
+  // App SOI GƯƠNG ảnh camera (vui/10-camera.js: x = 1 − p.x): tay trái của bé hiện bên TRÁI màn – đúng phía tay[0] của mẫu (người giả: điểm 11 = tay[0]).
+  // Bé trai đứng quay mặt về camera thì bên trái màn (chưa lật) là tay PHẢI của bé → lật gương dáng một lần ở đây để app thấy đúng tay / chân như mẫu
+  // (26/11: JAB bị "TAY TRƯỚC!" 0/3 vì bé đấm tay kia; lật gương → 3/3).
+  P = latGuong(P);
   const X = nv.X, J = khop(P, MAU.MG, MAU.MAU_KT);
   // 1. về tư thế nghỉ
   for (const [b, q] of nv.nghi) b.quaternion.copy(q);
@@ -46,7 +50,7 @@ export function apDang(nv, P, MAU){
   X.hong.position.copy(X.hong.parent.worldToLocal(hongThe.clone()));
   X.hong.updateMatrixWorld(true);
 
-  // 4. tay chân theo hướng khớp. i = 0: bên TRÁI màn hình = bên PHẢI bé trai
+  // 4. tay chân theo hướng khớp (dáng đã lật gương ở đầu hàm). i = 0: bên TRÁI ảnh camera chưa lật = bên PHẢI bé trai
   for (const i of [0, 1]){
     const S = i ? 'T' : 'P', c = J.chan[i], t = J.tay[i];
     chiDoan(nv, X['dui' + S], V(c.goi).sub(V(c.hang)));

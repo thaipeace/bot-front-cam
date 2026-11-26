@@ -1,6 +1,6 @@
 // MẪU ĐỘNG TÁC – tái dựng phần toán của siroby-app (vui/26-siroby-mau.js: mNoi, mEm, mauDang, g3Quay, g3Ik, mauKhop)
 // để bé trai làm ĐÚNG khung hình chuẩn mà app dùng cho Siroby 3D và người giả. Dữ liệu: ./mau/*.json (cong-cu/lay-mau3d.ts).
-// Toạ độ mẫu: y lên, +z về phía camera, x −1 = bên TRÁI màn hình (= bên PHẢI của bé trai khi quay mặt về camera).
+// Toạ độ mẫu: y lên, +z về phía camera, x −1 = bên TRÁI màn hình của APP (app soi gương ảnh camera → = tay / chân TRÁI của bé; apDang lật gương dáng trước khi áp).
 const D2R = Math.PI / 180;
 
 export async function napMau(url = '/__bot/dong-tac/mau/_tat-ca.json'){   // mọi tệp mau/*.json gộp lại (doc-mau.ts, route trong mo-chrome.ts)
