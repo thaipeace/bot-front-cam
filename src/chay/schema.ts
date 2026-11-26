@@ -60,6 +60,12 @@ export const KichBan = z.object({
   url: z.string().url().default(URL_MAC_DINH),
   hat: z.number().int().default(7),
   nen: z.enum(['chup', 'truc-tiep', 'phong']).optional(),
+  /** ghế cho động tác ngồi (tự hiện khi ngồi): don (mặc định, ghế đẩu) · van_phong (tay vịn / trụ che một phần chân) · ban (bàn thấp che bàn chân) · khong */
+  ghe: z.enum(['don', 'van_phong', 'ban', 'khong']).optional(),
+  /** camera giả: bài camera nghiêng (thẻ cam 'nghieng') tự đặt máy thấp ngang hông (cao 0,6 m, cách 2,6 m, nhìn ngang).
+   *  Đổi để mô phỏng người đặt máy sai: cao (m) · cach (m) · cui (độ chúi xuống) · lech (độ – máy lệch quanh người, nhìn chéo thân) */
+  camera: z.object({ cao: z.number().min(0.1).max(2.5).optional(), cach: z.number().min(0.8).max(6).optional(),
+    cui: z.number().min(-10).max(60).optional(), lech: z.number().min(-80).max(80).optional() }).strict().optional(),
   buoc: z.array(z.record(z.unknown())).min(1),
 }).strict();
 export type KichBanTho = z.infer<typeof KichBan>;

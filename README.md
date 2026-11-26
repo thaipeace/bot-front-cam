@@ -60,6 +60,6 @@ kich-ban/siroby/         kịch bản Claude bên siroby-app viết theo từng 
 
 ## Giới hạn hiện tại
 
-- Làm được 194 động tác đứng trước camera (mọi `HT_DT` có mẫu MAU3D không phải bài sàn) – `npm run bot -- dong-tac`. Chưa làm: bài sàn / camera nghiêng, bóng ảo, dừng theo lệnh, theo hướng Siroby chỉ (`src/dong-tac/chua-ho-tro.json`). App đổi mẫu thì trích lại: [docs/KICH-BAN.md](docs/KICH-BAN.md) mục 4.
+- Làm được 332/343 động tác HT_DT: đứng, **ngồi ghế** (ghế tự hiện), **bài sàn / camera nghiêng** (máy thấp ngang hông; nằm, quỳ, chống tay, tựa tường) – `npm run bot -- dong-tac`. Chưa làm: bóng ảo, dừng theo lệnh, theo hướng Siroby chỉ (`src/dong-tac/chua-ho-tro.json`). App đổi mẫu thì trích lại: [docs/KICH-BAN.md](docs/KICH-BAN.md) mục 4.
 - XOAY CỔ chưa được app đếm với bé trai 3D. Chi tiết ở [docs/KICH-BAN.md](docs/KICH-BAN.md) mục "Đã biết".
 - Đã chạy thật trên macOS (Apple Silicon). Windows: mã đã rà để chạy được nhưng **chưa chạy thử trên máy Windows thật**.

@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 const GOC_DU_AN = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 import { moPhien, docChu, moTrinhDuyet, moSanKhau } from './trinh-duyet/mo-chrome.js';
 import { docKichBan, LoiKichBan } from './chay/doc-kich-ban.js';
-import { chayCase, type KetQuaCase } from './chay/thuc-thi.js';
-import { docMau, docChuaHoTro, banDoTen } from './dong-tac/doc-mau.js';
+import { chayCase, boiCanhCase, CONG_VAO, type KetQuaCase } from './chay/thuc-thi.js';
+import { docMau, docChuaHoTro, banDoTen, troCuaUrl } from './dong-tac/doc-mau.js';
 
 const URL_MAC_DINH = 'http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop';
 
@@ -27,6 +27,7 @@ function docThamSo(argv: string[]){
 async function chayBuoc(buoc: string, p: Awaited<ReturnType<typeof moPhien>>, log: (s: string) => void){
   const i = buoc.indexOf(':'); const loai = buoc.slice(0, i), gt = buoc.slice(i + 1);
   if (loai === 'bam'){ await p.app.getByText(gt, { exact: false }).first().click({ timeout: 30_000 }); log(`BẤM "${gt}"`); }
+  else if (loai === 'bamcss'){ await p.app.locator(gt).first().click({ timeout: 30_000 }); log(`BẤM ${gt}`); }   // vd. bamcss:#nutChoi
   else if (loai === 'cho'){
     const het = Date.now() + 60_000;
     for (;;){
@@ -47,7 +48,8 @@ async function khaThi(o: Record<string, string>){
   const t0 = Date.now();
   const nhatKy = path.join(ra, 'nhat-ky.txt');
   const log = (s: string) => { const d = `${((Date.now() - t0) / 1000).toFixed(1).padStart(6)}s  ${s}`; console.log(d); fs.appendFileSync(nhatKy, d + '\n'); };
-  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, nv: o.nv, nen: (o.nen as any) ?? 'chup', dem: o.dem ? +o.dem : undefined, quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'], hat: o.hat ? +o.hat : undefined });
+  const bc = o['boi-canh'] ? JSON.parse(o['boi-canh']) : {};   // vd. --boi-canh '{"camera":{"cao":0.75,"cui":20}}' – còn lại theo trò trong URL
+  const p = await moPhien({ url: o.url ?? URL_MAC_DINH, boiCanh: { ...boiCanhCase({ url: o.url ?? URL_MAC_DINH, ghe: bc.ghe, camera: bc.camera }), ...(bc.nhieu !== undefined ? { nhieu: bc.nhieu } : {}) }, nv: o.nv, nen: (o.nen as any) ?? 'chup', dem: o.dem ? +o.dem : undefined, quayVideo: o.video === 'true' ? ra : undefined, phucVu: o['phuc-vu'], hat: o.hat ? +o.hat : undefined });
   p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));
   p.sanKhau.on('pageerror', e => log('LỖI SÂN KHẤU: ' + e.message));
   p.sanKhau.on('console', m => { if (m.type() === 'error') log('SÂN KHẤU console: ' + m.text()); });
@@ -58,8 +60,9 @@ async function khaThi(o: Record<string, string>){
   let truoc = new Set<string>();
   let dung = false;
   const tuDong = o['tu-dong'] === 'true';
-  const TEN_DT = banDoTen(docMau());
+  const TEN_DT = banDoTen(docMau(), troCuaUrl(o.url ?? URL_MAC_DINH));
   let dtHien = '';
+  const nenCong = new Set<string>();
   // ép kiểu sai / biên độ cho động tác trong chế độ tự động: --sai xoayTay=vong_nho,xoayCo=nghieng_ca_vai · --bien-do nhonGot=0.5
   const capGT = (v?: string) => new Map((v ?? '').split(',').filter(Boolean).map(x => x.split('=') as [string, string]));
   const SAI = capGT(o.sai), BIEN_DO = new Map([...capGT(o['bien-do'])].map(([k, v]) => [k, +v]));
@@ -71,8 +74,12 @@ async function khaThi(o: Record<string, string>){
         const bay = new Set([...c.canvas.map(s => '[cv] ' + s), ...c.dom.map(s => '[dom] ' + s)]);
         const moi = [...bay].filter(s => !truoc.has(s));
         // TỰ ĐỘNG: thấy tên động tác app đang yêu cầu → bé trai đổi sang đúng động tác đó (làm đến khi app đổi)
-        if (tuDong){
-          const thay = c.canvas.map(s => TEN_DT.get(s)).filter(Boolean) as string[];
+        if (tuDong && [...c.canvas, ...c.dom].some(s => CONG_VAO.test(s))){   // cổng vào: đứng chờ (như run), nhớ tên ở cổng vào là chữ nền
+          for (const id of c.canvas.map(s => TEN_DT.get(s)).filter(Boolean) as string[]) nenCong.add(id);
+          if (dtHien){ dtHien = ''; await p.sanKhau.evaluate(() => (window as any).__botSanKhau.dungDongTac()); }
+        } else if (tuDong){
+          let thay = [...new Set(c.canvas.map(s => TEN_DT.get(s)).filter(Boolean) as string[])];
+          if (thay.length > 1) thay = thay.filter(id => !nenCong.has(id));
           const chon = thay.find(id => id !== dtHien) && thay.length === 1 ? thay[0] : null;
           if (chon && chon !== dtHien){
             dtHien = chon;
@@ -128,6 +135,9 @@ async function thuNhanVat(o: Record<string, string>){
   await p.setViewportSize({ width: 660, height: 540 });
   try {
     await moSanKhau(p, goc, { nv: o.nv, nen: o.nen ?? 'phong', dem: o.dem ? +o.dem : 5, hauKy: o.hauky !== '0', cuoi: o.cuoi !== undefined ? +o.cuoi : undefined });
+    // bối cảnh: --ghe don|van_phong|ban|khong · --boi-canh '<json>' (vd. camera nghiêng)
+    const bc = { ...(o['boi-canh'] ? JSON.parse(o['boi-canh']) : {}), ...(o.ghe ? { ghe: o.ghe } : {}) };
+    if (Object.keys(bc).length) console.log('bối cảnh:', JSON.stringify(await p.evaluate(b => (window as any).__botSanKhau.datBoiCanh(b), bc)));
     const tt = await p.evaluate(() => (window as any).__botSanKhau.trangThai());
     console.log('sân khấu:', JSON.stringify(tt));
     const cv = p.locator('#cv');

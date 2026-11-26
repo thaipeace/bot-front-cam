@@ -356,3 +356,11 @@ Windows:
 - Kiểm chứng 18 động tác ở 9 bài (chạy, nâng gối, squat, lunge, nhảy sao, đấm, giữ dáng, hai bên, đi lùi): làm đúng 18/18 XONG, đứng im 18/18 = 0 – bảng ở `docs/KICH-BAN.md` mục 4.
 - Sửa ba lỗi bot lộ ra khi kiểm: (1) app **soi gương** ảnh camera, bot lật trái – phải (jab 0/3 → 3/3; XOAY CỔ HT003 0/10 → 10/10); (2) nhảy bị dập chân xuống sàn (thêm pha bay); (3) `tu_dong` khớp nhầm tên bài ở cổng vào.
 - Trần độ phủ khi chưa làm bài sàn là 202/340 (59 %); 70–80 % cần làm bài sàn / camera nghiêng.
+
+## 16. Ghế + bài sàn / camera nghiêng (27/11/2026): 332 động tác · độ phủ 190/340 → 328/340 (96 %)
+
+- Việc 0: 4 động tác ngồi (HT079) bị đếm dư khi chưa có ghế → tạm sang chưa hỗ trợ (186/340); `tu_dong` chọn id theo thẻ bài của trò (tên trùng đứng / ngồi / sàn).
+- Việc 1: ghế tự dựng (đẩu · văn phòng · bàn che chân), hông chạm mặt ghế theo dáng mẫu. Xòe ngón, nghiêng cổ chân được đếm; co vòm không bao giờ được đếm (nghi app – cử động trên ảnh quá nhỏ so với ngưỡng); ấn ngón cái chập chờn.
+- Việc 2: 138 động tác sàn – vị trí khớp dựng bằng `sanKhop` CỦA APP (mã sinh tự động từ trang) với tỉ lệ bé trai; camera nghiêng đổi được độ cao / khoảng cách / góc; tường, hộp, ghế đỡ. 18 động tác đại diện được đếm khi đủ thời gian (trừ chống đẩy tường – nghi app; tư thế em bé 1/2 – nghi tỉ lệ tay của bot).
+- SIA-110: bản chưa sửa 1 / bản đã sửa 0 ở cả hai cách đặt máy, nhưng bot chưa tái hiện được gối xa trôi (ảnh dựng quá ổn định) – cần người thật hoặc phát lại video người.
+- Còn mở: tái hiện nhiễu / trôi của webcam thật (tự cân sáng, nén, thở); điểm vai của bé trai (khớp xoay vs mỏm vai) cho bài sàn; kiểu sai giống người (ghi chú phiên đối chiếu 23/11: `phat_tay` cho xoay vòng tay, rung khi nhón gót 75 %); 11 động tác chưa hỗ trợ.

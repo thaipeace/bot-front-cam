@@ -103,7 +103,8 @@
    ],
    "nhip": 3.3,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "ngoiXomSau": {
    "ten": "GIỮ NGỒI XỔM SÂU",
@@ -113,7 +114,8 @@
    "giay": 10,
    "giu": "ngoiSau",
    "giuLien": true,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squat": {
    "ten": "SQUAT TAY KHÔNG",
@@ -124,7 +126,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatCham": {
    "ten": "SQUAT HẠ CHẬM",
@@ -135,7 +138,8 @@
    ],
    "nhip": 4.8,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatDung": {
    "ten": "SQUAT DỪNG DƯỚI",
@@ -148,7 +152,8 @@
     2,
     2.5
    ],
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatGhe": {
    "ten": "SQUAT CHẠM GHẾ",
@@ -159,7 +164,8 @@
    ],
    "nhip": 3.4,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatHep": {
    "ten": "SQUAT CHÂN HẸP",
@@ -170,7 +176,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatHong": {
    "ten": "SQUAT TAY CHỐNG HÔNG",
@@ -181,7 +188,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatHop": {
    "ten": "SQUAT CHẠM GHẾ THẤP",
@@ -192,7 +200,8 @@
    ],
    "nhip": 3.6,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatKeGot": {
    "ten": "SQUAT KÊ GÓT",
@@ -203,7 +212,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatKhoanhTruoc": {
    "ten": "ĐỨNG LÊN TAY KHOANH",
@@ -214,7 +224,8 @@
    ],
    "nhip": 3.4,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatMotChan": {
    "ten": "SQUAT MỘT CHÂN",
@@ -227,7 +238,8 @@
     1.6
    ],
    "giu": "squatMotChan",
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatNgang": {
    "ten": "SQUAT SANG NGANG",
@@ -235,7 +247,8 @@
    "kieu": "chuoi",
    "nhip": 3.3,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatNhon": {
    "ten": "SQUAT RỒI NHÓN GÓT",
@@ -243,7 +256,8 @@
    "kieu": "chuoi",
    "nhip": 4.6,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatOm": {
    "ten": "SQUAT ÔM VẬT",
@@ -254,7 +268,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatSumo": {
    "ten": "SQUAT SUMO",
@@ -265,7 +280,8 @@
    ],
    "nhip": 3.5,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatVin": {
    "ten": "SQUAT CÓ VỊN",
@@ -276,7 +292,8 @@
    ],
    "nhip": 3.3,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "squatVuon": {
    "ten": "SQUAT VƯƠN TAY",
@@ -287,7 +304,8 @@
    ],
    "nhip": 3.7,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "xoayHong": {
    "ten": "XOAY VÒNG KHỚP HÔNG",
@@ -299,7 +317,8 @@
    "nhip": 0.6,
    "moiLan": 2,
    "doiBen": "ĐỔI CHIỀU!",
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   },
   "xoayOmGoi": {
    "ten": "ÔM GỐI XOAY CẢ NGƯỜI",
@@ -310,7 +329,8 @@
    ],
    "nhip": 1.6,
    "moiLan": 1,
-   "bp": "hong"
+   "bp": "hong",
+   "san": false
   }
  },
  "mau": {

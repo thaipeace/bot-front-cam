@@ -1,0 +1,68 @@
+# SIA-112: kiểm HÌNH ẢNH (luật H5) bằng camera thật + cắt hình bé thật – bảng Thế vận hội không che bé, thủ môn + Robo của Vua phá lưới vẽ sau bé.
+# Bot không có mẫu động tác của hai trò này (chỉ HT003) → bot đứng chờ ở cổng, rồi giơ tay qua đầu liên tục (xoayTay) hoặc tay thấp (xoayVai);
+# trò tự sang việc sau khi hết giờ. KHÔNG dùng để kết luận đếm động tác / giọng (cần người).
+cases:
+  - case: tvh-tay-cao-h7
+    mo_ta: Thế vận hội, Dễ – tay giơ cao liên tục cả phiên (bảng không được che tay / đầu)
+    url: http://localhost:8790/vui/index.html?tro=the-van-hoi&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - dung_yen: 5
+      - lam: xoayTay
+      - cho_chu: { chu: "CHƠI LẠI", toi_da: 480 }
+  - case: tvh-tay-cao-h11
+    mo_ta: Như trên, hạt 11
+    url: http://localhost:8790/vui/index.html?tro=the-van-hoi&muc=0
+    hat: 11
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - dung_yen: 5
+      - lam: xoayTay
+      - cho_chu: { chu: "CHƠI LẠI", toi_da: 480 }
+  - case: tvh-tay-thap-h7
+    mo_ta: Thế vận hội, Dễ – tay thấp (xoay vai) – bảng không che đầu
+    url: http://localhost:8790/vui/index.html?tro=the-van-hoi&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - dung_yen: 5
+      - lam: xoayTay
+        so_lan: 2
+      - lam: xoayVai
+      - cho_chu: { chu: "CHƠI LẠI", toi_da: 480 }
+  - case: pl-tay-cao-h7
+    mo_ta: Vua phá lưới, Dễ – tay giơ cao liên tục (thủ môn, Robo không đè đầu / tay)
+    url: http://localhost:8790/vui/index.html?tro=pha-luoi&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - dung_yen: 5
+      - lam: xoayTay
+      - cho_chu: { chu: "CHƠI LẠI", toi_da: 480 }
+  - case: pl-tay-cao-h11
+    mo_ta: Như trên, hạt 11
+    url: http://localhost:8790/vui/index.html?tro=pha-luoi&muc=0
+    hat: 11
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - dung_yen: 5
+      - lam: xoayTay
+      - cho_chu: { chu: "CHƠI LẠI", toi_da: 480 }
+  - case: pl-tay-thap-h7
+    mo_ta: Vua phá lưới, Dễ – tay thấp (xoay vai)
+    url: http://localhost:8790/vui/index.html?tro=pha-luoi&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - dung_yen: 5
+      - lam: xoayTay
+        so_lan: 2
+      - lam: xoayVai
+      - cho_chu: { chu: "CHƠI LẠI", toi_da: 480 }

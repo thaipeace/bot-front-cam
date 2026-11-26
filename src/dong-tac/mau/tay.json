@@ -100,7 +100,8 @@
    "kieu": "chuoi",
    "nhip": 2,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "chamChanCheo": {
    "ten": "TAY CHẠM BÀN CHÂN BÊN KIA",
@@ -111,7 +112,8 @@
    ],
    "nhip": 1.75,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "chongXoay": {
    "ten": "ĐẨY TAY CHỐNG XOAY",
@@ -119,7 +121,8 @@
    "kieu": "giuDk",
    "moiLan": 1,
    "giay": 3,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "chuyenNay": {
    "ten": "CHUYỀN BÓNG NẢY ĐẤT",
@@ -130,7 +133,8 @@
    ],
    "nhip": 1.7,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "cross": {
    "ten": "ĐẤM TAY SAU (CROSS)",
@@ -138,7 +142,8 @@
    "kieu": "dam",
    "nhip": 1.1,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "dangNui": {
    "ten": "DÁNG NÚI",
@@ -146,7 +151,8 @@
    "kieu": "giuDk",
    "moiLan": 1,
    "giay": 6,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "datBaVai": {
    "ten": "ĐẶT BẢ VAI ĐÚNG",
@@ -154,7 +160,8 @@
    "kieu": "huongDan",
    "moiLan": 1,
    "giu": 5,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "dongHo": {
    "ten": "CHẠM ĐỒNG HỒ MỘT CHÂN",
@@ -165,7 +172,8 @@
    ],
    "nhip": 3.6,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "duaTayDoc": {
    "ten": "ĐƯA TAY LÊN DỌC TƯỜNG",
@@ -176,7 +184,8 @@
    ],
    "nhip": 3.7,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "epBaVai": {
    "ten": "ÉP BẢ VAI KHI ĐỨNG",
@@ -187,7 +196,8 @@
    ],
    "nhip": 2.6,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "gianDay": {
    "ten": "KÉO GIÃN DÂY THUN",
@@ -198,7 +208,8 @@
    ],
    "nhip": 2.6,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "gianNguc": {
    "ten": "GIÃN NGỰC TỰA TƯỜNG",
@@ -206,7 +217,8 @@
    "kieu": "giuDk",
    "moiLan": 1,
    "giay": 10,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "gianTayNguc": {
    "ten": "GIÃN TAY QUA NGỰC",
@@ -215,7 +227,8 @@
    "moiLan": 1,
    "giay": 10,
    "giu": "tayQuaNguc",
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "giuChuT": {
    "ten": "GIỮ CHỮ T",
@@ -224,7 +237,8 @@
    "moiLan": 1,
    "giay": 8,
    "giu": "chuT",
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "giuChuY": {
    "ten": "GIỮ CHỮ Y",
@@ -234,7 +248,8 @@
    "giay": 8,
    "giu": "chuY",
    "giuLien": true,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "gongTha": {
    "ten": "GỒNG CỨNG – THẢ MỀM",
@@ -245,7 +260,8 @@
    ],
    "nhip": 3.4,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "hoaNo": {
    "ten": "HOA NỞ – HOA KHÉP",
@@ -256,7 +272,8 @@
    ],
    "nhip": 4,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "jab": {
    "ten": "ĐẤM TAY TRƯỚC (JAB)",
@@ -264,7 +281,8 @@
    "kieu": "dam",
    "nhip": 1.05,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "jackCheo": {
    "ten": "JACK BẮT CHÉO",
@@ -275,7 +293,8 @@
    ],
    "nhip": 1.05,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "jackVoTay": {
    "ten": "JACK VỖ TAY TRƯỚC NGỰC",
@@ -286,7 +305,8 @@
    ],
    "nhip": 1.05,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "keoCungP": {
    "ten": "KÉO CUNG BÊN PHẢI",
@@ -297,7 +317,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "keoCungT": {
    "ten": "KÉO CUNG BÊN TRÁI",
@@ -308,7 +329,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "keoDayMat": {
    "ten": "KÉO DÂY VỀ MẶT",
@@ -319,7 +341,8 @@
    ],
    "nhip": 2.7,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "keoDayMot": {
    "ten": "KÉO DÂY MỘT TAY",
@@ -330,7 +353,8 @@
    ],
    "nhip": 1.85,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "keoDayVe": {
    "ten": "KÉO DÂY THUN VỀ",
@@ -341,7 +365,8 @@
    ],
    "nhip": 2.7,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "keoXa": {
    "ten": "KÉO XÀ TƯỞNG TƯỢNG",
@@ -352,7 +377,8 @@
    ],
    "nhip": 3,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "lanBong": {
    "ten": "LĂN BÓNG",
@@ -363,7 +389,8 @@
    ],
    "nhip": 2.2,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "mocLen": {
    "ten": "ĐẤM MÓC LÊN",
@@ -374,7 +401,8 @@
    ],
    "nhip": 1.22,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "mocSau": {
    "ten": "ĐẤM MÓC TAY SAU",
@@ -385,7 +413,8 @@
    ],
    "nhip": 1.27,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "mocTruoc": {
    "ten": "ĐẤM MÓC TAY TRƯỚC",
@@ -396,7 +425,8 @@
    ],
    "nhip": 1.27,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "motChanVoi": {
    "ten": "ĐỨNG MỘT CHÂN VỚI NGANG",
@@ -407,7 +437,8 @@
    ],
    "nhip": 2.5,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "motHai": {
    "ten": "ĐẤM 1 – 2",
@@ -415,7 +446,8 @@
    "kieu": "chuoi",
    "nhip": 1.8,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "motHaiBa": {
    "ten": "ĐẤM 1 – 2 – 3",
@@ -423,7 +455,8 @@
    "kieu": "chuoi",
    "nhip": 2.6,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nayBat": {
    "ten": "NẢY BÓNG RỒI BẮT",
@@ -434,7 +467,8 @@
    ],
    "nhip": 1.4,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nemDuoi": {
    "ten": "NÉM TAY DƯỚI",
@@ -445,7 +479,8 @@
    ],
    "nhip": 1.8,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nemMotTay": {
    "ten": "NÉM MỘT TAY",
@@ -456,7 +491,8 @@
    ],
    "nhip": 1.1,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nemNgangHong": {
    "ten": "NÉM NGANG HÔNG",
@@ -467,7 +503,8 @@
    ],
    "nhip": 1.3,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nemNguc": {
    "ten": "NÉM HAI TAY TRƯỚC NGỰC",
@@ -478,7 +515,8 @@
    ],
    "nhip": 1.6,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nemQuaDau": {
    "ten": "NÉM QUA ĐẦU",
@@ -489,7 +527,8 @@
    ],
    "nhip": 1.4,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nemXoay": {
    "ten": "NÉM XOAY NGƯỜI",
@@ -500,7 +539,8 @@
    ],
    "nhip": 1.2,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "nghiengLuon": {
    "ten": "NGHIÊNG LƯỜN",
@@ -511,7 +551,8 @@
    ],
    "nhip": 2.4,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "theThu": {
    "ten": "THẾ ĐỨNG QUYỀN ANH",
@@ -519,7 +560,8 @@
    "kieu": "giuDk",
    "moiLan": 1,
    "giay": 5,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "thienThan": {
    "ten": "THIÊN THẦN TRÊN TƯỜNG",
@@ -530,14 +572,16 @@
    ],
    "nhip": 3.7,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "thoBung": {
    "ten": "THỞ BỤNG",
    "mau": "thoTay",
    "kieu": "tho",
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "treoTay": {
    "ten": "TREO TAY GIỮ CAO",
@@ -545,7 +589,8 @@
    "kieu": "giuDk",
    "moiLan": 1,
    "giay": 5,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "truotCham": {
    "ten": "TRƯỢT NGANG CHẠM SÀN",
@@ -553,7 +598,8 @@
    "kieu": "chuoi",
    "nhip": 3.5,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "truotTuong": {
    "ten": "TRƯỢT TAY TRÊN TƯỜNG",
@@ -564,7 +610,8 @@
    ],
    "nhip": 3.5,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "tungBat": {
    "ten": "NÉM RỒI BẮT",
@@ -575,7 +622,8 @@
    ],
    "nhip": 1.8,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "tungVoBat": {
    "ten": "TUNG – VỖ TAY – BẮT",
@@ -583,7 +631,8 @@
    "kieu": "chuoi",
    "nhip": 2.2,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "vungVot": {
    "ten": "VUNG VỢT TAY DƯỚI",
@@ -594,7 +643,8 @@
    ],
    "nhip": 1.6,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "xoayLung": {
    "ten": "XOAY LƯNG TRÊN",
@@ -605,7 +655,8 @@
    ],
    "nhip": 1.7,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "xoayTay": {
    "ten": "XOAY VÒNG TAY",
@@ -616,7 +667,8 @@
    ],
    "nhip": 1.3,
    "moiLan": 2,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "xoayThan": {
    "ten": "XOAY THÂN KHI ĐỨNG",
@@ -627,7 +679,8 @@
    ],
    "nhip": 0.95,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "xoayVai": {
    "ten": "XOAY VAI",
@@ -638,7 +691,8 @@
    ],
    "nhip": 1.05,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   },
   "xoayVaiNgoai": {
    "ten": "XOAY VAI RA NGOÀI",
@@ -649,7 +703,8 @@
    ],
    "nhip": 2.8,
    "moiLan": 1,
-   "bp": "tay"
+   "bp": "tay",
+   "san": false
   }
  },
  "mau": {

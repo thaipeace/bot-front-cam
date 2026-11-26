@@ -1,0 +1,22 @@
+# SIA-110 – tái hiện "nằm im mà gối phía xa bị che trôi → nghiêng chậu vẫn bị đếm" (người thật trên 2e184a7b: 6/6).
+# HT030 Cầu mông nền tảng, lượt NGHIÊNG CHẬU ở phần làm quen: bé trai nằm ngửa co gối IM (biên độ 0) suốt lượt.
+# Chạy trên hai bản: 2e184a7b (chưa sửa) và c1e725bc (đã sửa – luật dongHaiBen), mỗi bản hai cách đặt máy.
+# Kỳ vọng: bản chưa sửa đếm oan khi máy nhìn chéo; bản đã sửa 0.
+cases:
+  - case: sia110-cheo
+    mo_ta: Máy trên bàn ~0,75 m, chúi xuống 20°, lệch 30° (nhìn chéo thân – như video người thật b7-ht030-nam-im), nằm im ở lượt nghiêng chậu
+    url: http://localhost:8790/vui/index.html?tro=ht030-cau-mong-nen-tang&muc=0
+    hat: 7
+    camera: { cao: 0.75, cach: 1.9, cui: 20, lech: 30 }
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { toi_da: 120, bien_do: { nghiengChau: 0 } }
+  - case: sia110-ngang-hong
+    mo_ta: Máy đúng chuẩn – thấp ngang hông 0,6 m, cách 2,6 m, nhìn ngang; nằm im ở lượt nghiêng chậu
+    url: http://localhost:8790/vui/index.html?tro=ht030-cau-mong-nen-tang&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { toi_da: 120, bien_do: { nghiengChau: 0 } }

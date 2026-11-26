@@ -10,7 +10,7 @@ Bot là một bé trai 3D 11 tuổi (cao 1,40 m) đứng trước "camera" của
 - **đọc chữ trên màn** gồm DOM và chữ game vẽ lên canvas, 10 lần mỗi giây;
 - **bấm nút** như người test.
 
-Chỉ chạy trên web: Chrome trên macOS / Windows. Bot làm được **mọi động tác đứng trước camera có mẫu MAU3D** (194/343 động tác HT_DT, bản 2.51.2 – mục 4). Bài kiểm kỹ nhất: **HT003 Khởi động khớp**; 18 động tác ở 9 bài khác đã kiểm chứng ngày 26/11 (mục 4).
+Chỉ chạy trên web: Chrome trên macOS / Windows. Bot làm được **332/343 động tác HT_DT** (bản 2.51.2 – mục 4): đứng trước camera, **ngồi ghế** (ghế tự hiện), **bài sàn / camera nghiêng** (máy thấp ngang hông, nằm – quỳ – chống tay – tựa tường). Bài kiểm kỹ nhất: HT003; các nhóm khác kiểm chứng 26 – 27/11 (mục 4).
 
 ## 2. Chạy
 
@@ -47,6 +47,8 @@ mo_ta: Xoay vai đúng mẫu ở phần làm quen
 url: http://localhost:8790/vui/index.html?tro=ht003-khoi-dong-khop   # mặc định như này
 hat: 7                           # tuỳ chọn
 nen: phong                       # tuỳ chọn: chup | truc-tiep | phong
+ghe: don                         # tuỳ chọn – động tác ngồi: don (ghế đẩu, mặc định) | van_phong | ban | khong
+camera: { cao: 0.75, cui: 20 }   # tuỳ chọn – bài camera nghiêng: đổi cách đặt máy (xem dưới)
 buoc:
   - bam: "Tôi là bố/mẹ"
   - bam: { css: "#nutChoi" }
@@ -57,6 +59,13 @@ buoc:
     nhin_lai: 30
     ten: du-5-lan
 ```
+
+**Bối cảnh tự theo trò trong URL** (thẻ bài, `src/dong-tac/tro.json`): trò có động tác ngồi → ghế; thẻ `cam: 'nghieng'` → camera nghiêng + dáng nghỉ `nghi` của thẻ. Hai khoá của case chỉ để đổi bối cảnh đó:
+
+| Khoá case | Ý nghĩa |
+|---|---|
+| `ghe` | ghế cho động tác ngồi (`HT_DT.ngoi`, vd. HT079): `don` ghế đẩu không lưng, quay mặt về camera, hai bàn chân trên sàn (cách đặt chuẩn – mặc định) · `van_phong` ghế văn phòng (lưng, tay vịn, trụ + chân sao che một phần chân) · `ban` bàn thấp ngay trước bàn chân (mép bàn che bàn chân) · `khong`. Hai kiểu có vật che chỉ để soi trường hợp người thật |
+| `camera` | bài camera nghiêng: `{ cao, cach, cui, lech }` – mặc định **máy thấp ngang hông** `cao 0.6` m, `cach 2.6` m, nhìn ngang (`cui 0`), vuông góc thân (`lech 0`). Mô phỏng người đặt sai: máy trên bàn nhìn chéo xuống `{ cao: 0.75, cach: 1.9, cui: 20, lech: 30 }`. `cui` = độ chúi xuống, `lech` = máy lệch quanh người (nhìn chéo thân) |
 
 Mỗi bước là **một đối tượng có đúng một lệnh**. Tham số đi kèm là các khoá ngang hàng (viết nhiều dòng, hoặc dạng `{ ... }` trên một dòng). Khoá lạ bị báo lỗi, nên gõ sai tên sẽ bị bắt ở `kiem`.
 
@@ -124,16 +133,17 @@ Bước nào cũng nhận thêm `luc: <giây>`: chờ tới **mốc `goc_thoi_gi
 
 ## 4. Động tác
 
-**Bot làm được 194 động tác** (bản app 2.51.2): mọi động tác `HT_DT` đứng trước camera có mẫu `MAU3D`. Theo `kiem-bang --tat-ca` của siroby-app: **190/340 động tác trong thẻ bài (56 %)**. Phần còn lại chủ yếu là bài sàn / camera nghiêng (xem "Chưa hỗ trợ").
+**Bot làm được 332/343 động tác HT_DT** (bản app 2.51.2): đứng 190 · ngồi ghế 4 · bài sàn / camera nghiêng 138. Theo `kiem-bang --tat-ca` của siroby-app: **328/340 động tác trong thẻ bài (96 %)**. Còn 11 chưa hỗ trợ (bóng ảo, dừng theo lệnh, theo hướng – xem dưới).
 
 ```bash
 npm run bot -- dong-tac                 # mọi động tác theo nhóm: id · tên app hiện · kiểu · nhịp / giây giữ · kiểu sai
 npm run bot -- dong-tac --tim lunge     # lọc theo id / tên
 npm run bot -- dong-tac --chua-ho-tro   # thêm danh sách đủ id chưa hỗ trợ
+node cong-cu/do-phu.mjs <siroby-app>    # độ phủ tách đứng · ngồi ghế · sàn (cùng tập động tác kiem-bang đếm)
 ```
 
-- **id** = khoá `HT_DT` của app, cũng là id trong thẻ bài `vui/htNNN-*.js` (`hoc: [...]`, `ds: [['squat', 8], …]`). **Tên** = chữ app hiện trên thẻ động tác; `tu_dong` khớp nguyên văn tên này.
-- Dữ liệu: `src/dong-tac/mau/{tay,chan,goi,hong,toan-than}.json` (chia theo bộ phận `bp` của HT_DT). Công cụ `kiem-bang.mjs` bên siroby-app đọc khoá `dongTac` của mọi tệp ở đây.
+- **id** = khoá `HT_DT` của app, cũng là id trong thẻ bài `vui/htNNN-*.js` (`hoc: [...]`, `ds: [['squat', 8], …]`). **Tên** = chữ app hiện trên thẻ động tác; `tu_dong` khớp nguyên văn tên này. **Tên trùng** (bản đứng / bản sàn cùng tên, vd. "LUNGE TỚI" = `lungeTruoc` đứng / `lungeToi` sàn; "NGHIÊNG CỔ CHÂN TRONG – NGOÀI" = `nghiengCoChan` đứng / `nghiengCoChanNgoi` ngồi): `tu_dong` chọn id có trong thẻ bài của trò trong URL.
+- Dữ liệu: `src/dong-tac/mau/{tay,chan,goi,hong,toan-than,san}.json` (đứng chia theo bộ phận `bp`; `san.json` = bài sàn, kèm dáng nghỉ `SAN_Q`). Công cụ `kiem-bang.mjs` bên siroby-app đọc khoá `dongTac` của mọi tệp ở đây. `src/dong-tac/tro.json` = thẻ bài từng trò (cam, nghi, động tác). `src/dong-tac/san-app.js` = hàm dựng dáng sàn của app, **sinh tự động** (đừng sửa tay).
 
 ### Bot làm từng kiểu thế nào
 
@@ -145,6 +155,8 @@ Bot làm **giống máy chơi của app** (`vui/2b-he-thong.js`, hàm `bot()`): 
 | `giu`, `giuDk`, `thoiGian` (giữ) | vào dáng → giữ đủ giây (+0,6 s) → về đứng, thả 0,8 s → giữ lần sau. Giây giữ mặc định = mức Khó của app (`giayMuc[2]` hoặc `giay × 1,2`); đổi bằng `giu_giay` |
 | mẫu nhấc cả hai chân (bật, nhảy sao, nhảy thỏ…) | cả người rời sàn đúng độ cao của mẫu |
 | mẫu có `xa` (đi lùi, lùi nhanh, bước tới) | cả người lùi xa / tới gần camera theo cùng tỉ lệ ảnh như người giả của app |
+| **ngồi ghế** (`HT_DT.ngoi`: `coVom`, `xoeNgon`, `anNgonCai`, `nghiengCoChanNgoi`) | mẫu ngồi của app; ghế hiện dưới hông (mặt ghế ngay dưới khớp hông theo dáng mẫu, bàn chân trên sàn). Cổng vào: **đứng** (app đòi "Đứng thẳng lên") – từ lượt đầu thì ngồi chờ trên ghế giữa các lượt. `thoBung` (thở, chốt HT079) dùng mẫu đứng `thoTay` như mọi bài – bot đứng lên thở |
+| **bài sàn** (mẫu MAU3D `san`: nằm ngửa / sấp / nghiêng, quỳ, bốn điểm, plank, chống đẩy, tựa tường, đứng nhìn ngang) | camera nghiêng; vị trí khớp dựng bằng `sanKhop` **của app** với **tỉ lệ cơ thể bé trai** (app tự cân bằng điểm chạm – tay và mũi chân cùng chạm sàn), rồi đặt xương theo hướng từng đoạn như Siroby 3D của app. Chi phía xa máy bị thân **che thật**. Đồ vật đỡ như app vẽ: ghế / bục dưới điểm chạm có độ cao, hộp neo, **tường** trước bàn tay (`tuong`). Cổng vào: **quỳ (hoặc đứng nghiêng) giơ tay qua đầu** như máy chơi của app; giữa các lượt: dáng nghỉ `nghi` của thẻ (`namNgua`, `quyNgoi`, `bon`, `dung`). `bien_do: 0` = nằm / giữ im ở dáng đầu của động tác. Kiểu sai / `ben` chưa áp cho bài sàn |
 
 Kiểu sai có chủ đích và hiệu chỉnh theo cơ thể hiện chỉ có ở HT003:
 
@@ -157,7 +169,7 @@ Kiểu sai có chủ đích và hiệu chỉnh theo cơ thể hiện chỉ có �
 
 Muốn làm sai mà chưa có kiểu sai: dùng `bien_do` (0 = đứng im, 0,5–0,75 = làm nhỏ) hoặc `toc_do`.
 
-### Đã kiểm chứng trên app (26/11/2026)
+### Đã kiểm chứng trên app: động tác đứng (26/11/2026)
 
 Bản dựng 2.51.2 (`dist/_bot`), mức Dễ, nền `phong`, hạt 7, phần LÀM QUEN (3 lần / động tác, giữ: 1 lần). Kịch bản: `kich-ban/siroby/2026-11-26-mo-rong-mau/`. Đọc bằng `cong-cu/hieu-chuan-bot/phan-tich.mjs` của siroby-app.
 
@@ -184,30 +196,81 @@ Bản dựng 2.51.2 (`dist/_bot`), mức Dễ, nền `phong`, hạt 7, phần L�
 
 Bài học: app **soi gương** ảnh camera – tay[0] của mẫu là tay TRÁI người tập. Bot lật gương dáng trước khi áp (`ap-dang.js`). Động tác đối xứng / luân phiên không lộ lỗi này; động tác bắt đúng tay (đấm) thì lộ.
 
-### Chưa hỗ trợ (149 động tác)
+### Đã kiểm chứng: ghế, bài sàn, SIA-110 (27/11/2026)
 
-`kiem` báo lỗi kèm lý do nếu kịch bản dùng các id này. Trong `tu_dong`, gặp tên app hiện mà bot chưa hỗ trợ thì bot giữ động tác trước (thường app không đếm). Danh sách đủ: `src/dong-tac/chua-ho-tro.json` hoặc `npm run bot -- dong-tac --chua-ho-tro`.
+Bản dựng 2.51.2 `dev` 6ba2dfda (`dist/_bot`), mức Dễ, nền `phong`, hạt 7. Kịch bản: `kich-ban/siroby/2026-11-27-{ghe,bai-san,SIA-110}/`. Đọc bằng `cong-cu/hieu-chuan-bot/phan-tich.mjs` của siroby-app.
 
-| Lý do | Số | Ví dụ | Việc cần làm (đợt sau) |
+**Ghế – HT079 (cả buổi)**
+
+| Động tác | Ghế đẩu – làm đúng | Ngồi im | Ghế văn phòng | Bàn che chân | Ghi chú |
+|---|---|---|---|---|---|
+| `xoeNgon` XÒE NGÓN CHÂN | đủ mọi lượt (3/3, 5/5, 5/5, 4/4, 4/4) | 0 | 4/6 → 6/6, 4/4 ×2 | đủ mọi lượt | |
+| `nghiengCoChanNgoi` NGHIÊNG CỔ CHÂN (ngồi) | 5/5, 5/5 | 0 | 5/5, 5/5 | 5/5, 5/5 | |
+| `anNgonCai` ẤN NGÓN CHÂN CÁI | 0/4, 0/2 | 0 | 1/4, 0 | 4/4, 2/2 | chập chờn – cử động mũi chân sát ngưỡng |
+| `coVom` CO VÒM BÀN CHÂN | **0 mọi lượt** | 0 | 0 | 0 | **nghi app**: mẫu co vòm nhìn thẳng chỉ làm mũi chân – cổ chân dịch ~0,02–0,03 thân, ngưỡng "có cử động" 0,06 → làm đúng mẫu không bao giờ được đếm |
+
+Ảnh: hông chạm mặt ghế, hai bàn chân trên sàn, không xuyên ghế; ghế văn phòng (tay vịn, trụ, chân sao che một phần chân); bàn thấp che bàn chân + cổ chân, cẳng chân vẫn thấy. Cổng vào: bé ĐỨNG (app đòi "Đứng thẳng lên"), từ lượt đầu ngồi chờ trên ghế. `thoBung` (chốt) bot đứng lên thở theo mẫu đứng.
+
+**Bài sàn / camera nghiêng (máy 0,6 m nhìn ngang, cách 2,6 m)** – lượt LÀM QUEN chỉ ~10 giây; ca "vòng 1" chạy tới hết vòng 1 (60 giây)
+
+| Bài | Động tác | Làm đúng (làm quen) | Làm đúng (vòng 1) | Nằm / giữ im | Ghi chú |
+|---|---|---|---|---|---|
+| ht030 nằm ngửa | `nghiengChau` NGHIÊNG XƯƠNG CHẬU | 3/3 | 6/6, 6/6 | 0 | |
+| | `cauMong` CẦU MÔNG | 2/3 | 7/7 | 0 | làm quen: 3 lần × 3,5 giây không vừa ~10 giây |
+| ht048 nằm sấp | `epBaVaiSap` ÉP BẢ VAI NẰM SẤP | 3/3 | – | 0 | |
+| | `sieuNhan` SIÊU NHÂN NẰM SẤP | 3/3 | – | 0 | |
+| ht043 nằm nghiêng | `plankNghiengGoi` PLANK NGHIÊNG CHỐNG GỐI | 1/1 | – | 0 | |
+| | `plankNghieng` PLANK NGHIÊNG | 1/1 | – | 0 | |
+| ht045 bốn điểm / nằm ngửa | `boNgua` BỌ NGỬA | 3/3 | – | 0 (vòng 1: 1)* | |
+| | `birdDog` BIRD DOG | 3/3 | – | 0 | |
+| ht041 plank | `plankGoi` PLANK CHỐNG GỐI | 1/1 | 2/2, 1/1 | 0 | |
+| | `plankCangTay` PLANK CẲNG TAY | 0 | 2/2 | 0 | làm quen: giữ 8 giây (Dễ) + vào dáng không vừa ~10 giây; điều kiện plank của app đúng liên tục từ giây 2,4 |
+| ht051 chống đẩy | `chongDayBaVai` CHỐNG ĐẨY BẢ VAI | 3/3 | – | 0 (vòng 1: 1)* | |
+| | `chongDayGoi` CHỐNG ĐẨY CHỐNG GỐI | 3/3 | – | 0 | |
+| ht049 tựa tường | `chongDayTuong` CHỐNG ĐẨY TƯỜNG | 0/3, 1/3 | **0/6** | 0 | **nghi app**: đếm theo gập khuỷu 3D (≥ 60° rồi ≤ 30°) – tay bé duỗi thẳng (mẫu 2°, ảnh 2D 8–16°) mà 3D đo 31–34° → không bao giờ "duỗi"; 3D mất ở 25/30 khung |
+| | `chongDayBaVaiTuong` CHỐNG ĐẨY BẢ VAI Ở TƯỜNG | 3/3 | – | 0 | |
+| ht091 bốn điểm / quỳ | `meoBo` MÈO – BÒ | 2/3 | 5/5 | 0 | làm quen: 3 × 3,2 giây không vừa |
+| | `theEmBe` TƯ THẾ EM BÉ | 0 | 1/2 | 0 | làm quen: cần giữ 11 giây (Dễ) > lượt ~10 giây (**nghi app**); vòng 1: app chỉ lại "ĐƯA KHUỶU TỚI / ĐƯA ĐẦU TỚI" – nghi tỉ lệ tay / điểm vai của bé trai (bot) |
+| ht025 đứng nhìn ngang | `gapHongTuong` GẬP HÔNG CHẠM TƯỜNG | 3/3 | – | 0 | |
+| | `gapHong` GẬP HÔNG | 3/3 | – | 0 | |
+
+\* 1 lần lúc bot chuyển từ dáng đầu động tác trước sang dáng đầu động tác sau (~1,5 giây sau khi đổi lượt) – cử động chuyển tư thế thật, cùng loại "nhịp đầu khi vào tư thế" của SIA-110.
+
+**SIA-110 – nằm im ở lượt NGHIÊNG CHẬU (HT030), hai bản dựng × hai cách đặt máy** (`ket-qua/sia110-<bản>/<case>.webm`)
+
+| Bản | Máy trên bàn 0,75 m, chúi 20°, lệch 30° | Máy ngang hông 0,6 m, nhìn ngang |
+|---|---|---|
+| 2e184a7b (chưa sửa) | **1** (làm quen 1/3, vòng 1 0/5) – video ~giây 29 | **1** (1/3, 0/5) – video ~giây 46 |
+| c1e725bc (đã sửa – `dongHaiBen`) | **0** | **0** |
+| người thật trên 2e184a7b (b7-ht030-nam-im) | 6/6 | – |
+
+Bot **chưa tái hiện được lỗi gối xa trôi**: gối xa đúng là bị thân che (độ tin 0,31 – 0,33) nhưng mắt app đoán nó gần như đứng yên – trôi 0,025 thân (người thật 0,13 – 0,42; ngưỡng 0,045), tăng nhiễu webcam ×3,5 vẫn 0,02. Ảnh dựng ổn định hơn webcam thật (không tự cân sáng, không nén, người không thở). Lần đếm duy nhất trên bản chưa sửa rơi đúng lúc vào tư thế (quỳ giơ tay → nằm, ~2,3 giây sau khi vào lượt) – phần "bỏ nhịp đầu sau khi vào tư thế" mà c1e725bc cũng sửa.
+
+### Chưa hỗ trợ (11 động tác)
+
+`kiem` báo lỗi kèm lý do nếu kịch bản dùng các id này. Trong `tu_dong`, gặp tên app hiện mà bot chưa hỗ trợ thì bot giữ động tác trước (thường app không đếm). Danh sách: `src/dong-tac/chua-ho-tro.json` hoặc `npm run bot -- dong-tac --chua-ho-tro`.
+
+| Lý do | Số | Động tác | Việc cần làm (đợt sau) |
 |---|---|---|---|
 | chạy / đi rồi DỪNG theo lệnh trên màn (đèn đỏ, "DỪNG!") – phản xạ theo app | 4 | `chanNhanhDung`, `chayDungHinh`, `chayNuocRut`, `omQuaDung` | tu_dong đọc lệnh dừng trên màn rồi đứng hình (thêm sự kiện "thấy chữ → dừng" cho động tác kiểu dung) |
 | mỗi lần một HƯỚNG do Siroby chỉ (mauHuong) – phải đọc mũi tên trên màn | 2 | `theoMuiTen`, `nemDich` | mắt bot đọc hướng (mũi tên / chữ) rồi phát mẫu của hướng đó (mauHuong) |
 | bóng ảo: phải đưa tay tới đúng chỗ quả bóng Siroby tung (vị trí đổi mỗi lần) | 5 | `batBong`, `batBongThap`, `batBongCao`, `batMotTay`, `batBongMotChan` | mắt bot đọc vị trí bóng trên màn (hoặc trạng thái app) rồi với tay tới đó – cần IK tay theo điểm đích |
-| bài sàn / camera nghiêng: mẫu MAU3D dạng sàn (vị trí khớp, nằm – quỳ – chống tay) | 138 | `plankGoi`, `plankCangTay`, `plankThang`, `theEmBe`, `chongDayBaVai`, `plankChamVai`, `plankVuonTay`, `plankNhacChan`, `plankKeoGoi`, `leoNui`, `gauGiu`, `gauChamVai` … (+126) | sân khấu camera thấp ngang hông + nhìn nghiêng; áp dáng từ vị trí khớp (sanDang) lên bé trai; dáng nằm / quỳ / chống tay có va chạm sàn |
+
+Còn thiếu ở các nhóm đã hỗ trợ: **kiểu sai giống người** chỉ có ở HT003 (bài sàn / ngồi chỉ có `bien_do`, `toc_do`); bài sàn chưa có `ben: nguoc`.
 
 ### Khi app đổi mẫu / thêm động tác
 
 ```bash
 # 1. trong siroby-app: dựng bản thử riêng cho bot (không đụng dist/app)
 SIROBY_DIST="$PWD/dist/_bot" python3 dong-goi/dung.py app
-# 2. trong bot-front-cam: trích lại mọi động tác (xoá + ghi lại src/dong-tac/mau/*.json và chua-ho-tro.json)
+# 2. trong bot-front-cam: trích lại mọi động tác (xoá + ghi lại src/dong-tac/mau/*.json, chua-ho-tro.json, tro.json, san-app.js)
 npx tsx cong-cu/lay-mau3d.ts --phuc-vu <siroby-app>/dist/_bot/app
 #    chỉ vài động tác (giữ nguyên các động tác khác):  … --dong-tac squat,jab
 # 3. xem đổi gì: git diff --stat src/dong-tac ; npm run bot -- kiem kich-ban
 # 4. trong siroby-app: BOT_FRONT_CAM=<bot-front-cam> node cong-cu/hieu-chuan-bot/kiem-bang.mjs --tat-ca
 ```
 
-Công cụ lấy danh sách ngay trong trang (`HT_DT`, `MAU3D` là biến toàn cục, nạp đủ ở mọi trò; mặc định mở HT003), in số động tác mỗi nhóm, danh sách chưa hỗ trợ và **tên trùng** (hai id cùng tên app hiện mà khác mẫu: `tu_dong` lấy id đầu, hiện có `nghiengCoChan` / `nghiengCoChanNgoi`). Động tác mới cùng kiểu đã hỗ trợ thì tự có; kiểu mới thì nằm ở "kiểu động tác thư viện bot chưa hiểu".
+Công cụ lấy danh sách ngay trong trang (`HT_DT`, `MAU3D` là biến toàn cục, nạp đủ ở mọi trò; mặc định mở HT003), in số động tác mỗi nhóm, danh sách chưa hỗ trợ và **tên trùng** (hai id cùng tên app hiện mà khác mẫu – `tu_dong` chọn theo thẻ bài của trò). Thẻ bài đọc từ bản dựng (`vui/tro/ht*.js`), hàm dựng dáng sàn lấy nguyên văn trong trang (`fn.toString()`), nên app đổi luật dựng dáng sàn thì chỉ cần trích lại. Động tác mới cùng kiểu đã hỗ trợ thì tự có; kiểu mới thì nằm ở "kiểu động tác thư viện bot chưa hiểu".
 
 ## 5. Hiểu app khi viết kịch bản (HT003, bản dựng 21/11/2026)
 
@@ -217,6 +280,7 @@ Công cụ lấy danh sách ngay trong trang (`HT_DT`, `MAU3D` là biến toàn 
 - **Bộ đếm** của động tác đang làm hiện dạng `"n/N"` (vd. `"3/5"`). Sang động tác mới thì về `"0/N"`. Hai động tác liền nhau có thể cùng N (làm quen: xoay vai 5, nhón gót 5), nên `"5/5"` không cho biết của động tác nào. Hãy xét theo **kết quả từng lượt** ngay dưới đây, hoặc đặt `ghi_nhan` ngay sau `den_khi` của đúng động tác đó với `nhin_lai` bằng quãng của lượt.
 - **Kết quả từng lượt động tác** (chữ to giữa màn, thoáng hiện): **`"XONG!"`** = làm đủ lần · **`"ĐỔI ĐỘNG TÁC NHÉ!"`** = lượt kết thúc mà **chưa đủ** (hết giờ / quá nhiều lần không được), app chuyển sang động tác khác. Đây là cách chắc nhất để biết một động tác có được đếm đủ hay không.
 - Hết phần làm quen thì app vào thẳng `"VÒNG 1/4 · 1:00"`, không có dòng "động tác đủ".
+- **Cổng vào bài camera nghiêng**: "Đặt máy thấp ngang hông, cách 2 – 3 mét" → "Đứng thẳng, hai tay thả lỏng" → "Quỳ hoặc đứng nghiêng, giơ tay qua đầu để bắt đầu". Bot đứng / quỳ rồi giơ tay qua đầu; vào bài khoảng giây 25 – 30. Trò ngồi (HT079) cũng qua cổng vào bằng ĐỨNG rồi mới ngồi.
 - **Cổng vào (2.51.2)**: sau CHƠI NGAY app hiện "1. Thấy cả người · 2. Đứng yên · 3. Giơ 2 tay lên để bắt đầu nào!" (không còn "ĐỨNG VÀO KHUNG HÌNH"). Bot đứng yên, app tự vào sau ~30 giây; lượt đầu bắt đầu khoảng giây 37. Chờ bằng `cho_chu: { chu: "<tên động tác đầu>", toi_da: 90 }` hoặc dùng `tu_dong` (tự đứng chờ ở cổng vào).
 - Mỗi vòng có đồng hồ **1:00**. Hết giờ thì app tự sang phần sau dù chưa đủ lần, nên đặt `toi_da` ≥ 70–100 s cho `den_khi` cuối vòng.
 - App chỉ đổi động tác khi **làm đủ lần** (luật O1), không theo giờ. Vì vậy kịch bản theo sự kiện (`den_khi` = tên động tác kế tiếp) bền hơn timeline.

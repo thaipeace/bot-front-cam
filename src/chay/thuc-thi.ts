@@ -9,12 +9,18 @@ import { Mat, HetGio } from './mat.js';
 import type { Case } from './doc-kich-ban.js';
 import type { ChoChu } from './schema.js';
 import { nenVideo } from '../bao-cao/nen-video.js';
-import { docMau, banDoTen } from '../dong-tac/doc-mau.js';
+import { docMau, banDoTen, troCuaUrl, docTro } from '../dong-tac/doc-mau.js';
 
 const GOC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const MAU = docMau();
-const TEN_DT = banDoTen(MAU);
-const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa/i;
+export const CONG_VAO = /Giơ 2 tay lên để|Thấy cả người|Đứng yên một|Bước vào giữa|Quỳ hoặc đứng nghiêng|giơ tay qua đầu để|Đặt máy thấp/i;
+
+/** bối cảnh sân khấu theo trò trong URL (thẻ bài – tro.json) + khoá của case: trò có động tác ngồi → ngồi chờ trên ghế */
+export function boiCanhCase(c: Pick<Case, 'url' | 'ghe' | 'camera'>){
+  const the = docTro()[troCuaUrl(c.url) ?? ''];
+  return { ghe: c.ghe ?? 'don', ngoiCho: !!the && the.dongTac.some(id => MAU.dongTac[id]?.ngoi),
+    ...(the?.cam === 'nghieng' ? { cam: 'nghieng', nghi: the.nghi, camera: c.camera } : {}) };
+}
 
 export type GhiNhan = { ten: string; thay: boolean; luc: number | null; chuThay?: string };
 export type KetQuaCase = {
@@ -71,7 +77,7 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
 
   let buocDang = -1;
   try {
-    p = await moPhien({ url: c.url, nen: o.nen ?? c.nen ?? 'chup', dem: o.dem, hat: c.hat, phucVu: o.phucVu, hien: o.hien,
+    p = await moPhien({ url: c.url, nen: o.nen ?? c.nen ?? 'chup', dem: o.dem, hat: c.hat, phucVu: o.phucVu, hien: o.hien, boiCanh: boiCanhCase(c),
       quayVideo: o.quayVideo ? (fs.mkdirSync(thuMuc, { recursive: true }), thuMuc) : undefined });
     kq.videoTu = +giay().toFixed(1);     // tab app (và video của nó) vừa mở xong
     p.app.on('pageerror', e => log('LỖI TRANG APP: ' + e.message));
@@ -111,6 +117,7 @@ export async function chayCase(c: Case, o: TuyChonChay): Promise<KetQuaCase> {
           kq.ghiNhan.push(g); break;
         }
         case 'tu_dong': {
+          const TEN_DT = banDoTen(MAU, troCuaUrl(c.url));   // tên trùng → id theo thẻ bài của trò trong URL
           const td = b.tu_dong, het = Date.now() + td.toi_da * 1000;
           let dang = '';
           const nen = new Set<string>();   // tên động tác hiện lúc CỔNG VÀO (tên bài trùng tên động tác, vd. "BƯỚC CHÉO" của ht008) – không phải lượt

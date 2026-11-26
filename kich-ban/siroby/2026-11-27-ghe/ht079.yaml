@@ -1,0 +1,38 @@
+# Ghế (27/11/2026) – HT079 Bàn chân khéo (ngồi ghế): coVom, xoeNgon, anNgonCai, nghiengCoChanNgoi (HT_DT.ngoi, kiểu Siroby đếm nhịp) + thoBung (chốt).
+# Bé trai ngồi ghế quay mặt về camera, hai bàn chân trên sàn (thẻ bài HT079). Cả buổi, mức Dễ.
+# Đọc từng lượt: node cong-cu/hieu-chuan-bot/phan-tich.mjs <ra>/nhat-ky/<case>.txt (trong siroby-app)
+cases:
+  - case: ht079-ghe-dung
+    mo_ta: Ghế đẩu, làm đúng mẫu cả buổi – mọi lượt ngồi phải được đếm (XONG)
+    url: http://localhost:8790/vui/index.html?tro=ht079-ban-chan-kheo&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 600 }
+  - case: ht079-ghe-ngoi-im
+    mo_ta: Đối chứng – ngồi IM trên ghế ở cả 4 động tác ngồi (biên độ 0, mỗi lượt ≥ 20 giây) – phải 0 lần
+    url: http://localhost:8790/vui/index.html?tro=ht079-ban-chan-kheo&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 600, bien_do: { coVom: 0, xoeNgon: 0, anNgonCai: 0, nghiengCoChanNgoi: 0 } }
+  - case: ht079-ghe-van-phong
+    mo_ta: Có vật che – ghế văn phòng (tay vịn, trụ, chân sao che một phần chân), làm đúng mẫu cả buổi
+    url: http://localhost:8790/vui/index.html?tro=ht079-ban-chan-kheo&muc=0
+    hat: 7
+    ghe: van_phong
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 600 }
+  - case: ht079-ghe-ban-che-chan
+    mo_ta: Có vật che – bàn thấp ngay trước bàn chân (mép bàn che bàn chân), làm đúng mẫu cả buổi
+    url: http://localhost:8790/vui/index.html?tro=ht079-ban-chan-kheo&muc=0
+    hat: 7
+    ghe: ban
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "CHƠI LẠI", toi_da: 600 }

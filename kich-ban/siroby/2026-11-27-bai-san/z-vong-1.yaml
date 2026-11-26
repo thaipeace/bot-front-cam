@@ -1,0 +1,35 @@
+# Bài sàn – ca làm đúng KÉO SANG VÒNG 1 (27/11/2026): lượt làm quen bài sàn chỉ ~10 giây (giữ 8 – 11 giây hoặc 3 lần × 3,2 – 3,5 giây không vừa),
+# vòng 1 có 60 giây – xem bot làm đúng được đếm đủ khi đủ thời gian. Dừng khi app vào VÒNG 2/4.
+cases:
+  - case: ht030-dung-v1
+    mo_ta: Làm đúng mẫu tới hết vòng 1 – cầu mông
+    url: http://localhost:8790/vui/index.html?tro=ht030-cau-mong-nen-tang&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "VÒNG 2/4", toi_da: 240 }
+  - case: ht041-dung-v1
+    mo_ta: Làm đúng mẫu tới hết vòng 1 – plank cẳng tay
+    url: http://localhost:8790/vui/index.html?tro=ht041-plank-nen-tang&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "VÒNG 2/4", toi_da: 240 }
+  - case: ht049-dung-v1
+    mo_ta: Làm đúng mẫu tới hết vòng 1 – chống đẩy tường
+    url: http://localhost:8790/vui/index.html?tro=ht049-chong-day-tuong&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "VÒNG 2/4", toi_da: 240 }
+  - case: ht091-dung-v1
+    mo_ta: Làm đúng mẫu tới hết vòng 1 – mèo – bò, tư thế em bé
+    url: http://localhost:8790/vui/index.html?tro=ht091-lung-mem&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "VÒNG 2/4", toi_da: 240 }

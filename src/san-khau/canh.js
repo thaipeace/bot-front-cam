@@ -11,6 +11,10 @@ import { taoThuVien } from '../dong-tac/thu-vien.js';
 import { dungMat, apMat } from './mat.js';
 import { datKhungHinh } from './khung-hinh.js';
 import { batDauPhat } from './phat.js';
+import { taoGhe, KIEU_GHE } from './ghe.js';
+import { apDangSan, doTiLe } from '../dong-tac/ap-dang-san.js';
+import { khopSan, vatSan, nghiQ } from '../dong-tac/san.js';
+import { SAN_L } from '../dong-tac/san-app.js';
 
 const q = new URLSearchParams(location.search);
 const W = 640, H = 480;                                   // đúng cỡ siroby-app xin (vui/10-camera.js)
@@ -38,7 +42,25 @@ hungBong.rotation.x = -Math.PI / 2; hungBong.receiveShadow = true;
 
 const anhSang = dungAnhSang(scene, renderer);
 const hauKy = q.get('hauky') === '0' ? null : dungHauKy(renderer, W, H);
-const tr = { nv: null, mat: null, hanh: 'dung', t0: 0, soKhung: 0, nen: null, khung: null };
+const tr = { nv: null, mat: null, hanh: 'dung', t0: 0, soKhung: 0, nen: null, khung: null, ghe: null, kieuGhe: 'don', san: null, vat: null };
+
+// ---- CAMERA NGHIÊNG (bài sàn – thẻ THE.cam = 'nghieng'): máy đặt thấp ngang hông, cách 2 – 3 m, người nằm / quỳ dọc màn hình ----
+// app (SAN_ANH): người cao 0,78 ảnh, sàn ở 0,8 ảnh → máy ~0,6 m nhìn ngang, cách ~2,6 m. cui: độ chúi xuống · lech: máy lệch quanh người (nhìn chéo thân)
+export const CAM_NGHIENG = { cao: 0.6, cach: 2.6, cui: 0, lech: 0 };
+function datCamNghieng(c){
+  const lech = c.lech * Math.PI / 180, cui = c.cui * Math.PI / 180;
+  camera.fov = 50; camera.updateProjectionMatrix();
+  camera.position.set(Math.sin(lech) * c.cach, c.cao, Math.cos(lech) * c.cach);
+  camera.lookAt(0, c.cao - Math.tan(cui) * c.cach, 0);
+  return { ...c };
+}
+const VAT_MAU = new THREE.MeshStandardMaterial({ color: 0x9c8a74, roughness: 0.8 }), TUONG_MAU = new THREE.MeshStandardMaterial({ color: 0xe9e4da, roughness: 0.95 });
+function veVat(ds, S){   // hộp / ghế / tường của bài sàn (vatSan) – đơn vị chiều cao người
+  if (!tr.vat){ tr.vat = new THREE.Group(); scene.add(tr.vat); }
+  while (tr.vat.children.length < ds.length){ const m = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), VAT_MAU); m.castShadow = m.receiveShadow = true; tr.vat.add(m); }
+  tr.vat.children.forEach((m, i) => { const v = ds[i]; m.visible = !!v; if (!v) return;
+    m.material = v.tuong ? TUONG_MAU : VAT_MAU; m.scale.set(v.day * S.H, v.cao * S.H, v.rong * S.H); m.position.set(-(v.x - S.ox) * S.H, v.y * S.H, 0); });
+}
 const dongHo = new THREE.Clock();
 
 const do_ = { ms: 0, khungGiay: 0, dem: 0, moc: performance.now(), tuThe: 0 };   // đo hiệu năng
@@ -47,8 +69,11 @@ function ve(){
   const t = dongHo.getElapsedTime();
   const nv = tr.nv;
   if (nv){
-    apDang(nv, tr.tv.dang(t), tr.MAU);                       // động tác (hoặc đứng chờ) theo mẫu chuẩn của app
+    const D = tr.tv.dang(t);
+    if (D.san && tr.san){ const P = apDangSan(nv, D.q, tr.san); veVat(vatSan(D.q, P), tr.san); }   // bài sàn: dáng nhìn ngang (sanKhop của app)
+    else { apDang(nv, D.san ? tr.MAU.MAU_DUNG : D, tr.MAU); if (tr.vat) veVat([], tr.san); }        // động tác (hoặc đứng chờ) theo mẫu chuẩn của app
     if (tr.hanh !== 'dung') HANH[tr.hanh](nv, t - tr.t0);      // hành động thử cũ (vẫy tay…) đè lên tay
+    if (tr.ghe){ if (tr.kieuGhe !== 'khong' && tr.tv.dangNgoi()) tr.ghe.dat(nv, tr.kieuGhe); else tr.ghe.an(); }   // ghế dưới hông khi ngồi
     if (tr.mat) apMat(tr.mat, t);
   }
   const b1 = performance.now();
@@ -83,6 +108,23 @@ window.__botSanKhau = {
   datCach(m){ tr.khung = datKhungHinh(camera, tr.nv, CAO, m); return tr.khung; },
   datSang(k){ anhSang.troi.intensity = 1.5 * k; anhSang.den.intensity = 1.8 * k; return k; },
   thongKePhat(){ return tr.phat ? tr.phat.thongKe() : []; },
+  /** bối cảnh của case: { ghe: 'don' | 'van_phong' | 'ban' | 'khong', ngoiCho: bool,
+   *   cam: 'nghieng' | 'truoc', nghi: dáng nghỉ thẻ (namNgua | quyNgoi | bon | dung), camera: { cao, cach, cui, lech } } */
+  datBoiCanh(o = {}){
+    if (o.cam === 'nghieng'){
+      const H = CAO, Ls = doTiLe(tr.nv, H, SAN_L);
+      // tâm cảnh theo trục thân: giữa dáng NẰM NGỬA của bé (cả người nằm dài) – mọi động tác cùng một chỗ, không trôi
+      const P = khopSan(nghiQ(tr.MAU.SAN_Q, 'namNgua'), Ls), xs = Object.values(P).map(p => p[0]);
+      tr.san = { H, Ls, ox: (Math.max(...xs) + Math.min(...xs)) / 2, oz: 0 };
+      tr.camSan = datCamNghieng({ ...CAM_NGHIENG, ...(o.camera || {}) });
+      tr.tv.datSanCho({ nghi: o.nghi }, dongHo.getElapsedTime());
+    } else if (o.cam === 'truoc'){ tr.san = null; tr.camSan = null; tr.tv.datSanCho(null); tr.khung = datKhungHinh(camera, tr.nv, CAO); }
+    else if (o.camera && tr.san) tr.camSan = datCamNghieng({ ...tr.camSan, ...o.camera });
+    if (o.ghe !== undefined){ if (![...KIEU_GHE, 'khong'].includes(o.ghe)) throw new Error('kiểu ghế lạ: ' + o.ghe); tr.kieuGhe = o.ghe; }
+    if (o.ngoiCho !== undefined) tr.tv.datNgoiCho(o.ngoiCho);
+    if (o.nhieu !== undefined && hauKy) hauKy.datNhieu(o.nhieu);   // nhiễu hạt webcam (mặc định 0,035)
+    return { ghe: tr.kieuGhe, ngoiCho: !!o.ngoiCho, cam: tr.san ? 'nghieng' : 'truoc', camera: tr.camSan || null, tiLe: tr.san ? Object.fromEntries(Object.entries(tr.san.Ls).map(([k, v]) => [k, +(+v).toFixed(3)])) : null };
+  },
   /** liệt kê lưới + vật liệu – soi lỗi */
   luoi(){ const ds = []; tr.nv.goc.traverse(o => { if (o.isMesh){ const m = o.material; ds.push({ ten: o.name, dinh: o.geometry.attributes.position.count, hien: o.visible,
     vl: { ten: m.name, loai: m.type, truyen: m.transmission, ior: m.ior, phu: m.clearcoat, bong: m.specularIntensity, sheen: m.sheen, phat: m.emissive && m.emissive.getHexString(), kim: m.metalness, nham: m.roughness, mau: m.color && m.color.getHexString(), map: !!m.map, nmap: !!m.normalMap, trongSuot: m.transparent, alphaTest: m.alphaTest, mo: m.opacity, side: m.side } }); } }); return ds; },
@@ -99,6 +141,7 @@ window.__botSanKhau = {
   tr.MAU = await napMau();
   tr.tv = taoThuVien(tr.MAU, { hat: HAT });
   scene.add(tr.nv.goc);
+  tr.ghe = taoGhe(scene);
   tr.mat = dungMat(tr.nv, { cuoi: +(q.get('cuoi') ?? 1), hat: HAT });
   tr.khung = datKhungHinh(camera, tr.nv, CAO, +(q.get('cach') || 0));
   if (tr.nen.video) { anhSang.capNhat(tr.nen.video); setInterval(() => { anhSang.capNhat(tr.nen.video); tr.nen.capNhat(); }, 500); }

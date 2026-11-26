@@ -1,0 +1,20 @@
+# Bài sàn / camera nghiêng (27/11/2026) – ht048-lung-khoe-sieu-nhan (nằm sấp): epBaVaiSap, sieuNhan ở phần LÀM QUEN, mức Dễ.
+# Camera nghiêng tự đặt theo thẻ (máy thấp ngang hông 0,6 m, cách 2,6 m, nhìn ngang); cổng vào: bot quỳ / đứng nghiêng giơ tay qua đầu.
+# Hai ca: làm đúng mẫu (tu_dong tới VÒNG 1) · nằm / giữ IM ở cả hai động tác (biên độ 0 = dáng đầu của động tác, 150 giây) – phải 0 lần.
+cases:
+  - case: ht048-dung
+    mo_ta: Làm đúng mẫu epBaVaiSap + sieuNhan – app phải đếm đủ (XONG!) rồi vào vòng 1
+    url: http://localhost:8790/vui/index.html?tro=ht048-lung-khoe-sieu-nhan&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { den_khi: "VÒNG 1/4", toi_da: 300 }
+  - case: ht048-im
+    mo_ta: Đối chứng – tới lượt epBaVaiSap / sieuNhan thì nằm / giữ IM (biên độ 0) – phải 0 lần
+    url: http://localhost:8790/vui/index.html?tro=ht048-lung-khoe-sieu-nhan&muc=0
+    hat: 7
+    buoc:
+      - bam: "Tôi là bố/mẹ"
+      - bam: { css: "#nutChoi" }
+      - tu_dong: { toi_da: 150, bien_do: { epBaVaiSap: 0, sieuNhan: 0 } }
