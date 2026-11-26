@@ -27,6 +27,7 @@ export function docMau(thuMuc = THU_MUC_MAU): BoMau {
       bo.dongTac[id] = x; bo.tep[id] = f;
     }
     Object.assign(bo.mau, d.mau);
+    if (d.SAN_Q) (bo as any).SAN_Q = d.SAN_Q;   // dáng nghỉ bài sàn (mau/san.json)
   }
   if (!bo) throw new Error(`không tệp nào trong ${thuMuc} có "dongTac"`);
   if (thuMuc === THU_MUC_MAU) daDoc = bo;

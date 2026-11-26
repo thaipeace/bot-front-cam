@@ -103,7 +103,8 @@
    ],
    "nhip": 2,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "buocDeu": {
    "ten": "BƯỚC ĐỀU",
@@ -111,7 +112,8 @@
    "kieu": "buoc",
    "nhip": 0.6,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "buocGoiCao": {
    "ten": "BƯỚC NÂNG GỐI CAO",
@@ -122,7 +124,8 @@
    ],
    "nhip": 0.64,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "catHuong": {
    "ten": "BƯỚC CẮT HƯỚNG",
@@ -133,7 +136,8 @@
    ],
    "nhip": 1.3,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "chayNangGoi": {
    "ten": "CHẠY NÂNG GỐI",
@@ -144,7 +148,8 @@
    ],
    "nhip": 0.44,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "chayTaiCho": {
    "ten": "CHẠY TẠI CHỖ",
@@ -152,7 +157,8 @@
    "kieu": "chay",
    "nhip": 0.42,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "cheoTayChan": {
    "ten": "CHÉO TAY – CHÂN",
@@ -163,7 +169,8 @@
    ],
    "nhip": 0.9,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "chienBinh": {
    "ten": "DÁNG CHIẾN BINH",
@@ -172,7 +179,8 @@
    "moiLan": 1,
    "giay": 6,
    "giu": "chienBinh",
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "cossack": {
    "ten": "SQUAT COSSACK",
@@ -183,7 +191,8 @@
    ],
    "nhip": 2.9,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "dangCay": {
    "ten": "DÁNG CÂY",
@@ -192,7 +201,8 @@
    "moiLan": 1,
    "giay": 6,
    "giu": "cay",
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "diBo": {
    "ten": "ĐI BỘ TẠI CHỖ",
@@ -200,7 +210,8 @@
    "kieu": "buoc",
    "nhip": 1,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "diChamTho": {
    "ten": "ĐI CHẬM, THỞ ĐỀU",
@@ -209,7 +220,8 @@
    "moiLan": 1,
    "giay": 20,
    "buoc": true,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "dungHac": {
    "ten": "ĐỨNG HẠC",
@@ -218,7 +230,8 @@
    "moiLan": 1,
    "giay": 6,
    "giu": "hac",
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "goiGiu": {
    "ten": "GIỮ GỐI CAO",
@@ -227,7 +240,8 @@
    "moiLan": 1,
    "giay": 5,
    "giu": "goiGiu",
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "khuyuGoi": {
    "ten": "KHUỶU CHẠM GỐI CHÉO",
@@ -238,7 +252,8 @@
    ],
    "nhip": 0.8,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeBat": {
    "ten": "LUNGE BẬT ĐỔI CHÂN",
@@ -249,7 +264,8 @@
    ],
    "nhip": 1.5,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeCheoSau": {
    "ten": "LUNGE CHÉO SAU",
@@ -261,7 +277,8 @@
    ],
    "nhip": 2.4,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeCheoTruoc": {
    "ten": "LUNGE CHÉO TRƯỚC",
@@ -272,7 +289,8 @@
    ],
    "nhip": 2.7,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeDiBo": {
    "ten": "LUNGE ĐI BỘ",
@@ -283,7 +301,8 @@
    ],
    "nhip": 2.9,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeLui": {
    "ten": "LUNGE LÙI",
@@ -294,7 +313,8 @@
    ],
    "nhip": 2.4,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeNgang": {
    "ten": "LUNGE NGANG",
@@ -305,7 +325,8 @@
    ],
    "nhip": 2.7,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeTruoc": {
    "ten": "LUNGE TỚI",
@@ -316,7 +337,8 @@
    ],
    "nhip": 1.9,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "lungeVuon": {
    "ten": "LUNGE VƯƠN TAY",
@@ -327,7 +349,8 @@
    ],
    "nhip": 2.3,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "squatGoiMui": {
    "ten": "SQUAT GỐI THEO MŨI CHÂN",
@@ -338,7 +361,8 @@
    ],
    "nhip": 3.2,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   },
   "squatGoiNang": {
    "ten": "SQUAT RỒI NÂNG GỐI",
@@ -346,7 +370,8 @@
    "kieu": "chuoi",
    "nhip": 2.2,
    "moiLan": 1,
-   "bp": "goi"
+   "bp": "goi",
+   "san": false
   }
  },
  "mau": {
